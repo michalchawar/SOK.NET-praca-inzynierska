@@ -9,19 +9,19 @@
 % Pamietaj o madrym (zgodnym z logicznym rozbiorem zdania oraz estetyka) recznym
 % zlamaniu wierszy w temacie pracy, zwlaszcza tego w jezyku pracy. Uzyj do tego
 % polecenia \fmlinebreak.
-\polishtitle    {Implementacja aplikacji internetowej do organizacji wizyt duszpasterskich w parafiach}
-\englishtitle   {Implementation of web app for organising pastoral visits in parishes}
-\polishabstract {\ldots}
+\polishtitle{Implementacja aplikacji internetowej do organizacji wizyt duszpasterskich w parafiach}
+\englishtitle{Implementation of web app for organising pastoral visits in parishes}
+\polishabstract{\ldots}
 \englishabstract{\ldots}
 % w pracach wielu autorow nazwiska mozna oddzielic poleceniem \and
-\author         {Michał Chawar}
+\author{Michał Chawar}
 % w przypadku kilku promotorow, lub koniecznosci podania ich afiliacji, linie
 % w ponizszym poleceniu mozna zlamac poleceniem \fmlinebreak
-\advisor        {dr Wiktor Zychla}
+\advisor{dr Wiktor Zychla}
 %\date          {}                     % Data zlozenia pracy
 % Dane do oswiadczenia o autorskim wykonaniu
-\transcriptnum {337368}                     % Numer indeksu
-\advisorgen    {dr. Wiktora Zychli} % Nazwisko promotora w dopelniaczu
+\transcriptnum{337368}                     % Numer indeksu
+\advisorgen{dr. Wiktora Zychli} % Nazwisko promotora w dopelniaczu
 %%%%%
 
 %%%%% WLASNE DODATKOWE PAKIETY
@@ -42,34 +42,20 @@
 
 %%%%% POCZĄTEK ZASADNICZEGO TEKSTU PRACY
 
-\chapter{Wprowadzenie}
+\include{chapters/I_introduction}
 
-\section{Przedstawienie problematyki}
-\section{Plan pracy} 
+\include{chapters/II_description}
 
-\chapter{Opis i analiza zagadnienia}
+\chapter{Porównanie z innymi implementacjami}
+ (może być również częścią wprowadzenia przed planem pracy)
 
-\section{Historyjki użytkownika}
-\section{Dodatkowe wymagania funkcjonalne}
-\section{Wymagania niefunkcjonalne }
+\include{chapters/III_implementation}
 
-\chapter{Porównanie z innymi implementacjami} 
-(może być również częścią wprowadzenia przed planem pracy)
+\include{chapters/IV_instruction}
 
-\chapter{Implementacja}
+\include{chapters/V_developers_manual}
 
-\section{Spis użytych technologii i narzędzi (narzędzia pracy grupowej, github, narzędzia do przygotowania makiet itd.)}
-\section{Model danych (+ diagramy)}
-\section{Architektura (+ diagramy)}
-\section{Opis rozwiazania wybranych problemów }
-
-\chapter{Instrukcja użytkownika (+ zrzuty ekranów)}
-\chapter{Część dla programisty}
-
-\section{Instrukcja instalacji}
-\section{Statystyki, testy jednostkowe }
-
-\chapter{Podsumowanie i dalszy rozwój} 
+\include{chapters/VI_summary}
 
 %%%%% BIBLIOGRAFIA
 
