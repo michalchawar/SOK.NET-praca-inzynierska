@@ -73,3 +73,7 @@ latex.out/
 *.backup
 *.bak
 *.DS_Store
+
+## Structurizr generated files
+diagrams/.structurizr/
+diagrams/workspace.json
