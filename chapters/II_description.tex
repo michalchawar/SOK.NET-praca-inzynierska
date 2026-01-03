@@ -1,5 +1,170 @@
 \chapter{Opis i analiza zagadnienia}
 
+Zagadnienie organizacji wizyty duszpasterskiej w modelu \emph{kolędy na
+    zaproszenie} jest dosyć skomplikowane i wymaga szeregu funkcjonujących i ściśle
+ze sobą współpracujących narzędzi (przede wszystkim do zbierania zgłoszeń,
+układania planów i informowania o nich). Dodatkowo potrzeba również personelu,
+który zajmie się zarówno wstępnym zaplanowaniem kolędy i ustaleniem
+harmonogramu, jak i późniejszą koordynacją przeprowadzania wizyty według planu.
+
+Brak któregokolwiek z tych elementów znacznie utrudnia, a często nawet
+uniemożliwia, organizację kolędy na zaproszenie w sposób efektywny i
+zadowalający. Z kolei niewłaściwy dobór tych narzędzi lub nieścisła współpraca
+między nimi może prowadzić do licznych problemów organizacyjnych, błędów w
+planowaniu i komunikacji z parafianami.
+
+\todo{Jakiś ładny diagramik z potencjalnymi problemami?}
+
+Aby model kolędy na zaproszenie osiągał rzeczywistą przewagę nad modelem
+tradycyjnym, wszystkie te elementy muszą być starannie dobrane i nadzorowane. W
+wielu parafiach brakuje jednak odpowiednich narzędzi i zasobów. Nie ma też na
+rynku dedykowanych rozwiązań informatycznych, które kompleksowo wspierałyby ten
+model wizyty duszpasterskiej. Z tego powodu często korzysta się z rozwiązań
+prymitywnych, prowizorycznych lub niedostosowanych do specyficznych potrzeb
+kolędy na zaproszenie, co z kolei nie tylko prowadzi do licznych trudności
+organizacyjnych, ale dodatkowo powoduje frustrację zarówno wśród parafian, jak
+i koordynatorów kolędy.
+
+Opisywana aplikacja wychodzi naprzeciw tym wyzwaniom, oferując kompleksowe
+narzędzie do zarządzania kolędą, które integruje wszystkie niezbędne funkcje w
+jednym miejscu. Dzięki temu parafie mogą skutecznie organizować wizyty
+duszpasterskie, minimalizując ryzyko błędów i usprawniając komunikację z
+parafianami.
+
 \section{Historyjki użytkownika}
-\section{Dodatkowe wymagania funkcjonalne}
+
+\section{Wymagania ogólne}
+
+Jak wspomniano wcześniej, potrzebne narzędzia do organizacji kolędy muszą być
+ze sobą ściśle zintegrowane i współpracujące. Brak takich na rynku, powiązany z
+koniecznością przeprowadzenia kolędy, był główną motywacją do stworzenia i
+rozwoju opisywanej aplikacji. Już w początkowym etapie projektowania systemu
+wyklarowały się najważniejsze wymagania, które musiał spełniać, aby nie tylko
+skutecznie pomagać w organizacji kolędy, ale również mieć realną szansę na
+szerokie zastosowanie w różnych parafiach.
+
+\subsection{Jedność}
+
+Aplikacja musi integrować wszystkie kluczowe funkcje potrzebne do organizacji
+kolędy na zaproszenie w jednym miejscu. Oznacza to, że minimalnie powinna
+implementować funkcjonalności:
+
+\begin{itemize}
+    \item zbierania zgłoszeń od parafian,
+    \item zarządzania zebranymi zgłoszeniami oraz wprowadzania nowych,
+    \item tworzenia i edycji harmonogramu.
+\end{itemize}
+
+Niemniej jednak biorąc pod uwagę współczesne możliwości technologiczne oraz
+dążenie do maksymalnej automatyzacji i uproszczenia procesu organizacji możemy
+na podstawie implementacji tych trzech punktów zbudować nowoczesny system,
+który dodatkowo będzie oferował wiele innych przydatnych funkcji:
+
+\begin{itemize}
+    \item zautomatyzowane i zindywidualizowane powiadamianie mailowe,
+    \item portal dla parafian, umożliwiający wgląd w dane swojego zgłoszenia, jego
+          status, termin wizyty, a nawet przewidywane godziny,
+    \item przeprowadzanie wizyty według planu,
+    \item zarządzanie personelem zaangażowanym w kolędę,
+    \item raportowanie i statystyki dotyczące przebiegu kolędy.
+\end{itemize}
+
+Powyższy zestaw funkcji zebrany w jednym miejscu pozwala na kompleksowe
+zarządzanie kolędą oraz zapewnia znaczną przewagę nad rozbitymi,
+prowizorycznymi narzędziami, które często są wykorzystywane w parafiach.
+
+\subsection{Intuicyjność}
+
+Aplikacja powinna być prosta i intuicyjna w obsłudze, tak aby nawet osoby
+nieposiadające zaawansowanych umiejętności technicznych mogły z niej skutecznie
+korzystać. Interfejs użytkownika musi być przejrzysty, zrozumiały i jednolity.
+
+Należy jednak dołożyć wszelkich starań, aby nie upraszczać zbytnio
+funkcjonalności aplikacji kosztem jej użyteczności. Wdrożenie zbyt
+ograniczonego zestawu funkcji może sprawić, że aplikacja nie będzie w stanie
+spełnić wszystkie potrzeby parafii, co z kolei może prowadzić do jej odrzucenia
+na rzecz bardziej rozbudowanych, choć mniej zintegrowanych rozwiązań.
+
+\subsection{Poprawność}
+
+Aplikacja musi działać niezawodnie i bezbłędnie, zapewniając poprawne
+funkcjonowanie wszystkich swoich funkcji. Wszelkie błędy lub awarie mogą
+prowadzić do poważnych problemów organizacyjnych, a nawet do utraty zaufania
+parafian. Dlatego tak ważne jest, aby aplikacja była starannie przetestowana i
+regularnie aktualizowana, aby zapewnić jej stabilność i niezawodność.
+
+Oprócz samej poprawności implementacji aplikacji należy wziąć pod uwagę, że
+dane wprowadzone do systemu muszą być również poprawne i spójne. W tym celu
+aplikacja powinna implementować mechanizmy walidacji danych, które zapewnią, że
+wprowadzone informacje są zgodne z określonymi standardami i nie zawierają
+błędów.
+
+Ostatecznie aplikacja będzie wykorzystywana przez koordynatorów kolędy, którzy
+mogą nie mieć zaawansowanych umiejętności technicznych. Z tego powodu należy
+przyłożyć szczególną uwagę do upewnienia się, że operacje dostępne z poziomu
+interfejsu użytkownika są dobrze przemyślane i nie prowadzą do niezamierzonych
+konsekwencji, a także dobrze opisane, aby użytkownicy mogli z nich korzystać
+bez ryzyka popełnienia błędów.
+
+\subsection{Reużywalność}
+
+Aplikacja powinna być zaprojektowana w sposób umożliwiający jej łatwe
+dostosowanie i ponowne wykorzystanie w różnych parafiach. Oznacza to, że
+powinna być elastyczna i konfigurowalna, a także umożliwiać coroczne
+przeprowadzanie wizyt kolędowych bez konieczności manualnej rekonfiguracji lub
+ponownego wdrażania. Dzięki temu parafie będą mogły korzystać z aplikacji przez
+wiele lat, co znacznie zwiększy jej wartość i użyteczność.
+
+Sam fakt wykorzystania w różnych parafiach wymusza również konieczność
+uwzględnienia tej możliwości w systemie, aby różne parafie mogły korzystać z
+aplikacji jednocześnie, bez konieczności tworzenia odrębnych instancji lub
+wersji aplikacji dla każdej z nich.
+
+\section{Wymagania funkcjonalne}
+
+Podsumowując powyższe rozważania, aplikacja powinna spełniać następujące
+wymagania funkcjonalne:
+
+\begin{itemize}
+    \item umożliwiać parafianom zgłaszanie chęci uczestnictwa w kolędzie na zaproszenie
+          poprzez formularz online,
+    \item pozwalać koordynatorom kolędy na przeglądanie, edytowanie i zarządzanie
+          zebranymi zgłoszeniami,
+    \item umożliwiać tworzenie i edycję harmonogramu wizyt duszpasterskich na podstawie
+          zebranych zgłoszeń,
+    \item automatycznie wysyłać powiadomienia mailowe do parafian o potwierdzeniu
+          przyjęcia zgłoszenia,
+    \item umożliwiać manualne wysyłanie powiadomień mailowych z informacjami o zmianie
+          danych zgłoszenia, zaplanowaniu zgłoszenia, itp.,
+    \item oferować portal dla parafian, gdzie mogą oni sprawdzać status swojego
+          zgłoszenia, termin wizyty oraz przewidywane godziny,
+    \item wspierać koordynację personelu zaangażowanego w kolędę, umożliwiając
+          przypisywanie zadań i monitorowanie postępów,
+    \item generować raporty i statystyki dotyczące przebiegu kolędy, takie jak liczba
+          zgłoszeń, liczba przeprowadzonych wizyt itp.,
+    \item umożliwiać konfigurację i dostosowanie aplikacji do specyficznych potrzeb
+          różnych parafii,
+    \item zapewniać możliwość corocznego przeprowadzania kolędy bez konieczności
+          manualnej rekonfiguracji lub ponownego wdrażania aplikacji,
+    \item umożliwiać jednoczesne korzystanie z aplikacji przez różne parafie, bez
+          konieczności tworzenia odrębnych instancji lub wersji aplikacji dla każdej z
+          nich.
+\end{itemize}
+
 \section{Wymagania niefunkcjonalne }
+
+Oprócz wymagań funkcjonalnych, aplikacja powinna również spełniać następujące
+wymagania niefunkcjonalne:
+
+\begin{itemize}
+    \item być dostępna online, aby parafie i parafianie mogli z niej korzystać z
+          dowolnego miejsca i o dowolnym czasie,
+    \item być skalowalna, aby mogła obsługiwać rosnącą liczbę użytkowników i zgłoszeń bez
+          utraty wydajności,
+    \item być bezpieczna, aby chronić dane osobowe parafian i zapewnić poufność
+          informacji,
+    \item być zgodna z obowiązującymi przepisami dotyczącymi ochrony danych osobowych,
+          takimi jak RODO,
+    \item być łatwa w utrzymaniu i aktualizacji, aby zapewnić jej długotrwałe
+          funkcjonowanie i możliwość dostosowywania do zmieniających się potrzeb parafii.
+\end{itemize}
