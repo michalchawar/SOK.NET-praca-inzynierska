@@ -92,93 +92,93 @@
 
 % Dodatkowa polonizacja
 \if@pol{
-  \RequirePackage{indentfirst,polski}
-  % Kropka po numerach jednostek struktury
-  \renewcommand \thechapter       {\arabic{chapter}.}
-  \renewcommand \thesection       {\thechapter \arabic{section}.}
-  \renewcommand \thesubsection    {\thesection \arabic{subsection}.}
-  \renewcommand \thesubsubsection {\thesubsection \arabic{subsubsection}.}
-  \renewcommand \chaptermark  [1] {\markboth{\MakeUppercase{\chaptername\ \thechapter{} #1}}{}}
-  \renewcommand \sectionmark  [1] {\markright{\MakeUppercase{\thesection{} #1}}{}}
-  \renewcommand \theequation      {\ifnum \c@chapter>\z@ \thechapter\fi \@arabic\c@equation}
-  \renewcommand \thefigure        {\ifnum \c@chapter>\z@ \thechapter\fi \@arabic\c@figure}
-  \renewcommand \thetable         {\ifnum \c@chapter>\z@ \thechapter\fi \@arabic\c@table}
-  \renewcommand \appendix {\par
-    \setcounter{chapter}{0}
-    \setcounter{section}{0}
-    \gdef \@chapapp   {\appendixname}
-    \gdef \thechapter {\@Alph\c@chapter}
-    % Poprawki w 'dodatkach'
-    \renewcommand \thesection      {\thechapter.\arabic{section}.}
-    \renewcommand \chaptermark [1] {\markboth{\MakeUppercase{\appendixname\ \thechapter. ##1}}{}}
-  }
-  % Sterowanie lamaniem stron
-  \brokenpenalty=1000
-  \clubpenalty=1000
-  \widowpenalty=1000
+    \RequirePackage{indentfirst,polski}
+    % Kropka po numerach jednostek struktury
+    \renewcommand \thechapter       {\arabic{chapter}.}
+    \renewcommand \thesection       {\thechapter \arabic{section}.}
+    \renewcommand \thesubsection    {\thesection \arabic{subsection}.}
+    \renewcommand \thesubsubsection {\thesubsection \arabic{subsubsection}.}
+    \renewcommand \chaptermark  [1] {\markboth{\MakeUppercase{\chaptername\ \thechapter{} #1}}{}}
+    \renewcommand \sectionmark  [1] {\markright{\MakeUppercase{\thesection{} #1}}{}}
+    \renewcommand \theequation      {\ifnum \c@chapter>\z@ \thechapter\fi \@arabic\c@equation}
+    \renewcommand \thefigure        {\ifnum \c@chapter>\z@ \thechapter\fi \@arabic\c@figure}
+    \renewcommand \thetable         {\ifnum \c@chapter>\z@ \thechapter\fi \@arabic\c@table}
+    \renewcommand \appendix {\par
+        \setcounter{chapter}{0}
+        \setcounter{section}{0}
+        \gdef \@chapapp   {\appendixname}
+        \gdef \thechapter {\@Alph\c@chapter}
+        % Poprawki w 'dodatkach'
+        \renewcommand \thesection      {\thechapter.\arabic{section}.}
+        \renewcommand \chaptermark [1] {\markboth{\MakeUppercase{\appendixname\ \thechapter. ##1}}{}}
+    }
+    % Sterowanie lamaniem stron
+    \brokenpenalty=1000
+    \clubpenalty=1000
+    \widowpenalty=1000
 }{}
 
 % Bibliografia pojawia sie jako nienumerowany rozdzial w spisie tresci
 \renewenvironment{thebibliography}[1]
- {\chapter*{\bibname}%
-  \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
-  \list{\@biblabel{\@arabic\c@enumiv}}%
-   {\settowidth\labelwidth{\@biblabel{#1}}%
-    \leftmargin\labelwidth
-    \advance\leftmargin\labelsep
-    \@openbib@code
-    \usecounter{enumiv}%
-    \let\p@enumiv\@empty
-    \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-  \sloppy
-  \clubpenalty4000
-  \@clubpenalty \clubpenalty
-  \widowpenalty4000%
-  \sfcode`\.\@m%
-  \addcontentsline{toc}{chapter}{\bibname}}
- {\def\@noitemerr
-   {\@latex@warning{Empty `thebibliography' environment}}%
-  \endlist}
+{\chapter*{\bibname}%
+    \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+    \list{\@biblabel{\@arabic\c@enumiv}}%
+    {\settowidth\labelwidth{\@biblabel{#1}}%
+        \leftmargin\labelwidth
+        \advance\leftmargin\labelsep
+        \@openbib@code
+        \usecounter{enumiv}%
+        \let\p@enumiv\@empty
+        \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+    \sloppy
+    \clubpenalty4000
+    \@clubpenalty \clubpenalty
+    \widowpenalty4000%
+    \sfcode`\.\@m%
+    \addcontentsline{toc}{chapter}{\bibname}}
+{\def\@noitemerr
+    {\@latex@warning{Empty `thebibliography' environment}}%
+    \endlist}
 
 % Strona tytulowa oraz abstrakty nie resetuja numeracji stron
 \renewenvironment {titlepage} {
-  \if@twocolumn \@restonecoltrue \onecolumn
-  \else \@restonecolfalse \newpage \fi
-  \thispagestyle{empty}
+    \if@twocolumn \@restonecoltrue \onecolumn
+    \else \@restonecolfalse \newpage \fi
+    \thispagestyle{empty}
 }{\if@restonecol \twocolumn \else \newpage \fi}
 
 % Puste strony przed nowymi rozdzialami calkowicie puste, tj. bez naglowkow
 \def \cleardoublepage {
-  \clearpage
-  \if@twoside
-    \ifodd \c@page
-    \else \hbox{} \thispagestyle{empty} \newpage
-      \if@twocolumn \hbox{} \newpage
-  \fi \fi \fi
+    \clearpage
+    \if@twoside
+        \ifodd \c@page
+        \else \hbox{} \thispagestyle{empty} \newpage
+            \if@twocolumn \hbox{} \newpage
+            \fi \fi \fi
 }
 
 \renewcommand \maketitlehookb {
-  \vfilneg
-  \begin{center}\large
-  \if@pol{\selectlanguage{english}(\@englishtitle)}
-         {\selectlanguage{polish}(\@polishtitle)}
-  \end{center}
-  \selectlanguage{polish}
+    \vfilneg
+    \begin{center}\large
+        \if@pol{\selectlanguage{english}(\@englishtitle)}
+        {\selectlanguage{polish}(\@polishtitle)}
+    \end{center}
+    \selectlanguage{polish}
 }
 
 \renewcommand \maketitlehookc {
-  \vfil
-  \begin{center}
-  \renewcommand \fmlinebreak {\\ &}
-  \renewcommand \and         {\\[0.85em] &}
-  \large Praca \@thesislevel\\[0.85em]
-  \begin{tabular}[t]{rl}
-  \textbf{Promotor\if@many{zy}{}:} & \@advisor
-  \end{tabular}\end{center}
-  \vfil\vfil\vfil\vfil
-  \begin{center}Uniwersytet Wroc\l{}awski\\
-  Wydzia\l{} Matematyki i Informatyki\\
-  Instytut Informatyki\end{center}
+    \vfil
+    \begin{center}
+        \renewcommand \fmlinebreak {\\ &}
+        \renewcommand \and         {\\[0.85em] &}
+        \large Praca \@thesislevel\\[0.85em]
+        \begin{tabular}[t]{rl}
+            \textbf{Promotor\if@many{zy}{}:} & \@advisor
+        \end{tabular}\end{center}
+    \vfil\vfil\vfil\vfil
+    \begin{center}Uniwersytet Wroc\l{}awski\\
+        Wydzia\l{} Matematyki i Informatyki\\
+        Instytut Informatyki\end{center}
 }
 
 \setlength{\parindent}{2em}
@@ -190,32 +190,33 @@
 \newcommand \str@t      {\rule{0em}{1.85em}}
 \newcommand \tw@col [1] {\multicolumn{2}{@{}p{20em}}{#1}}
 
+\RequirePackage{xcolor}
 \RequirePackage[pdftex,unicode=true]{hyperref}
 
 \AtBeginDocument{
-  \if@pol{\selectlanguage{polish}\old@title{\bfseries\@polishtitle\mdseries}}
-         {\selectlanguage{english}\old@title{\bfseries\@englishtitle\mdseries}}
-  \let\old@nd\and
-  \renewcommand \and {, }
-  \hypersetup{pdfauthor={\@author},pdftitle={\@title} }
-  \renewcommand \and \old@nd
-  \renewcommand \fmlinebreak {\\}
-  \maketitle
-  \renewcommand \maketitle {\ClassWarningNoLine{iithesis}{\noexpand\maketitle ignored}}
-  \renewcommand \fmlinebreak {, }
-  \renewcommand \and {, }
-  \if@pol {\selectlanguage{polish}}{\selectlanguage{english}}
-  \cleardoublepage\begin{abstract}
-  \renewcommand \fmlinebreak {\\}\par
-  \if@pol {\frenchspacing\@polishabstract}{\noindent\@englishabstract}
-  \if@long{\end{abstract}}{\begin{center}\rule[3pt]{300pt}{1pt}\end{center}\par}
-  \if@pol {\selectlanguage{english}}{\selectlanguage{polish}}
-  \if@long{\clearpage\begin{abstract}\par}{}
-  \if@pol {\noindent\@englishabstract\selectlanguage{polish}}
-          {\frenchspacing\@polishabstract\selectlanguage{english}}
-  \end{abstract}
-  \if@long{\if@pol{\selectlanguage{polish}}{\selectlanguage{english}}}{}
-  \tableofcontents
+    \if@pol{\selectlanguage{polish}\old@title{\bfseries\@polishtitle\mdseries}}
+    {\selectlanguage{english}\old@title{\bfseries\@englishtitle\mdseries}}
+    \let\old@nd\and
+    \renewcommand \and {, }
+    \hypersetup{pdfauthor={\@author},pdftitle={\@title} }
+    \renewcommand \and \old@nd
+    \renewcommand \fmlinebreak {\\}
+    \maketitle
+    \renewcommand \maketitle {\ClassWarningNoLine{iithesis}{\noexpand\maketitle ignored}}
+    \renewcommand \fmlinebreak {, }
+    \renewcommand \and {, }
+    \if@pol {\selectlanguage{polish}}{\selectlanguage{english}}
+    \cleardoublepage\begin{abstract}
+        \renewcommand \fmlinebreak {\\}\par
+        \if@pol {\frenchspacing\@polishabstract}{\noindent\@englishabstract}
+        \if@long{\end{abstract}}{\begin{center}\rule[3pt]{300pt}{1pt}\end{center}\par}
+\if@pol {\selectlanguage{english}}{\selectlanguage{polish}}
+\if@long{\clearpage\begin{abstract}\par}{}
+        \if@pol {\noindent\@englishabstract\selectlanguage{polish}}
+        {\frenchspacing\@polishabstract\selectlanguage{english}}
+    \end{abstract}
+    \if@long{\if@pol{\selectlanguage{polish}}{\selectlanguage{english}}}{}
+    \tableofcontents
 }
 
 \endinput
