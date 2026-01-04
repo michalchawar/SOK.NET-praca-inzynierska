@@ -1,0 +1,1420 @@
+{
+  "configuration" : {
+    "scope" : "SoftwareSystem"
+  },
+  "description" : "System Organizacji Kolędy",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedAgent" : "structurizr-ui",
+  "lastModifiedDate" : "2026-01-04T15:55:19Z",
+  "model" : {
+    "deploymentNodes" : [ {
+      "children" : [ {
+        "children" : [ {
+          "description" : "Reverse proxy i load balancer",
+          "environment" : "Produkcja",
+          "id" : "58",
+          "infrastructureNodes" : [ {
+            "description" : "Obsługuje routing HTTPS i certyfikaty SSL",
+            "environment" : "Produkcja",
+            "id" : "59",
+            "name" : "Reverse Proxy",
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.vps.docker.traefik.reverseProxy"
+            },
+            "relationships" : [ {
+              "description" : "Przekazuje żądania",
+              "destinationId" : "62",
+              "id" : "81",
+              "sourceId" : "59",
+              "tags" : "Relationship",
+              "technology" : "HTTP:8080"
+            }, {
+              "description" : "Pobiera certyfikaty",
+              "destinationId" : "60",
+              "id" : "82",
+              "sourceId" : "59",
+              "tags" : "Relationship"
+            } ],
+            "tags" : "Element,Infrastructure Node,Infrastructure"
+          }, {
+            "description" : "Automatyczne zarządzanie certyfikatami SSL/TLS",
+            "environment" : "Produkcja",
+            "id" : "60",
+            "name" : "Let's Encrypt",
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.vps.docker.traefik.letsEncrypt"
+            },
+            "relationships" : [ {
+              "description" : "Zapisuje certyfikaty",
+              "destinationId" : "73",
+              "id" : "84",
+              "sourceId" : "60",
+              "tags" : "Relationship"
+            } ],
+            "tags" : "Element,Infrastructure Node,Infrastructure"
+          } ],
+          "instances" : "1",
+          "name" : "Traefik",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.vps.docker.traefik"
+          },
+          "tags" : "Element,Deployment Node,Traefik Container",
+          "technology" : "Traefik 3.6.2"
+        }, {
+          "containerInstances" : [ {
+            "containerId" : "4",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Produkcja",
+            "id" : "62",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.vps.docker.sokWebContainer.webAppInstance"
+            },
+            "relationships" : [ {
+              "description" : "Dostarcza",
+              "destinationId" : "64",
+              "id" : "65",
+              "linkedRelationshipId" : "39",
+              "sourceId" : "62",
+              "technology" : "Razor"
+            }, {
+              "description" : "Dostarcza",
+              "destinationId" : "67",
+              "id" : "68",
+              "linkedRelationshipId" : "41",
+              "sourceId" : "62",
+              "technology" : "Razor"
+            }, {
+              "description" : "Odczytuje i zapisuje dane",
+              "destinationId" : "70",
+              "id" : "71",
+              "linkedRelationshipId" : "45",
+              "sourceId" : "62",
+              "technology" : "Entity Framework Core"
+            }, {
+              "description" : "Wysyła powiadomienia mailowe za pomocą",
+              "destinationId" : "77",
+              "id" : "78",
+              "linkedRelationshipId" : "51",
+              "sourceId" : "62",
+              "technology" : "SMTP"
+            } ],
+            "tags" : "Container Instance"
+          }, {
+            "containerId" : "16",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Produkcja",
+            "id" : "63",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.vps.docker.sokWebContainer.apiAppInstance"
+            },
+            "relationships" : [ {
+              "description" : "Odczytuje i zapisuje dane",
+              "destinationId" : "70",
+              "id" : "72",
+              "linkedRelationshipId" : "48",
+              "sourceId" : "63",
+              "technology" : "Entity Framework Core"
+            }, {
+              "description" : "Wysyła powiadomienia mailowe za pomocą",
+              "destinationId" : "77",
+              "id" : "79",
+              "linkedRelationshipId" : "54",
+              "sourceId" : "63",
+              "technology" : "SMTP"
+            } ],
+            "tags" : "Container Instance"
+          }, {
+            "containerId" : "27",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Produkcja",
+            "id" : "64",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.vps.docker.sokWebContainer.viewInstance"
+            },
+            "relationships" : [ {
+              "description" : "Korzysta z API",
+              "destinationId" : "63",
+              "id" : "66",
+              "linkedRelationshipId" : "43",
+              "sourceId" : "64",
+              "technology" : "JSON/HTTPS"
+            } ],
+            "tags" : "Container Instance"
+          }, {
+            "containerId" : "26",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Produkcja",
+            "id" : "67",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.vps.docker.sokWebContainer.publicViewInstance"
+            },
+            "tags" : "Container Instance"
+          } ],
+          "description" : "Kontener aplikacji ASP.NET Core",
+          "environment" : "Produkcja",
+          "id" : "61",
+          "instances" : "1",
+          "name" : "SOK Web Container",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.vps.docker.sokWebContainer"
+          },
+          "tags" : "Element,Deployment Node,Docker Container",
+          "technology" : "Docker"
+        }, {
+          "containerInstances" : [ {
+            "containerId" : "28",
+            "deploymentGroups" : [ "Default" ],
+            "environment" : "Produkcja",
+            "id" : "70",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "production.vps.docker.sqlServerContainer.databaseInstance"
+            },
+            "relationships" : [ {
+              "description" : "Zapisuje dane",
+              "destinationId" : "73",
+              "id" : "83",
+              "sourceId" : "70",
+              "tags" : "Relationship"
+            } ],
+            "tags" : "Container Instance"
+          } ],
+          "description" : "Kontener bazy danych",
+          "environment" : "Produkcja",
+          "id" : "69",
+          "instances" : "1",
+          "name" : "SQL Server Container",
+          "properties" : {
+            "structurizr.dsl.identifier" : "production.vps.docker.sqlServerContainer"
+          },
+          "tags" : "Element,Deployment Node,Docker Container Database",
+          "technology" : "SQL Server 2022"
+        } ],
+        "environment" : "Produkcja",
+        "id" : "57",
+        "instances" : "1",
+        "name" : "Docker",
+        "properties" : {
+          "structurizr.dsl.identifier" : "production.vps.docker"
+        },
+        "tags" : "Element,Deployment Node,Docker"
+      } ],
+      "description" : "Serwer wirtualny (np. OVHCloud)",
+      "environment" : "Produkcja",
+      "id" : "56",
+      "infrastructureNodes" : [ {
+        "description" : "Persystentne przechowywanie danych (mssql_data, letsencrypt)",
+        "environment" : "Produkcja",
+        "id" : "73",
+        "name" : "Docker Volumes",
+        "properties" : {
+          "structurizr.dsl.identifier" : "production.vps.volumes"
+        },
+        "tags" : "Element,Infrastructure Node,Infrastructure Storage"
+      } ],
+      "instances" : "1",
+      "name" : "VPS",
+      "properties" : {
+        "structurizr.dsl.identifier" : "production.vps"
+      },
+      "tags" : "Element,Deployment Node,VPS Server"
+    }, {
+      "environment" : "Produkcja",
+      "id" : "74",
+      "infrastructureNodes" : [ {
+        "description" : "Personel i parafianie",
+        "environment" : "Produkcja",
+        "id" : "75",
+        "name" : "Użytkownicy",
+        "properties" : {
+          "structurizr.dsl.identifier" : "production.internet.users"
+        },
+        "relationships" : [ {
+          "description" : "Żądania HTTPS",
+          "destinationId" : "59",
+          "id" : "80",
+          "sourceId" : "75",
+          "tags" : "Relationship",
+          "technology" : "HTTPS:443"
+        } ],
+        "tags" : "Element,Infrastructure Node,External Users"
+      } ],
+      "instances" : "1",
+      "name" : "Internet",
+      "properties" : {
+        "structurizr.dsl.identifier" : "production.internet"
+      },
+      "tags" : "Element,Deployment Node,External"
+    }, {
+      "description" : "Zewnętrzny serwer SMTP",
+      "environment" : "Produkcja",
+      "id" : "76",
+      "instances" : "1",
+      "name" : "Serwer pocztowy parafii",
+      "properties" : {
+        "structurizr.dsl.identifier" : "production.externalEmail"
+      },
+      "softwareSystemInstances" : [ {
+        "deploymentGroups" : [ "Default" ],
+        "environment" : "Produkcja",
+        "id" : "77",
+        "instanceId" : 1,
+        "properties" : {
+          "structurizr.dsl.identifier" : "production.externalEmail.emailInstance"
+        },
+        "softwareSystemId" : "29",
+        "tags" : "Software System Instance"
+      } ],
+      "tags" : "Element,Deployment Node,External Email"
+    } ],
+    "people" : [ {
+      "description" : "Osoba korzystająca z systemu.",
+      "id" : "1",
+      "name" : "Personel",
+      "properties" : {
+        "structurizr.dsl.identifier" : "staff"
+      },
+      "relationships" : [ {
+        "description" : "Odwiedza aplikację internetową za pomocą",
+        "destinationId" : "5",
+        "id" : "30",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Odwiedza aplikację internetową za pomocą",
+        "destinationId" : "4",
+        "id" : "31",
+        "linkedRelationshipId" : "30",
+        "sourceId" : "1",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Odwiedza aplikację internetową za pomocą",
+        "destinationId" : "3",
+        "id" : "32",
+        "linkedRelationshipId" : "30",
+        "sourceId" : "1",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Zarządza kolędą w granicach swojej roli za pomocą",
+        "destinationId" : "27",
+        "id" : "33",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      } ],
+      "tags" : "Element,Person,Personel"
+    }, {
+      "description" : "Anonimowy użytkownik przeglądający dane swojego zgłoszenia i termin wizyty.",
+      "id" : "2",
+      "name" : "Parafianin",
+      "properties" : {
+        "structurizr.dsl.identifier" : "submitter"
+      },
+      "relationships" : [ {
+        "description" : "Odwiedza aplikację internetową za pomocą",
+        "destinationId" : "7",
+        "id" : "34",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Odwiedza aplikację internetową za pomocą",
+        "destinationId" : "4",
+        "id" : "35",
+        "linkedRelationshipId" : "34",
+        "sourceId" : "2",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Odwiedza aplikację internetową za pomocą",
+        "destinationId" : "3",
+        "id" : "36",
+        "linkedRelationshipId" : "34",
+        "sourceId" : "2",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Wysyła formularze i przegląda swoje informacje za pomocą",
+        "destinationId" : "26",
+        "id" : "37",
+        "sourceId" : "2",
+        "tags" : "Relationship"
+      } ],
+      "tags" : "Element,Person,Parafianin"
+    } ],
+    "softwareSystems" : [ {
+      "containers" : [ {
+        "components" : [ {
+          "description" : "Obsługuje żądania HTTPS i zwraca widoki Razor.",
+          "documentation" : { },
+          "group" : "Serwis administracyjny",
+          "id" : "5",
+          "name" : "Kontroler MVC",
+          "properties" : {
+            "structurizr.dsl.identifier" : "system.webapp.controller"
+          },
+          "relationships" : [ {
+            "description" : "Korzysta z",
+            "destinationId" : "8",
+            "id" : "11",
+            "sourceId" : "5",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Uwierzytelnia użytkowników za pomocą",
+            "destinationId" : "6",
+            "id" : "12",
+            "sourceId" : "5",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Dostarcza",
+            "destinationId" : "27",
+            "id" : "38",
+            "sourceId" : "5",
+            "tags" : "Relationship",
+            "technology" : "Razor"
+          } ],
+          "tags" : "Element,Component,Kontroler MVC",
+          "technology" : "ASP.NET Core"
+        }, {
+          "description" : "Zapewnia mechanizmy autoryzacji i uwierzytelniania użytkowników.",
+          "documentation" : { },
+          "group" : "Serwis administracyjny",
+          "id" : "6",
+          "name" : "Autoryzacja",
+          "properties" : {
+            "structurizr.dsl.identifier" : "system.webapp.authorization"
+          },
+          "relationships" : [ {
+            "description" : "Odczytuje i zapisuje dane",
+            "destinationId" : "28",
+            "id" : "46",
+            "sourceId" : "6",
+            "tags" : "Relationship",
+            "technology" : "Entity Framework Core"
+          } ],
+          "tags" : "Element,Component,Autoryzacja",
+          "technology" : "ASP.NET Core Identity"
+        }, {
+          "description" : "Obsługuje żądania HTTPS i zwraca widoki Razor.",
+          "documentation" : { },
+          "group" : "Serwis publiczny",
+          "id" : "7",
+          "name" : "Kontroler publiczny",
+          "properties" : {
+            "structurizr.dsl.identifier" : "system.webapp.publiccontroller"
+          },
+          "relationships" : [ {
+            "description" : "Korzysta z",
+            "destinationId" : "8",
+            "id" : "13",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Dostarcza",
+            "destinationId" : "26",
+            "id" : "40",
+            "sourceId" : "7",
+            "tags" : "Relationship",
+            "technology" : "Razor"
+          } ],
+          "tags" : "Element,Component,Kontroler publiczny",
+          "technology" : "ASP.NET Core"
+        }, {
+          "description" : "Zawiera logikę biznesową aplikacji.",
+          "documentation" : { },
+          "id" : "8",
+          "name" : "Usługa",
+          "properties" : {
+            "structurizr.dsl.identifier" : "system.webapp.service"
+          },
+          "relationships" : [ {
+            "description" : "Korzysta z",
+            "destinationId" : "9",
+            "id" : "14",
+            "sourceId" : "8",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Korzysta z",
+            "destinationId" : "10",
+            "id" : "15",
+            "sourceId" : "8",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Wysyła powiadomienia mailowe za pomocą",
+            "destinationId" : "29",
+            "id" : "50",
+            "sourceId" : "8",
+            "tags" : "Relationship",
+            "technology" : "SMTP"
+          } ],
+          "tags" : "Element,Component,Usługa",
+          "technology" : "C#"
+        }, {
+          "description" : "Zawiera logikę dostępu do danych.",
+          "documentation" : { },
+          "id" : "9",
+          "name" : "Repozytorium",
+          "properties" : {
+            "structurizr.dsl.identifier" : "system.webapp.repository"
+          },
+          "relationships" : [ {
+            "description" : "Odczytuje i zapisuje dane",
+            "destinationId" : "28",
+            "id" : "44",
+            "sourceId" : "9",
+            "tags" : "Relationship",
+            "technology" : "Entity Framework Core"
+          } ],
+          "tags" : "Element,Component,Repozytorium",
+          "technology" : "Entity Framework Core"
+        }, {
+          "description" : "Generuje dokumenty PDF.",
+          "documentation" : { },
+          "id" : "10",
+          "name" : "Generator PDF",
+          "properties" : {
+            "structurizr.dsl.identifier" : "system.webapp.pdfmaker"
+          },
+          "tags" : "Element,Component,Generator PDF",
+          "technology" : "QuestPDF"
+        } ],
+        "description" : "Dostarcza widoki oraz funkcje zarządzania kolędą.",
+        "documentation" : { },
+        "id" : "4",
+        "name" : "Aplikacja internetowa",
+        "properties" : {
+          "structurizr.dsl.identifier" : "system.webapp"
+        },
+        "relationships" : [ {
+          "description" : "Dostarcza",
+          "destinationId" : "27",
+          "id" : "39",
+          "linkedRelationshipId" : "38",
+          "sourceId" : "4",
+          "technology" : "Razor"
+        }, {
+          "description" : "Dostarcza",
+          "destinationId" : "26",
+          "id" : "41",
+          "linkedRelationshipId" : "40",
+          "sourceId" : "4",
+          "technology" : "Razor"
+        }, {
+          "description" : "Odczytuje i zapisuje dane",
+          "destinationId" : "28",
+          "id" : "45",
+          "linkedRelationshipId" : "44",
+          "sourceId" : "4",
+          "technology" : "Entity Framework Core"
+        }, {
+          "description" : "Wysyła powiadomienia mailowe za pomocą",
+          "destinationId" : "29",
+          "id" : "51",
+          "linkedRelationshipId" : "50",
+          "sourceId" : "4",
+          "technology" : "SMTP"
+        } ],
+        "tags" : "Element,Container,Aplikacja internetowa",
+        "technology" : "ASP.NET Core MVC"
+      }, {
+        "components" : [ {
+          "description" : "Obsługuje żądanie HTTPS i zwraca dane w formacie JSON.",
+          "documentation" : { },
+          "id" : "17",
+          "name" : "Kontroler API",
+          "properties" : {
+            "structurizr.dsl.identifier" : "system.apiapp.controller"
+          },
+          "relationships" : [ {
+            "description" : "Korzysta z",
+            "destinationId" : "19",
+            "id" : "22",
+            "sourceId" : "17",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Uwierzytelnia użytkowników za pomocą",
+            "destinationId" : "18",
+            "id" : "23",
+            "sourceId" : "17",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component,Kontroler API",
+          "technology" : "ASP.NET Core"
+        }, {
+          "description" : "Zapewnia mechanizmy autoryzacji i uwierzytelniania użytkowników.",
+          "documentation" : { },
+          "id" : "18",
+          "name" : "Autoryzacja",
+          "properties" : {
+            "structurizr.dsl.identifier" : "system.apiapp.authorization"
+          },
+          "relationships" : [ {
+            "description" : "Odczytuje i zapisuje dane",
+            "destinationId" : "28",
+            "id" : "49",
+            "sourceId" : "18",
+            "tags" : "Relationship",
+            "technology" : "Entity Framework Core"
+          } ],
+          "tags" : "Element,Component,Autoryzacja",
+          "technology" : "ASP.NET Core Identity"
+        }, {
+          "description" : "Zawiera logikę biznesową aplikacji.",
+          "documentation" : { },
+          "id" : "19",
+          "name" : "Usługa",
+          "properties" : {
+            "structurizr.dsl.identifier" : "system.apiapp.service"
+          },
+          "relationships" : [ {
+            "description" : "Korzysta z",
+            "destinationId" : "20",
+            "id" : "24",
+            "sourceId" : "19",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Korzysta z",
+            "destinationId" : "21",
+            "id" : "25",
+            "sourceId" : "19",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Wysyła powiadomienia mailowe za pomocą",
+            "destinationId" : "29",
+            "id" : "53",
+            "sourceId" : "19",
+            "tags" : "Relationship",
+            "technology" : "SMTP"
+          } ],
+          "tags" : "Element,Component,Usługa",
+          "technology" : "C#"
+        }, {
+          "description" : "Zawiera logikę dostępu do danych.",
+          "documentation" : { },
+          "id" : "20",
+          "name" : "Repozytorium",
+          "properties" : {
+            "structurizr.dsl.identifier" : "system.apiapp.repository"
+          },
+          "relationships" : [ {
+            "description" : "Odczytuje i zapisuje dane",
+            "destinationId" : "28",
+            "id" : "47",
+            "sourceId" : "20",
+            "tags" : "Relationship",
+            "technology" : "Entity Framework Core"
+          } ],
+          "tags" : "Element,Component,Repozytorium",
+          "technology" : "Entity Framework Core"
+        }, {
+          "description" : "Generuje dokumenty PDF.",
+          "documentation" : { },
+          "id" : "21",
+          "name" : "Generator PDF",
+          "properties" : {
+            "structurizr.dsl.identifier" : "system.apiapp.pdfmaker"
+          },
+          "tags" : "Element,Component,Generator PDF",
+          "technology" : "QuestPDF"
+        } ],
+        "description" : "Dostarcza funkcje zarządzania kolędą z użyciem JSON/HTTPS.",
+        "documentation" : { },
+        "id" : "16",
+        "name" : "Aplikacja API",
+        "properties" : {
+          "structurizr.dsl.identifier" : "system.apiapp"
+        },
+        "relationships" : [ {
+          "description" : "Odczytuje i zapisuje dane",
+          "destinationId" : "28",
+          "id" : "48",
+          "linkedRelationshipId" : "47",
+          "sourceId" : "16",
+          "technology" : "Entity Framework Core"
+        }, {
+          "description" : "Wysyła powiadomienia mailowe za pomocą",
+          "destinationId" : "29",
+          "id" : "54",
+          "linkedRelationshipId" : "53",
+          "sourceId" : "16",
+          "technology" : "SMTP"
+        } ],
+        "tags" : "Element,Container,Aplikacja API",
+        "technology" : "ASP.NET Core"
+      }, {
+        "description" : "Umożliwia parafianom wysyłanie formularzy oraz przeglądanie informacji o swoich zgłoszeniach.",
+        "documentation" : { },
+        "group" : "Usługi publiczne",
+        "id" : "26",
+        "name" : "Widok publiczny",
+        "properties" : {
+          "structurizr.dsl.identifier" : "system.publicview"
+        },
+        "tags" : "Element,Container,Widok publiczny",
+        "technology" : "HTML"
+      }, {
+        "description" : "Umożliwia przemieszczanie się po serwisie oraz wykonywanie operacji za pomocą przesyłanych formularzy oraz aplikacji Vue.js.",
+        "documentation" : { },
+        "id" : "27",
+        "name" : "Widok",
+        "properties" : {
+          "structurizr.dsl.identifier" : "system.view"
+        },
+        "relationships" : [ {
+          "description" : "Korzysta z API",
+          "destinationId" : "17",
+          "id" : "42",
+          "sourceId" : "27",
+          "tags" : "Relationship",
+          "technology" : "JSON/HTTPS"
+        }, {
+          "description" : "Korzysta z API",
+          "destinationId" : "16",
+          "id" : "43",
+          "linkedRelationshipId" : "42",
+          "sourceId" : "27",
+          "technology" : "JSON/HTTPS"
+        } ],
+        "tags" : "Element,Container,Widok",
+        "technology" : "HTML & Vue.js"
+      }, {
+        "description" : "Przechowuje wszystkie dane aplikacji.",
+        "documentation" : { },
+        "id" : "28",
+        "name" : "Baza danych",
+        "properties" : {
+          "structurizr.dsl.identifier" : "system.db"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "Microsoft SQL Server"
+      } ],
+      "description" : "System Organizacji Kolędy.",
+      "documentation" : { },
+      "id" : "3",
+      "name" : "SOK",
+      "properties" : {
+        "structurizr.dsl.identifier" : "system"
+      },
+      "relationships" : [ {
+        "description" : "Wysyła powiadomienia mailowe za pomocą",
+        "destinationId" : "29",
+        "id" : "52",
+        "linkedRelationshipId" : "50",
+        "sourceId" : "3",
+        "technology" : "SMTP"
+      } ],
+      "tags" : "Element,Software System,System SOK"
+    }, {
+      "description" : "Zewnętrzny serwer pocztowy konkretnej parafii.",
+      "documentation" : { },
+      "id" : "29",
+      "name" : "Serwer pocztowy",
+      "properties" : {
+        "structurizr.dsl.identifier" : "email"
+      },
+      "relationships" : [ {
+        "description" : "Wysyła powiadomienia mailowe do",
+        "destinationId" : "2",
+        "id" : "55",
+        "sourceId" : "29",
+        "tags" : "Relationship"
+      } ],
+      "tags" : "Element,Software System,Serwer pocztowy"
+    } ]
+  },
+  "name" : "SOK.NET",
+  "properties" : {
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.error" : "27",
+    "structurizr.inspection.warning" : "0",
+    "structurizr.dsl" : "d29ya3NwYWNlICJTT0suTkVUIiAiU3lzdGVtIE9yZ2FuaXphY2ppIEtvbMSZZHkiIHsKCiAgICAhaWRlbnRpZmllcnMgaGllcmFyY2hpY2FsCgogICAgbW9kZWwgewogICAgICAgIHN0YWZmID0gcGVyc29uICJQZXJzb25lbCIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiT3NvYmEga29yenlzdGFqxIVjYSB6IHN5c3RlbXUuIgogICAgICAgICAgICB0YWdzICJQZXJzb25lbCIKICAgICAgICB9CgogICAgICAgIHN1Ym1pdHRlciA9IHBlcnNvbiAiUGFyYWZpYW5pbiIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiQW5vbmltb3d5IHXFvHl0a293bmlrIHByemVnbMSFZGFqxIVjeSBkYW5lIHN3b2plZ28gemfFgm9zemVuaWEgaSB0ZXJtaW4gd2l6eXR5LiIKICAgICAgICAgICAgdGFncyAiUGFyYWZpYW5pbiIKICAgICAgICB9CiAgICAgICAgCiAgICAgICAgc3lzdGVtID0gc29mdHdhcmVTeXN0ZW0gIlNPSyIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiU3lzdGVtIE9yZ2FuaXphY2ppIEtvbMSZZHkuIgogICAgICAgICAgICB0YWdzICJTeXN0ZW0gU09LIgoKICAgICAgICAgICAgd2ViYXBwID0gY29udGFpbmVyICJBcGxpa2FjamEgaW50ZXJuZXRvd2EiIHsKICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJEb3N0YXJjemEgd2lkb2tpIG9yYXogZnVua2NqZSB6YXJ6xIVkemFuaWEga29sxJlkxIUuIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiQVNQLk5FVCBDb3JlIE1WQyIKICAgICAgICAgICAgICAgIHRhZ3MgIkFwbGlrYWNqYSBpbnRlcm5ldG93YSIKCiAgICAgICAgICAgICAgICBncm91cCAiU2Vyd2lzIGFkbWluaXN0cmFjeWpueSIgewogICAgICAgICAgICAgICAgICAgIGNvbnRyb2xsZXIgPSBjb21wb25lbnQgIktvbnRyb2xlciBNVkMiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIk9ic8WCdWd1amUgxbzEhWRhbmlhIEhUVFBTIGkgendyYWNhIHdpZG9raSBSYXpvci4iCiAgICAgICAgICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIkFTUC5ORVQgQ29yZSIKICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiS29udHJvbGVyIE1WQyIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgYXV0aG9yaXphdGlvbiA9IGNvbXBvbmVudCAiQXV0b3J5emFjamEiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlphcGV3bmlhIG1lY2hhbml6bXkgYXV0b3J5emFjamkgaSB1d2llcnp5dGVsbmlhbmlhIHXFvHl0a293bmlrw7N3LiIKICAgICAgICAgICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiQVNQLk5FVCBDb3JlIElkZW50aXR5IgogICAgICAgICAgICAgICAgICAgICAgICB0YWdzICJBdXRvcnl6YWNqYSIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICBncm91cCAiU2Vyd2lzIHB1YmxpY3pueSIgewogICAgICAgICAgICAgICAgICAgIHB1YmxpY2NvbnRyb2xsZXIgPSBjb21wb25lbnQgIktvbnRyb2xlciBwdWJsaWN6bnkiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIk9ic8WCdWd1amUgxbzEhWRhbmlhIEhUVFBTIGkgendyYWNhIHdpZG9raSBSYXpvci4iCiAgICAgICAgICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIkFTUC5ORVQgQ29yZSIKICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiS29udHJvbGVyIHB1YmxpY3pueSIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgc2VydmljZSA9IGNvbXBvbmVudCAiVXPFgnVnYSIgewogICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJaYXdpZXJhIGxvZ2lrxJkgYml6bmVzb3fEhSBhcGxpa2FjamkuIgogICAgICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIkMjIgogICAgICAgICAgICAgICAgICAgIHRhZ3MgIlVzxYJ1Z2EiCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICByZXBvc2l0b3J5ID0gY29tcG9uZW50ICJSZXBvenl0b3JpdW0iIHsKICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiWmF3aWVyYSBsb2dpa8SZIGRvc3TEmXB1IGRvIGRhbnljaC4iCiAgICAgICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiRW50aXR5IEZyYW1ld29yayBDb3JlIgogICAgICAgICAgICAgICAgICAgIHRhZ3MgIlJlcG96eXRvcml1bSIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIHBkZm1ha2VyID0gY29tcG9uZW50ICJHZW5lcmF0b3IgUERGIiB7CiAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkdlbmVydWplIGRva3VtZW50eSBQREYuIgogICAgICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlF1ZXN0UERGIgogICAgICAgICAgICAgICAgICAgIHRhZ3MgIkdlbmVyYXRvciBQREYiCiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgY29udHJvbGxlciAtPiBzZXJ2aWNlICJLb3J6eXN0YSB6IgogICAgICAgICAgICAgICAgY29udHJvbGxlciAtPiBhdXRob3JpemF0aW9uICJVd2llcnp5dGVsbmlhIHXFvHl0a293bmlrw7N3IHphIHBvbW9jxIUiCiAgICAgICAgICAgICAgICBwdWJsaWNjb250cm9sbGVyIC0+IHNlcnZpY2UgIktvcnp5c3RhIHoiCiAgICAgICAgICAgICAgICBzZXJ2aWNlIC0+IHJlcG9zaXRvcnkgIktvcnp5c3RhIHoiCiAgICAgICAgICAgICAgICBzZXJ2aWNlIC0+IHBkZm1ha2VyICJLb3J6eXN0YSB6IgogICAgICAgICAgICB9CiAgICAgICAgICAgIGFwaWFwcCA9IGNvbnRhaW5lciAiQXBsaWthY2phIEFQSSIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkRvc3RhcmN6YSBmdW5rY2plIHphcnrEhWR6YW5pYSBrb2zEmWTEhSB6IHXFvHljaWVtIEpTT04vSFRUUFMuIgogICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiQVNQLk5FVCBDb3JlIgogICAgICAgICAgICAgICAgdGFncyAiQXBsaWthY2phIEFQSSIKCiAgICAgICAgICAgICAgICBjb250cm9sbGVyID0gY29tcG9uZW50ICJLb250cm9sZXIgQVBJIiB7CiAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIk9ic8WCdWd1amUgxbzEhWRhbmllIEhUVFBTIGkgendyYWNhIGRhbmUgdyBmb3JtYWNpZSBKU09OLiIKICAgICAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJBU1AuTkVUIENvcmUiCiAgICAgICAgICAgICAgICAgICAgdGFncyAiS29udHJvbGVyIEFQSSIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIGF1dGhvcml6YXRpb24gPSBjb21wb25lbnQgIkF1dG9yeXphY2phIiB7CiAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlphcGV3bmlhIG1lY2hhbml6bXkgYXV0b3J5emFjamkgaSB1d2llcnp5dGVsbmlhbmlhIHXFvHl0a293bmlrw7N3LiIKICAgICAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJBU1AuTkVUIENvcmUgSWRlbnRpdHkiCiAgICAgICAgICAgICAgICAgICAgdGFncyAiQXV0b3J5emFjamEiCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICBzZXJ2aWNlID0gY29tcG9uZW50ICJVc8WCdWdhIiB7CiAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlphd2llcmEgbG9naWvEmSBiaXpuZXNvd8SFIGFwbGlrYWNqaS4iCiAgICAgICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiQyMiCiAgICAgICAgICAgICAgICAgICAgdGFncyAiVXPFgnVnYSIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIHJlcG9zaXRvcnkgPSBjb21wb25lbnQgIlJlcG96eXRvcml1bSIgewogICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJaYXdpZXJhIGxvZ2lrxJkgZG9zdMSZcHUgZG8gZGFueWNoLiIKICAgICAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJFbnRpdHkgRnJhbWV3b3JrIENvcmUiCiAgICAgICAgICAgICAgICAgICAgdGFncyAiUmVwb3p5dG9yaXVtIgogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgcGRmbWFrZXIgPSBjb21wb25lbnQgIkdlbmVyYXRvciBQREYiIHsKICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiR2VuZXJ1amUgZG9rdW1lbnR5IFBERi4iCiAgICAgICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiUXVlc3RQREYiCiAgICAgICAgICAgICAgICAgICAgdGFncyAiR2VuZXJhdG9yIFBERiIKICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICBjb250cm9sbGVyIC0+IHNlcnZpY2UgIktvcnp5c3RhIHoiCiAgICAgICAgICAgICAgICBjb250cm9sbGVyIC0+IGF1dGhvcml6YXRpb24gIlV3aWVyenl0ZWxuaWEgdcW8eXRrb3duaWvDs3cgemEgcG9tb2PEhSIKICAgICAgICAgICAgICAgIHNlcnZpY2UgLT4gcmVwb3NpdG9yeSAiS29yenlzdGEgeiIKICAgICAgICAgICAgICAgIHNlcnZpY2UgLT4gcGRmbWFrZXIgIktvcnp5c3RhIHoiCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGdyb3VwICJVc8WCdWdpIHB1YmxpY3puZSIgewogICAgICAgICAgICAgICAgcHVibGljdmlldyA9IGNvbnRhaW5lciAiV2lkb2sgcHVibGljem55IiB7CiAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlVtb8W8bGl3aWEgcGFyYWZpYW5vbSB3eXN5xYJhbmllIGZvcm11bGFyenkgb3JheiBwcnplZ2zEhWRhbmllIGluZm9ybWFjamkgbyBzd29pY2ggemfFgm9zemVuaWFjaC4iCiAgICAgICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiSFRNTCIKICAgICAgICAgICAgICAgICAgICB0YWdzICJXaWRvayBwdWJsaWN6bnkiCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIHZpZXcgPSBjb250YWluZXIgIldpZG9rIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiVW1vxbxsaXdpYSBwcnplbWllc3pjemFuaWUgc2nEmSBwbyBzZXJ3aXNpZSBvcmF6IHd5a29ueXdhbmllIG9wZXJhY2ppIHphIHBvbW9jxIUgcHJ6ZXN5xYJhbnljaCBmb3JtdWxhcnp5IG9yYXogYXBsaWthY2ppIFZ1ZS5qcy4iCiAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJIVE1MICYgVnVlLmpzIgogICAgICAgICAgICAgICAgdGFncyAiV2lkb2siCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGRiID0gY29udGFpbmVyICJCYXphIGRhbnljaCIgewogICAgICAgICAgICAgICAgdGFncyAiRGF0YWJhc2UiCiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiUHJ6ZWNob3d1amUgd3N6eXN0a2llIGRhbmUgYXBsaWthY2ppLiIKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIk1pY3Jvc29mdCBTUUwgU2VydmVyIgogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBlbWFpbCA9IHNvZnR3YXJlU3lzdGVtICJTZXJ3ZXIgcG9jenRvd3kiIHsKICAgICAgICAgICAgZGVzY3JpcHRpb24gIlpld27EmXRyem55IHNlcndlciBwb2N6dG93eSBrb25rcmV0bmVqIHBhcmFmaWkuIgogICAgICAgICAgICB0YWdzICJTZXJ3ZXIgcG9jenRvd3kiCiAgICAgICAgfQoKICAgICAgICBzdGFmZiAtPiBzeXN0ZW0ud2ViYXBwLmNvbnRyb2xsZXIgIk9kd2llZHphIGFwbGlrYWNqxJkgaW50ZXJuZXRvd8SFIHphIHBvbW9jxIUiICJIVFRQUyIKICAgICAgICBzdGFmZiAtPiBzeXN0ZW0udmlldyAiWmFyesSFZHphIGtvbMSZZMSFIHcgZ3JhbmljYWNoIHN3b2plaiByb2xpIHphIHBvbW9jxIUiCiAgICAgICAgCiAgICAgICAgc3VibWl0dGVyIC0+IHN5c3RlbS53ZWJhcHAucHVibGljY29udHJvbGxlciAiT2R3aWVkemEgYXBsaWthY2rEmSBpbnRlcm5ldG93xIUgemEgcG9tb2PEhSIgIkhUVFBTIgogICAgICAgIHN1Ym1pdHRlciAtPiBzeXN0ZW0ucHVibGljdmlldyAiV3lzecWCYSBmb3JtdWxhcnplIGkgcHJ6ZWdsxIVkYSBzd29qZSBpbmZvcm1hY2plIHphIHBvbW9jxIUiCgogICAgICAgIHN5c3RlbS53ZWJhcHAuY29udHJvbGxlciAtPiBzeXN0ZW0udmlldyAiRG9zdGFyY3phIiAiUmF6b3IiCiAgICAgICAgc3lzdGVtLndlYmFwcC5wdWJsaWNjb250cm9sbGVyIC0+IHN5c3RlbS5wdWJsaWN2aWV3ICJEb3N0YXJjemEiICJSYXpvciIKICAgICAgICBzeXN0ZW0udmlldyAtPiBzeXN0ZW0uYXBpYXBwLmNvbnRyb2xsZXIgIktvcnp5c3RhIHogQVBJIiAiSlNPTi9IVFRQUyIKICAgICAgICAKICAgICAgICBzeXN0ZW0ud2ViYXBwLnJlcG9zaXRvcnkgLT4gc3lzdGVtLmRiICJPZGN6eXR1amUgaSB6YXBpc3VqZSBkYW5lIiAiRW50aXR5IEZyYW1ld29yayBDb3JlIgogICAgICAgIHN5c3RlbS53ZWJhcHAuYXV0aG9yaXphdGlvbiAtPiBzeXN0ZW0uZGIgIk9kY3p5dHVqZSBpIHphcGlzdWplIGRhbmUiICJFbnRpdHkgRnJhbWV3b3JrIENvcmUiCiAgICAgICAgc3lzdGVtLmFwaWFwcC5yZXBvc2l0b3J5IC0+IHN5c3RlbS5kYiAiT2Rjenl0dWplIGkgemFwaXN1amUgZGFuZSIgIkVudGl0eSBGcmFtZXdvcmsgQ29yZSIKICAgICAgICBzeXN0ZW0uYXBpYXBwLmF1dGhvcml6YXRpb24gLT4gc3lzdGVtLmRiICJPZGN6eXR1amUgaSB6YXBpc3VqZSBkYW5lIiAiRW50aXR5IEZyYW1ld29yayBDb3JlIgoKICAgICAgICBzeXN0ZW0ud2ViYXBwLnNlcnZpY2UgLT4gZW1haWwgIld5c3nFgmEgcG93aWFkb21pZW5pYSBtYWlsb3dlIHphIHBvbW9jxIUiICJTTVRQIgogICAgICAgIHN5c3RlbS5hcGlhcHAuc2VydmljZSAtPiBlbWFpbCAiV3lzecWCYSBwb3dpYWRvbWllbmlhIG1haWxvd2UgemEgcG9tb2PEhSIgIlNNVFAiCiAgICAgICAgZW1haWwgLT4gc3VibWl0dGVyICJXeXN5xYJhIHBvd2lhZG9taWVuaWEgbWFpbG93ZSBkbyIKICAgICAgICAKICAgICAgICAvLyBEZXBsb3ltZW50CiAgICAgICAgcHJvZHVjdGlvbiA9IGRlcGxveW1lbnRFbnZpcm9ubWVudCAiUHJvZHVrY2phIiB7CiAgICAgICAgICAgIHZwcyA9IGRlcGxveW1lbnROb2RlICJWUFMiIHsKICAgICAgICAgICAgICAgIHRhZ3MgIlZQUyBTZXJ2ZXIiCiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiU2Vyd2VyIHdpcnR1YWxueSAobnAuIE9WSENsb3VkKSIKICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgZG9ja2VyID0gZGVwbG95bWVudE5vZGUgIkRvY2tlciIgewogICAgICAgICAgICAgICAgICAgIHRhZ3MgIkRvY2tlciIKICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICB0cmFlZmlrID0gZGVwbG95bWVudE5vZGUgIlRyYWVmaWsiIHsKICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiVHJhZWZpayBDb250YWluZXIiCiAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJSZXZlcnNlIHByb3h5IGkgbG9hZCBiYWxhbmNlciIKICAgICAgICAgICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiVHJhZWZpayAzLjYuMiIKICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgIHJldmVyc2VQcm94eSA9IGluZnJhc3RydWN0dXJlTm9kZSAiUmV2ZXJzZSBQcm94eSIgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiSW5mcmFzdHJ1Y3R1cmUiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiT2JzxYJ1Z3VqZSByb3V0aW5nIEhUVFBTIGkgY2VydHlmaWthdHkgU1NMIgogICAgICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICBsZXRzRW5jcnlwdCA9IGluZnJhc3RydWN0dXJlTm9kZSAiTGV0J3MgRW5jcnlwdCIgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFncyAiSW5mcmFzdHJ1Y3R1cmUiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiQXV0b21hdHljem5lIHphcnrEhWR6YW5pZSBjZXJ0eWZpa2F0YW1pIFNTTC9UTFMiCiAgICAgICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgc29rV2ViQ29udGFpbmVyID0gZGVwbG95bWVudE5vZGUgIlNPSyBXZWIgQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkRvY2tlciBDb250YWluZXIiCiAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJLb250ZW5lciBhcGxpa2FjamkgQVNQLk5FVCBDb3JlIgogICAgICAgICAgICAgICAgICAgICAgICB0ZWNobm9sb2d5ICJEb2NrZXIiCiAgICAgICAgICAgICAgICAgICAgICAgIGluc3RhbmNlcyAiMSIKICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgIHdlYkFwcEluc3RhbmNlID0gY29udGFpbmVySW5zdGFuY2Ugc3lzdGVtLndlYmFwcAogICAgICAgICAgICAgICAgICAgICAgICBhcGlBcHBJbnN0YW5jZSA9IGNvbnRhaW5lckluc3RhbmNlIHN5c3RlbS5hcGlhcHAKICAgICAgICAgICAgICAgICAgICAgICAgdmlld0luc3RhbmNlID0gY29udGFpbmVySW5zdGFuY2Ugc3lzdGVtLnZpZXcKICAgICAgICAgICAgICAgICAgICAgICAgcHVibGljVmlld0luc3RhbmNlID0gY29udGFpbmVySW5zdGFuY2Ugc3lzdGVtLnB1YmxpY3ZpZXcKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgc3FsU2VydmVyQ29udGFpbmVyID0gZGVwbG95bWVudE5vZGUgIlNRTCBTZXJ2ZXIgQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIHRhZ3MgIkRvY2tlciBDb250YWluZXIgRGF0YWJhc2UiCiAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJLb250ZW5lciBiYXp5IGRhbnljaCIKICAgICAgICAgICAgICAgICAgICAgICAgdGVjaG5vbG9neSAiU1FMIFNlcnZlciAyMDIyIgogICAgICAgICAgICAgICAgICAgICAgICBpbnN0YW5jZXMgIjEiCiAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICBkYXRhYmFzZUluc3RhbmNlID0gY29udGFpbmVySW5zdGFuY2Ugc3lzdGVtLmRiCiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICB2b2x1bWVzID0gaW5mcmFzdHJ1Y3R1cmVOb2RlICJEb2NrZXIgVm9sdW1lcyIgewogICAgICAgICAgICAgICAgICAgIHRhZ3MgIkluZnJhc3RydWN0dXJlIFN0b3JhZ2UiCiAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlBlcnN5c3RlbnRuZSBwcnplY2hvd3l3YW5pZSBkYW55Y2ggKG1zc3FsX2RhdGEsIGxldHNlbmNyeXB0KSIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgaW50ZXJuZXQgPSBkZXBsb3ltZW50Tm9kZSAiSW50ZXJuZXQiIHsKICAgICAgICAgICAgICAgIHRhZ3MgIkV4dGVybmFsIgogICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICB1c2VycyA9IGluZnJhc3RydWN0dXJlTm9kZSAiVcW8eXRrb3duaWN5IiB7CiAgICAgICAgICAgICAgICAgICAgdGFncyAiRXh0ZXJuYWwgVXNlcnMiCiAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlBlcnNvbmVsIGkgcGFyYWZpYW5pZSIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZXh0ZXJuYWxFbWFpbCA9IGRlcGxveW1lbnROb2RlICJTZXJ3ZXIgcG9jenRvd3kgcGFyYWZpaSIgewogICAgICAgICAgICAgICAgdGFncyAiRXh0ZXJuYWwgRW1haWwiCiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiWmV3bsSZdHJ6bnkgc2Vyd2VyIFNNVFAiCiAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgIGVtYWlsSW5zdGFuY2UgPSBzb2Z0d2FyZVN5c3RlbUluc3RhbmNlIGVtYWlsCiAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgIC8vIFJlbGFjamUgZGVwbG95bWVudAogICAgICAgICAgICBpbnRlcm5ldC51c2VycyAtPiBwcm9kdWN0aW9uLnZwcy5kb2NrZXIudHJhZWZpay5yZXZlcnNlUHJveHkgIsW7xIVkYW5pYSBIVFRQUyIgIkhUVFBTOjQ0MyIKICAgICAgICAgICAgcHJvZHVjdGlvbi52cHMuZG9ja2VyLnRyYWVmaWsucmV2ZXJzZVByb3h5IC0+IHByb2R1Y3Rpb24udnBzLmRvY2tlci5zb2tXZWJDb250YWluZXIud2ViQXBwSW5zdGFuY2UgIlByemVrYXp1amUgxbzEhWRhbmlhIiAiSFRUUDo4MDgwIgogICAgICAgICAgICBwcm9kdWN0aW9uLnZwcy5kb2NrZXIudHJhZWZpay5yZXZlcnNlUHJveHkgLT4gcHJvZHVjdGlvbi52cHMuZG9ja2VyLnRyYWVmaWsubGV0c0VuY3J5cHQgIlBvYmllcmEgY2VydHlmaWthdHkiCiAgICAgICAgICAgIC8vIHByb2R1Y3Rpb24udnBzLmRvY2tlci5zb2tXZWJDb250YWluZXIud2ViQXBwSW5zdGFuY2UgLT4gcHJvZHVjdGlvbi52cHMuZG9ja2VyLnNxbFNlcnZlckNvbnRhaW5lci5kYXRhYmFzZUluc3RhbmNlICJPZGN6eXR1amUvemFwaXN1amUgZGFuZSIgIlNRTCBTZXJ2ZXI6MTQzMyIKICAgICAgICAgICAgLy8gcHJvZHVjdGlvbi52cHMuZG9ja2VyLnNva1dlYkNvbnRhaW5lci5hcGlBcHBJbnN0YW5jZSAtPiBwcm9kdWN0aW9uLnZwcy5kb2NrZXIuc3FsU2VydmVyQ29udGFpbmVyLmRhdGFiYXNlSW5zdGFuY2UgIk9kY3p5dHVqZS96YXBpc3VqZSBkYW5lIiAiU1FMIFNlcnZlcjoxNDMzIgogICAgICAgICAgICAvLyBwcm9kdWN0aW9uLnZwcy5kb2NrZXIuc29rV2ViQ29udGFpbmVyLndlYkFwcEluc3RhbmNlIC0+IGV4dGVybmFsRW1haWwuZW1haWxJbnN0YW5jZSAiV3lzecWCYSBlbWFpbGUiICJTTVRQIgogICAgICAgICAgICAvLyBwcm9kdWN0aW9uLnZwcy5kb2NrZXIuc29rV2ViQ29udGFpbmVyLmFwaUFwcEluc3RhbmNlIC0+IGV4dGVybmFsRW1haWwuZW1haWxJbnN0YW5jZSAiV3lzecWCYSBlbWFpbGUiICJTTVRQIgogICAgICAgICAgICBwcm9kdWN0aW9uLnZwcy5kb2NrZXIuc3FsU2VydmVyQ29udGFpbmVyLmRhdGFiYXNlSW5zdGFuY2UgLT4gcHJvZHVjdGlvbi52cHMudm9sdW1lcyAiWmFwaXN1amUgZGFuZSIKICAgICAgICAgICAgcHJvZHVjdGlvbi52cHMuZG9ja2VyLnRyYWVmaWsubGV0c0VuY3J5cHQgLT4gcHJvZHVjdGlvbi52cHMudm9sdW1lcyAiWmFwaXN1amUgY2VydHlmaWthdHkiCiAgICAgICAgfQogICAgfQoKICAgIHZpZXdzIHsKICAgICAgICBzeXN0ZW1Db250ZXh0IHN5c3RlbSAiRGlhZ3JhbTEiIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIGF1dG9sYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIGNvbnRhaW5lciBzeXN0ZW0gIkRpYWdyYW0yIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgY29tcG9uZW50IHN5c3RlbS53ZWJhcHAgIkRpYWdyYW0zIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgY29tcG9uZW50IHN5c3RlbS5hcGlhcHAgIkRpYWdyYW00IiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBpbmNsdWRlIHN0YWZmCiAgICAgICAgfQogICAgICAgIAogICAgICAgIGRlcGxveW1lbnQgc3lzdGVtIHByb2R1Y3Rpb24gIkRpYWdyYW01IiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgc3R5bGVzIHsKICAgICAgICAgICAgZWxlbWVudCAiRWxlbWVudCIgewogICAgICAgICAgICAgICAgc3Ryb2tlV2lkdGggNAogICAgICAgICAgICAgICAgc2hhcGUgcm91bmRlZGJveAogICAgICAgICAgICAgICAgZm9udFNpemUgMjQKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiUGVyc29uIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBwZXJzb24KICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzA4NDI3YgogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICAgICAgZm9udFNpemUgMjgKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiU29mdHdhcmUgU3lzdGVtIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMxMTY4YmQKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM0MzhkZDUKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiQ29tcG9uZW50IiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM4NWJiZjAKICAgICAgICAgICAgICAgIGNvbG9yICMwMDAwMDAKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiRGF0YWJhc2UiIHsKICAgICAgICAgICAgICAgIHNoYXBlIGN5bGluZGVyCiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM0MzhkZDUKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgLy8gU3BlY2phbG5lIHN0eWxlIGRsYSBncnVwIGxvZ2ljem55Y2gKICAgICAgICAgICAgZWxlbWVudCAiUGVyc29uZWwiIHsKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJQYXJhZmlhbmluIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMyYTlkOGYKICAgICAgICAgICAgfQoKICAgICAgICAgICAgZWxlbWVudCAiU3lzdGVtIFNPSyIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjNjA1ZGZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgIGVsZW1lbnQgIlNlcndpcyBhZG1pbmlzdHJhY3lqbnkiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2Q5NWQzOQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICBlbGVtZW50ICJTZXJ3aXMgcHVibGljem55IiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM1MmI3ODgKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiVXPFgnVnaSBwdWJsaWN6bmUiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzUyYjc4OAogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAvLyBLb21wb25lbnR5IHdlZMWCdWcgdHlwdSAtIMWaQ0lFxbtLQSBQRVJTT05FTFUgKGN6ZXJ3b25vLXBvbWFyYcWEY3pvd2EpCiAgICAgICAgICAgIGVsZW1lbnQgIktvbnRyb2xlciBNVkMiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2Q5NWQzOQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICAgICAgc2hhcGUgaGV4YWdvbgogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICBlbGVtZW50ICJLb250cm9sZXIgQVBJIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNkOTVkMzkKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgIHNoYXBlIGhleGFnb24KICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgLy8gS29tcG9uZW50eSB3ZWTFgnVnIHR5cHUgLSDFmkNJRcW7S0EgUEFSQUZJQU5JTkEgKHppZWxvbmEpCiAgICAgICAgICAgIGVsZW1lbnQgIktvbnRyb2xlciBwdWJsaWN6bnkiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzUyYjc4OAogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICAgICAgc2hhcGUgaGV4YWdvbgogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAvLyBLb21wb25lbnR5IHdzcMOzxYJkemllbG9uZSAtIGJhY2tlbmQKICAgICAgICAgICAgZWxlbWVudCAiQXV0b3J5emFjamEiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI0ZENUU1RQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICAgICAgc2hhcGUgY29tcG9uZW50CiAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgIGVsZW1lbnQgIlVzxYJ1Z2EiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzQ1N2I5ZAogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICBlbGVtZW50ICJSZXBvenl0b3JpdW0iIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzZjNzU3ZAogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICBlbGVtZW50ICJHZW5lcmF0b3IgUERGIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNmNzdmMDAKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgIHNoYXBlIGNvbXBvbmVudAogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAvLyBXaWRva2kgLSDFmkNJRcW7S0EgUEVSU09ORUxVIChqYXNub25pZWJpZXNraSkKICAgICAgICAgICAgZWxlbWVudCAiV2lkb2siIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2I4ZDRmMQogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICAgICAgc2hhcGUgd2ViQnJvd3NlcgogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICAvLyBXaWRva2kgLSDFmkNJRcW7S0EgUEFSQUZJQU5JTkEgKGphc25vemllbG9ueSkKICAgICAgICAgICAgZWxlbWVudCAiV2lkb2sgcHVibGljem55IiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNhN2UxYzQKICAgICAgICAgICAgICAgIGNvbG9yICMwMDAwMDAKICAgICAgICAgICAgICAgIHNoYXBlIHdlYkJyb3dzZXIKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiQXBsaWthY2phIGludGVybmV0b3dhIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM3Nzc1RkMKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiQXBsaWthY2phIEFQSSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjOUM5QUZGCiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgIC8vIFN5c3RlbSB6ZXduxJl0cnpueQogICAgICAgICAgICBlbGVtZW50ICJTZXJ3ZXIgcG9jenRvd3kiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzk5OTk5OQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICAgICAgc3Ryb2tlICM3RjdGN0YKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDUKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgLy8gRGVwbG95bWVudCAtIEluZnJhc3RydWN0dXJlCiAgICAgICAgICAgIGVsZW1lbnQgIkRlcGxveW1lbnQgTm9kZSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZmZmZmZmCiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgICAgICBzdHJva2UgIzk5OTk5OQogICAgICAgICAgICAgICAgc3Ryb2tlV2lkdGggMgogICAgICAgICAgICB9CiAgICAgICAgICAgIAogICAgICAgICAgICBlbGVtZW50ICJWUFMgU2VydmVyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNlOGY0ZjgKICAgICAgICAgICAgICAgIGNvbG9yICMwMDAwMDAKICAgICAgICAgICAgICAgIHNoYXBlIGJveAogICAgICAgICAgICAgICAgc3Ryb2tlICMzNDk4ZGIKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDQKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiRG9ja2VyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNkNmVhZjgKICAgICAgICAgICAgICAgIGNvbG9yICMwMDAwMDAKICAgICAgICAgICAgICAgIHNoYXBlIHJvdW5kZWRCb3gKICAgICAgICAgICAgICAgIHN0cm9rZSAjMjg3NGE2CiAgICAgICAgICAgICAgICBzdHJva2VXaWR0aCAzCiAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgIGVsZW1lbnQgIkRvY2tlciBDb250YWluZXIiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2FlZDZmMQogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICAgICAgc2hhcGUgcm91bmRlZEJveAogICAgICAgICAgICAgICAgc3Ryb2tlICMxZjYxOGQKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDIKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiRG9ja2VyIENvbnRhaW5lciBEYXRhYmFzZSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjODVjMWU5CiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgICAgICBzaGFwZSBjeWxpbmRlcgogICAgICAgICAgICAgICAgc3Ryb2tlICMxZjYxOGQKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDIKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiVHJhZWZpayBDb250YWluZXIiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2ZmZWFhNwogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICAgICAgc2hhcGUgaGV4YWdvbgogICAgICAgICAgICAgICAgc3Ryb2tlICNmZGNiNmUKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDMKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiSW5mcmFzdHJ1Y3R1cmUiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2RmZTZlOQogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICAgICAgc2hhcGUgZWxsaXBzZQogICAgICAgICAgICAgICAgc3Ryb2tlICM2MzZlNzIKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDIKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiSW5mcmFzdHJ1Y3R1cmUgU3RvcmFnZSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjYjJiZWMzCiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgICAgICBzaGFwZSBmb2xkZXIKICAgICAgICAgICAgICAgIHN0cm9rZSAjNjM2ZTcyCiAgICAgICAgICAgICAgICBzdHJva2VXaWR0aCAyCiAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgIGVsZW1lbnQgIkV4dGVybmFsIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNmZmY1ZTEKICAgICAgICAgICAgICAgIGNvbG9yICMwMDAwMDAKICAgICAgICAgICAgICAgIHNoYXBlIHJvdW5kZWRCb3gKICAgICAgICAgICAgICAgIHN0cm9rZSAjZmZhNTAwCiAgICAgICAgICAgICAgICBzdHJva2VXaWR0aCAzCiAgICAgICAgICAgIH0KICAgICAgICAgICAgCiAgICAgICAgICAgIGVsZW1lbnQgIkV4dGVybmFsIFVzZXJzIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNmZGNiNmUKICAgICAgICAgICAgICAgIGNvbG9yICMwMDAwMDAKICAgICAgICAgICAgICAgIHNoYXBlIHBlcnNvbgogICAgICAgICAgICAgICAgc3Ryb2tlICNlMTcwNTUKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDIKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiRXh0ZXJuYWwgRW1haWwiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2RmZTZlOQogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICAgICAgc2hhcGUgcm91bmRlZEJveAogICAgICAgICAgICAgICAgc3Ryb2tlICM2MzZlNzIKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDIKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgZWxlbWVudCAiQm91bmRhcnkiIHsKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDMKICAgICAgICAgICAgfQogICAgICAgICAgICAKICAgICAgICAgICAgcmVsYXRpb25zaGlwICJSZWxhdGlvbnNoaXAiIHsKICAgICAgICAgICAgICAgIHRoaWNrbmVzcyA1CiAgICAgICAgICAgICAgICBmb250U2l6ZSAyNAogICAgICAgICAgICAgICAgY29sb3IgIzQwNDA0MAogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQoKICAgIGNvbmZpZ3VyYXRpb24gewogICAgICAgIHNjb3BlIHNvZnR3YXJlc3lzdGVtCiAgICB9Cgp9"
+  },
+  "views" : {
+    "componentViews" : [ {
+      "containerId" : "4",
+      "dimensions" : {
+        "height" : 3289,
+        "width" : 2631
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 630,
+        "y" : 164
+      }, {
+        "id" : "2",
+        "x" : 1100,
+        "y" : 159
+      }, {
+        "id" : "5",
+        "x" : 259,
+        "y" : 1313
+      }, {
+        "id" : "6",
+        "x" : 259,
+        "y" : 1903
+      }, {
+        "id" : "7",
+        "x" : 1424,
+        "y" : 1313
+      }, {
+        "id" : "8",
+        "x" : 854,
+        "y" : 1688
+      }, {
+        "id" : "9",
+        "x" : 854,
+        "y" : 2143
+      }, {
+        "id" : "10",
+        "x" : 1424,
+        "y" : 2143
+      }, {
+        "id" : "26",
+        "x" : 1090,
+        "y" : 839
+      }, {
+        "id" : "27",
+        "x" : 615,
+        "y" : 839
+      }, {
+        "id" : "28",
+        "x" : 850,
+        "y" : 2649
+      }, {
+        "id" : "29",
+        "x" : 1980,
+        "y" : 1829
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "Diagram3",
+      "name" : "Component View: SOK - Aplikacja internetowa",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "11",
+        "position" : 30,
+        "vertices" : [ {
+          "x" : 955,
+          "y" : 1504
+        } ]
+      }, {
+        "id" : "12",
+        "position" : 35
+      }, {
+        "id" : "13",
+        "position" : 30,
+        "vertices" : [ {
+          "x" : 1200,
+          "y" : 1504
+        } ]
+      }, {
+        "id" : "14",
+        "position" : 40
+      }, {
+        "id" : "15",
+        "position" : 40
+      }, {
+        "id" : "30",
+        "position" : 60,
+        "vertices" : [ {
+          "x" : 485,
+          "y" : 634
+        } ]
+      }, {
+        "id" : "33",
+        "position" : 35
+      }, {
+        "id" : "34",
+        "position" : 60,
+        "vertices" : [ {
+          "x" : 1650,
+          "y" : 649
+        } ]
+      }, {
+        "id" : "37",
+        "position" : 40
+      }, {
+        "id" : "38"
+      }, {
+        "id" : "40"
+      }, {
+        "id" : "44",
+        "position" : 40
+      }, {
+        "id" : "46",
+        "position" : 60,
+        "vertices" : [ {
+          "x" : 665,
+          "y" : 2434
+        }, {
+          "x" : 660,
+          "y" : 2794
+        } ]
+      }, {
+        "id" : "50",
+        "vertices" : [ {
+          "x" : 1445,
+          "y" : 1974
+        } ]
+      }, {
+        "id" : "55",
+        "vertices" : [ {
+          "x" : 2195,
+          "y" : 364
+        } ]
+      } ]
+    }, {
+      "containerId" : "16",
+      "dimensions" : {
+        "height" : 2698,
+        "width" : 2200
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 244,
+        "y" : 159
+      }, {
+        "id" : "17",
+        "x" : 1134,
+        "y" : 759
+      }, {
+        "id" : "18",
+        "x" : 760,
+        "y" : 1359
+      }, {
+        "id" : "19",
+        "x" : 1509,
+        "y" : 1359
+      }, {
+        "id" : "20",
+        "x" : 760,
+        "y" : 1959
+      }, {
+        "id" : "21",
+        "x" : 1509,
+        "y" : 1959
+      }, {
+        "id" : "27",
+        "x" : 219,
+        "y" : 803
+      }, {
+        "id" : "28",
+        "x" : 219,
+        "y" : 1659
+      }, {
+        "id" : "29",
+        "x" : 1509,
+        "y" : 259
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "Diagram4",
+      "name" : "Component View: SOK - Aplikacja API",
+      "order" : 4,
+      "relationships" : [ {
+        "id" : "22"
+      }, {
+        "id" : "23",
+        "position" : 35
+      }, {
+        "id" : "24"
+      }, {
+        "id" : "25"
+      }, {
+        "id" : "33",
+        "position" : 35
+      }, {
+        "id" : "42"
+      }, {
+        "id" : "47",
+        "position" : 35,
+        "vertices" : [ {
+          "x" : 444,
+          "y" : 2109
+        } ]
+      }, {
+        "id" : "49",
+        "position" : 35,
+        "vertices" : [ {
+          "x" : 444,
+          "y" : 1509
+        } ]
+      }, {
+        "id" : "53"
+      } ]
+    } ],
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "Diagram5",
+      "metadataSymbols" : "SquareBrackets",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#9c9aff",
+          "color" : "#ffffff",
+          "tag" : "Aplikacja API"
+        }, {
+          "background" : "#7775fc",
+          "color" : "#ffffff",
+          "tag" : "Aplikacja internetowa"
+        }, {
+          "background" : "#fd5e5e",
+          "color" : "#ffffff",
+          "shape" : "Component",
+          "tag" : "Autoryzacja"
+        }, {
+          "strokeWidth" : 3,
+          "tag" : "Boundary"
+        }, {
+          "background" : "#85bbf0",
+          "color" : "#000000",
+          "tag" : "Component"
+        }, {
+          "background" : "#438dd5",
+          "color" : "#ffffff",
+          "tag" : "Container"
+        }, {
+          "background" : "#438dd5",
+          "color" : "#ffffff",
+          "shape" : "Cylinder",
+          "tag" : "Database"
+        }, {
+          "background" : "#ffffff",
+          "color" : "#000000",
+          "stroke" : "#999999",
+          "strokeWidth" : 2,
+          "tag" : "Deployment Node"
+        }, {
+          "background" : "#d6eaf8",
+          "color" : "#000000",
+          "shape" : "RoundedBox",
+          "stroke" : "#2874a6",
+          "strokeWidth" : 3,
+          "tag" : "Docker"
+        }, {
+          "background" : "#aed6f1",
+          "color" : "#000000",
+          "shape" : "RoundedBox",
+          "stroke" : "#1f618d",
+          "strokeWidth" : 2,
+          "tag" : "Docker Container"
+        }, {
+          "background" : "#85c1e9",
+          "color" : "#000000",
+          "shape" : "Cylinder",
+          "stroke" : "#1f618d",
+          "strokeWidth" : 2,
+          "tag" : "Docker Container Database"
+        }, {
+          "color" : "#ffffff",
+          "fontSize" : 24,
+          "shape" : "RoundedBox",
+          "strokeWidth" : 4,
+          "tag" : "Element"
+        }, {
+          "background" : "#fff5e1",
+          "color" : "#000000",
+          "shape" : "RoundedBox",
+          "stroke" : "#ffa500",
+          "strokeWidth" : 3,
+          "tag" : "External"
+        }, {
+          "background" : "#dfe6e9",
+          "color" : "#000000",
+          "shape" : "RoundedBox",
+          "stroke" : "#636e72",
+          "strokeWidth" : 2,
+          "tag" : "External Email"
+        }, {
+          "background" : "#fdcb6e",
+          "color" : "#000000",
+          "shape" : "Person",
+          "stroke" : "#e17055",
+          "strokeWidth" : 2,
+          "tag" : "External Users"
+        }, {
+          "background" : "#f77f00",
+          "color" : "#ffffff",
+          "shape" : "Component",
+          "tag" : "Generator PDF"
+        }, {
+          "background" : "#dfe6e9",
+          "color" : "#000000",
+          "shape" : "Ellipse",
+          "stroke" : "#636e72",
+          "strokeWidth" : 2,
+          "tag" : "Infrastructure"
+        }, {
+          "background" : "#b2bec3",
+          "color" : "#000000",
+          "shape" : "Folder",
+          "stroke" : "#636e72",
+          "strokeWidth" : 2,
+          "tag" : "Infrastructure Storage"
+        }, {
+          "background" : "#d95d39",
+          "color" : "#ffffff",
+          "shape" : "Hexagon",
+          "tag" : "Kontroler API"
+        }, {
+          "background" : "#d95d39",
+          "color" : "#ffffff",
+          "shape" : "Hexagon",
+          "tag" : "Kontroler MVC"
+        }, {
+          "background" : "#52b788",
+          "color" : "#ffffff",
+          "shape" : "Hexagon",
+          "tag" : "Kontroler publiczny"
+        }, {
+          "background" : "#2a9d8f",
+          "tag" : "Parafianin"
+        }, {
+          "background" : "#08427b",
+          "color" : "#ffffff",
+          "fontSize" : 28,
+          "shape" : "Person",
+          "tag" : "Person"
+        }, {
+          "tag" : "Personel"
+        }, {
+          "background" : "#6c757d",
+          "color" : "#ffffff",
+          "tag" : "Repozytorium"
+        }, {
+          "background" : "#999999",
+          "color" : "#ffffff",
+          "stroke" : "#7f7f7f",
+          "strokeWidth" : 5,
+          "tag" : "Serwer pocztowy"
+        }, {
+          "background" : "#d95d39",
+          "color" : "#ffffff",
+          "tag" : "Serwis administracyjny"
+        }, {
+          "background" : "#52b788",
+          "color" : "#ffffff",
+          "tag" : "Serwis publiczny"
+        }, {
+          "background" : "#1168bd",
+          "color" : "#ffffff",
+          "tag" : "Software System"
+        }, {
+          "background" : "#605dff",
+          "tag" : "System SOK"
+        }, {
+          "background" : "#ffeaa7",
+          "color" : "#000000",
+          "shape" : "Hexagon",
+          "stroke" : "#fdcb6e",
+          "strokeWidth" : 3,
+          "tag" : "Traefik Container"
+        }, {
+          "background" : "#457b9d",
+          "color" : "#ffffff",
+          "tag" : "Usługa"
+        }, {
+          "background" : "#52b788",
+          "color" : "#ffffff",
+          "tag" : "Usługi publiczne"
+        }, {
+          "background" : "#e8f4f8",
+          "color" : "#000000",
+          "shape" : "Box",
+          "stroke" : "#3498db",
+          "strokeWidth" : 4,
+          "tag" : "VPS Server"
+        }, {
+          "background" : "#b8d4f1",
+          "color" : "#000000",
+          "shape" : "WebBrowser",
+          "tag" : "Widok"
+        }, {
+          "background" : "#a7e1c4",
+          "color" : "#000000",
+          "shape" : "WebBrowser",
+          "tag" : "Widok publiczny"
+        } ],
+        "relationships" : [ {
+          "color" : "#404040",
+          "fontSize" : 24,
+          "tag" : "Relationship",
+          "thickness" : 5
+        } ]
+      },
+      "terminology" : { }
+    },
+    "containerViews" : [ {
+      "dimensions" : {
+        "height" : 2320,
+        "width" : 2941
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 199,
+        "y" : 300
+      }, {
+        "id" : "2",
+        "x" : 199,
+        "y" : 1015
+      }, {
+        "id" : "4",
+        "x" : 834,
+        "y" : 705
+      }, {
+        "id" : "16",
+        "x" : 2169,
+        "y" : 180
+      }, {
+        "id" : "26",
+        "x" : 1294,
+        "y" : 1230
+      }, {
+        "id" : "27",
+        "x" : 1294,
+        "y" : 180
+      }, {
+        "id" : "28",
+        "x" : 2169,
+        "y" : 705
+      }, {
+        "id" : "29",
+        "x" : 1719,
+        "y" : 1780
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "Diagram2",
+      "name" : "Container View: SOK",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "31",
+        "position" : 40
+      }, {
+        "id" : "33",
+        "position" : 60
+      }, {
+        "id" : "35",
+        "position" : 35
+      }, {
+        "id" : "37",
+        "position" : 60
+      }, {
+        "id" : "39",
+        "position" : 45
+      }, {
+        "id" : "41"
+      }, {
+        "id" : "43"
+      }, {
+        "id" : "45"
+      }, {
+        "id" : "48",
+        "position" : 40
+      }, {
+        "id" : "51",
+        "position" : 60,
+        "vertices" : [ {
+          "x" : 1444,
+          "y" : 965
+        }, {
+          "x" : 1939,
+          "y" : 965
+        } ]
+      }, {
+        "id" : "54",
+        "position" : 85,
+        "vertices" : [ {
+          "x" : 2704,
+          "y" : 325
+        }, {
+          "x" : 2705,
+          "y" : 1925
+        } ]
+      }, {
+        "id" : "55",
+        "position" : 15,
+        "vertices" : [ {
+          "x" : 385,
+          "y" : 1925
+        } ]
+      } ],
+      "softwareSystemId" : "3"
+    } ],
+    "deploymentViews" : [ {
+      "dimensions" : {
+        "height" : 2543,
+        "width" : 3091
+      },
+      "elements" : [ {
+        "id" : "56",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "57",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "58",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "59",
+        "x" : 871,
+        "y" : 630
+      }, {
+        "id" : "60",
+        "x" : 1595,
+        "y" : 628
+      }, {
+        "id" : "61",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "62",
+        "x" : 871,
+        "y" : 1375
+      }, {
+        "id" : "63",
+        "x" : 2321,
+        "y" : 1205
+      }, {
+        "id" : "64",
+        "x" : 1596,
+        "y" : 1205
+      }, {
+        "id" : "67",
+        "x" : 1596,
+        "y" : 1550
+      }, {
+        "id" : "69",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "70",
+        "x" : 2321,
+        "y" : 618
+      }, {
+        "id" : "73",
+        "x" : 2321,
+        "y" : 180
+      }, {
+        "id" : "74",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "75",
+        "x" : 245,
+        "y" : 580
+      }, {
+        "id" : "76",
+        "x" : 175,
+        "y" : 175
+      }, {
+        "id" : "77",
+        "x" : 220,
+        "y" : 1800
+      } ],
+      "environment" : "Produkcja",
+      "key" : "Diagram5",
+      "name" : "Deployment View: SOK - Produkcja",
+      "order" : 5,
+      "relationships" : [ {
+        "id" : "65"
+      }, {
+        "id" : "66",
+        "position" : 40
+      }, {
+        "id" : "68"
+      }, {
+        "id" : "71",
+        "position" : 55,
+        "vertices" : [ {
+          "x" : 1550,
+          "y" : 1101
+        }, {
+          "x" : 2035,
+          "y" : 1094
+        } ]
+      }, {
+        "id" : "72",
+        "position" : 40
+      }, {
+        "id" : "78",
+        "position" : 35,
+        "vertices" : [ {
+          "x" : 451,
+          "y" : 1530
+        } ]
+      }, {
+        "id" : "79",
+        "vertices" : [ {
+          "x" : 2856,
+          "y" : 1345
+        }, {
+          "x" : 2850,
+          "y" : 2231
+        }, {
+          "x" : 820,
+          "y" : 2231
+        } ]
+      }, {
+        "id" : "80",
+        "position" : 50
+      }, {
+        "id" : "81"
+      }, {
+        "id" : "82"
+      }, {
+        "id" : "83",
+        "position" : 45
+      }, {
+        "id" : "84",
+        "position" : 45
+      } ],
+      "softwareSystemId" : "3"
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "29",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "Diagram1",
+      "name" : "System Context View: SOK",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "32"
+      }, {
+        "id" : "36"
+      }, {
+        "id" : "52"
+      }, {
+        "id" : "55"
+      } ],
+      "softwareSystemId" : "3"
+    } ]
+  }
+}
