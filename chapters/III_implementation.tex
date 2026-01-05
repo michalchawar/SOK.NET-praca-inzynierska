@@ -1,6 +1,284 @@
 \chapter{Implementacja}
 
 \section{Spis użytych technologii i narzędzi (narzędzia pracy grupowej, github, narzędzia do przygotowania makiet itd.)}
+
+Aplikacja została zaimplementowana w technologii ASP.NET Core MVC w środowisku
+.NET 8. Do zarządzania bazą danych wykorzystano Microsoft SQL Server 2022.
+Interfejs użytkownika został zbudowany przy użyciu TailwindCSS, zapewniającego
+nowoczesny i responsywny wygląd, oraz Vue.js do obsługi interaktywnych
+komponentów i wieloetapowych procedur. Całość projektu została objęta
+konteneryzacją przy użyciu narzędzia Docker, co umożliwia łatwe wdrożenie i
+utrzymanie aplikacji.
+
+\subsection{Strona kliencka}
+
+Część frontendowa aplikacji wykonana jest w dwóch metodykach. Pierwsza z nich
+przeznaczona jest do tworzenia statycznych stron HTML, które są renderowane po
+stronie serwera w sposób typowy dla wzorca MVC\@. Drugie podejście łączy
+wstępną generację HTML z dynamicznym uzupełnianiem treści po stronie klienta
+przy użyciu biblioteki Vue.js. Takie podejście zostało zastosowane w miejscach,
+gdzie wymagana jest większa interaktywność, na przykład w formularzach
+wieloetapowych czy dynamicznych listach.
+
+\subsubsection{Razor}
+
+Do tworzenia statycznych stron HTML wykorzystano silnik szablonów Razor, który
+jest integralną częścią frameworka ASP.NET Core MVC\@. Razor umożliwia łączenie
+kodu C\# z HTML w sposób czytelny i efektywny, co pozwala na dynamiczne
+generowanie treści stron na serwerze przed ich wysłaniem do przeglądarki
+klienta.
+
+Z perspektywy klienta, strony wygenerowane za pomocą Razor są tradycyjnymi
+stronami HTML, które mogą zawierać osadzone skrypty JavaScript i style CSS\@.
+Dzięki temu możliwe jest tworzenie responsywnych i interaktywnych interfejsów
+użytkownika, nawet jeśli główna logika renderowania stron odbywa się po stronie
+serwera.
+
+\subsubsection{Vue.js}
+
+Niektóre części aplikacji wymagają większej interaktywności i dynamicznego
+zarządzania stanem interfejsu użytkownika (w celu zachowania wymogu
+intuicyjności). Do ich implementacji wykorzystano bibliotekę Vue.js.
+
+Strony te są początkowo generowane na serwerze przy użyciu Razor, a następnie
+po załadowaniu w przeglądarce klienta, Vue.js przejmuje kontrolę nad
+interaktywnymi elementami interfejsu użytkownika. Dzięki temu możliwe jest
+dynamiczne aktualizowanie treści, obsługa zdarzeń użytkownika oraz zarządzanie
+stanem aplikacji bez konieczności ponownego ładowania całej strony.
+
+Aplikacje Vue.js są implementowane bezpośrednio w tagach \textit{script} w
+niektórych plikach widoków. Ładowany jest wówczas globalny plik biblioteki,
+który udostępnia wszelkie funkcjonalności jako właściwości globalnego obiektu
+Vue. Następnie za jego pomocą tworzone są instancje aplikacji Vue, które są
+przypisywane do określonych elementów DOM na stronie. Ten proces następuje w
+przeglądarce użytkownika, co pozwala na płynne przejście od statycznego
+renderowania do dynamicznej interaktywności.
+
+W opisywanym projekcie aplikacje Vue.js używane są na dwa sposoby:
+
+\begin{itemize}
+      \item do zwiększania interaktywności prostych bądź zaawansowanych elementów
+            interfejsu po stronie klienta bez potrzeby komunikacji z serwerem,
+      \item do zarządzania bardziej złożonymi komponentami interfejsu, które wymagają
+            komunikacji z serwerem w celu pobierania lub wysyłania danych.
+\end{itemize}
+
+W pierwszym przypadku często zachowywana jest logika renderowania po stronie
+serwera, włącznie z tworzeniem formularzy za pomocą pomocników HTML ASP.NET
+Core przy użyciu modeli widoków. Vue.js jest wtedy wykorzystywany do obsługi
+interakcji użytkownika, takich jak walidacja danych wprowadzanych w
+formularzach, dynamiczne dodawanie lub usuwanie elementów listy, czy
+aktualizacja widoku na podstawie działań użytkownika bez konieczności ponownego
+ładowania strony. Czasem jednak dane osadzane są bezpośrednio w zmiennej
+JavaScript w widoku (po przekonwertowaniu do JSON), co pozwala na pełną
+kontrolę nad renderowaniem interfejsu po stronie klienta przez samą aplikację
+Vue.
+
+W drugim przypadku Vue.js zarządza bardziej złożonymi komponentami, które
+wymagają komunikacji z serwerem. Wówczas aplikacja przypomina bardziej wzorzec
+SPA (Single Page Application), gdzie Vue.js odpowiada za renderowanie
+interfejsu użytkownika, a komunikacja z serwerem odbywa się za pomocą
+asynchronicznych żądań HTTP (przy użyciu Fetch API). Dane są pobierane z
+serwera w formacie JSON, a następnie wykorzystywane do aktualizacji widoku w
+czasie rzeczywistym. Podobnie, dane wprowadzone przez użytkownika są wysyłane z
+powrotem na serwer w formacie JSON, gdzie są przetwarzane i zapisywane w bazie
+danych. Nie jest to jednak pełna aplikacja SPA, ponieważ nawigacja między
+różnymi stronami nadal odbywa się poprzez tradycyjne przeładowanie strony.
+
+\subsubsection{JQuery i JavaScript}
+
+Do obsługi prostych interakcji na stronach wykorzystano również bibliotekę
+jQuery oraz czysty JavaScript. W miejscach, gdzie nie jest wymagana pełna
+funkcjonalność Vue.js, jQuery pozwala na szybkie i efektywne manipulowanie
+elementami DOM oraz obsługę zdarzeń. Dodatkowo odpowiada za walidację
+formularzy po stronie klienta, co poprawia doświadczenie użytkownika poprzez
+natychmiastowe informowanie o błędach przed wysłaniem danych na serwer.
+
+JavaScript jest również używany do implementacji powszechnych funkcji dla
+aplikacji, znajdujących się w plikach zewnętrznych, które są dołączane do
+odpowiednich widoków.
+
+\subsubsection{TailwindCSS}
+
+Do stylizacji interfejsu użytkownika wykorzystano framework CSS o nazwie
+TailwindCSS\@. Jest to narzędzie oparte na podejściu utility-first, które
+umożliwia szybkie tworzenie responsywnych i estetycznych interfejsów
+użytkownika poprzez stosowanie gotowych klas CSS bez konieczności pisania
+własnych stylów od podstaw.
+
+Głównymi zaletami TailwindCSS są jego elastyczność i możliwość tworzenia
+responsywnych projektów. Framework oferuje szeroki zestaw klas, które pozwalają
+na precyzyjne kontrolowanie wyglądu elementów interfejsu, takich jak marginesy,
+wypełnienia, kolory, typografia i układ. Dzięki temu aplikacja została w prosty
+sposób dostosowana do różnych rozmiarów ekranów, zapewniając optymalne
+doświadczenie użytkownika na urządzeniach mobilnych, tabletach i komputerach
+stacjonarnych.
+
+Nad to użyto również wtyczki DaisyUI, która rozszerza możliwości TailwindCSS o
+gotowe komponenty UI, takie jak przyciski, formularze, karty i nawigacje,
+tworzone za pomocą określonych klas. Dzięki temu proces tworzenia interfejsu
+użytkownika był szybszy i bardziej efektywny, pozwalając skupić się na
+funkcjonalności aplikacji zamiast na szczegółach stylizacji.
+
+\subsection{Strona serwerowa}
+
+Część backendowa aplikacji została zaimplementowana przy użyciu frameworka
+ASP.NET Core, opartego na platformie \.NET w wersji 8. Wykorzystano w nim różne
+biblioteki i narzędzia dostępne w ekosystemie \.NET, aby zapewnić wydajność,
+skalowalność i bezpieczeństwo aplikacji.
+
+\subsubsection{ASP.NET Core}
+
+Framework ASP.NET Core umożliwia tworzenie aplikacji webowych zgodnych z
+wzorcem Model-View-Controller (MVC), co pozwala na oddzielenie logiki
+biznesowej od warstwy prezentacji i danych. Nadal pozwala przy tym udostępniać
+interfejs API w obrębie tej samej aplikacji, co zostało wykorzystane w
+projekcie. ASP.NET Core oferuje wbudowane mechanizmy do obsługi routingu,
+autoryzacji, uwierzytelniania oraz zarządzania sesjami, co ułatwia tworzenie
+bezpiecznych i wydajnych aplikacji webowych. Dodatkowo, framework ten jest
+wysoce konfigurowalny i wspiera nowoczesne praktyki programiste, takie jak
+wstrzykiwanie zależności i middleware.
+
+\paragraph{Entity Framework Core}
+
+Do komunikacji z bazą danych wykorzystano Entity Framework Core (EF Core),
+który jest popularnym narzędziem ORM (Object-Relational Mapping) dla platformy
+\.NET\@. EF Core umożliwia programistom pracę z bazą danych za pomocą obiektów
+C\#, eliminując potrzebę pisania bezpośrednich zapytań SQL\@. Dzięki temu
+proces tworzenia, odczytu, aktualizacji i usuwania danych (CRUD) staje się
+bardziej intuicyjny i zintegrowany z logiką aplikacji.
+
+\paragraph{ASP.NET Core Identity}
+
+Do zarządzania uwierzytelnianiem i autoryzacją użytkowników wykorzystano
+bibliotekę ASP.NET Core Identity. Jest to kompleksowe rozwiązanie, które
+umożliwia tworzenie i zarządzanie kontami użytkowników, obsługę ról oraz
+implementację mechanizmów bezpieczeństwa, takich jak resetowanie haseł czy
+weryfikacja dwuetapowa. ASP.NET Core Identity integruje się bezproblemowo z
+frameworkiem ASP.NET Core, co pozwala na łatwe dodanie funkcji logowania i
+zarządzania użytkownikami do aplikacji webowej oraz przechowywanie ich danych w
+bazie danych za pośrednictwem Entity Framework Core.
+
+\paragraph{WebOptimizer}
+
+Do optymalizacji dostarczania statycznych plików JavaScript zastosowano
+bibliotekę WebOptimizer. Narzędzie to umożliwia minifikację, łączenie i
+kompresję plików statycznych, co prowadzi do zmniejszenia rozmiaru przesyłanych
+zasobów i przyspieszenia ładowania stron internetowych. WebOptimizer
+automatycznie przetwarza pliki podczas uruchamiania aplikacji, co ułatwia
+zarządzanie zasobami i poprawia wydajność aplikacji webowej.
+
+\paragraph{MailKit}
+
+Do obsługi wysyłania wiadomości e-mail z aplikacji wykorzystano bibliotekę
+MailKit. Jest to nowoczesne i wydajne narzędzie do obsługi protokołów SMTP,
+POP3 i IMAP w środowisku \.NET\@. MailKit oferuje szeroki zakres funkcji,
+takich jak tworzenie i wysyłanie wiadomości e-mail, obsługa załączników,
+szyfrowanie oraz autoryzacja. Biblioteka ta jest znana ze swojej wydajności i
+niezawodności, co czyni ją idealnym wyborem do integracji funkcji e-mail w
+aplikacjach webowych.
+
+\paragraph{DataProtection}
+
+Do zapewnienia trwałości kluczy kryptograficznych wykorzystano bibliotekę
+ASP.NET Core Data Protection. Dzięki integracji z Entity Framework Core, klucze
+są przechowywane w bazie danych, co zapewnia ich persystencję między restartami
+aplikacji, umożliwiając zachowanie sesji użytkowników i likwidując wymóg
+ponownego logowania po restarcie serwera.
+
+\paragraph{QuestPDF}
+
+Do generowania dokumentów PDF w aplikacji wykorzystano bibliotekę QuestPDF\@.
+Jest to nowoczesne narzędzie do tworzenia wysokiej jakości dokumentów PDF w
+środowisku \.NET\@. QuestPDF oferuje prosty i intuicyjny interfejs
+programistyczny, który umożliwia definiowanie układu i stylu dokumentów za
+pomocą kodu C\#. Biblioteka obsługuje różnorodne funkcje, takie jak dodawanie
+tekstu, obrazów, tabel i wykresów, co pozwala na tworzenie profesjonalnie
+wyglądających raportów i dokumentów bez konieczności korzystania z zewnętrznych
+narzędzi do edycji PDF\@.
+
+Narzędzie QuestPDF zostało wykorzystane na licencji Community MIT, która
+pozwala na darmowe użycie biblioteki w projektach niekomercyjnych i
+komercyjnych, generujących dochód poniżej \$1,000,000 rocznie.
+
+% Aplikacja udostępnia również interfejs API oparty na architekturze REST.
+% Umożliwia on komunikację z aplikacją za pomocą standardowych metod HTTP, takich
+% jak GET, POST, PUT i DELETE. Dane wymieniane za pośrednictwem API są
+% formatowane w JSON. Interfejs API jest wykorzystywany przez aplikacje Vue.js do
+% asynchronicznego pobierania i wysyłania danych, co pozwala na dynamiczne
+% aktualizowanie interfejsu użytkownika bez konieczności przeładowywania całej
+% strony. Z tego powodu odsłania on tylko wybrane punkty końcowe, dostosowane do
+% potrzeb aplikacji frontendowej.
+
+% Aplikację zaprojektowano w podejściu Domain-Driven Design (DDD), implementując
+% warstwową architekturę, która składa się z następujących poziomów:
+
+% \begin{itemize}
+%       \item Warstwa interfejsu użytkownika (UI Layer)
+%       \item Warstwa aplikacji (Application Layer)
+%       \item Warstwa domeny (Domain Layer)
+%       \item Warstwa infrastruktury (Infrastructure Layer)
+% \end{itemize}
+
+\subsubsection{Microsoft SQL Server 2022}
+
+Aplikacja korzysta z relacyjnej bazy danych Microsoft SQL Server 2022 do
+przechowywania wszystkich danych niezbędnych do jej funkcjonowania. Komunikacja
+pomiędzy aplikacją a bazą danych odbywa się za pośrednictwem opisanego wyżej
+Entity Framework Core, który umożliwia mapowanie obiektów C\# na tabele i
+rekordy w bazie danych. Dodatkowo z bazą danych komunikują się narzędzia
+ASP.NET Core Identity oraz Data Protection (poprzez integrację z EF Core).
+
+\subsubsection{Traefik}
+
+W środowisku produkcyjnym do zarządzania ruchem sieciowym i obsługi
+certyfikatów SSL/TLS wykorzystano narzędzie Traefik\@. Jest to nowoczesny i
+wydajny reverse proxy oraz load balancer, który automatycznie wykrywa usługi i
+konfiguruje trasowanie ruchu na podstawie reguł zdefiniowanych przez
+użytkownika. Traefik zintegrowany jest z Dockerem, co umożliwia dynamiczne
+zarządzanie ruchem sieciowym w środowiskach kontenerowych. Dodatkowo, Traefik
+oferuje wbudowaną obsługę Let's Encrypt, co pozwala na automatyczne generowanie
+i odnawianie certyfikatów SSL/TLS, zapewniając bezpieczną komunikację między
+klientami a serwerem.
+
+\subsection{Ciągła integracja i dostarczanie (CI/CD)}
+
+Główna część aplikacji została objęta konteneryzacją przy użyciu narzędzia
+Docker. Konteneryzacja pozwala na zapakowanie aplikacji wraz ze wszystkimi jej
+zależnościami w odizolowane środowisko, co umożliwia łatwe wdrożenie i dalsze
+utrzymanie. Dodatkowo za pomocą pliku Dockerfile zdefiniowano proces budowania
+obrazu kontenera od podstaw, co zapewnia spójność środowiska uruchomieniowego
+aplikacji niezależnie od miejsca jej wdrożenia.
+
+Wraz z kontenerem aplikacji ASP.NET Core przy pomocy narzędzia orkiestracji
+kontenerów Docker Compose można w prosty sposób uruchomić również kontener bazy
+danych Microsoft SQL Server 2022 oraz (w środowisku produkcyjnym) kontener
+Traefik, jednocześnie konfigurując ich współpracę, sieć wewnętrzną oraz
+wolumeny do trwałego przechowywania danych.
+
+\subsection{Testy}
+
+\todo{Zrobić testy XD}
+
+\subsection{Zarządzanie kodem źródłowym}
+
+Kod źródłowy aplikacji jest przechowywany w repozytorium Git na platformie
+GitHub. Wykorzystano funkcje zarządzania wersjami, takie jak gałęzie i pull
+requesty, aby umożliwić współpracę zespołową (w przyszłości) oraz śledzenie
+zmian w kodzie. Dodatkowo, repozytorium zawiera dokumentację projektu,
+instrukcje dotyczące wdrożenia oraz konfiguracji środowiska deweloperskiego.
+
+\subsection{Narzędzia modelowania diagramów}
+
+Do tworzenia diagramów UML oraz innych wizualizacji na potrzeby tej pracy użyto
+dwóch narzędzi:
+
+\begin{itemize}
+      \item Structurizr --- do tworzenia diagramów architektury oprogramowania (C4 Model),
+      \item Visual Paradigm (w wersji Community) --- do tworzenia pozostałych diagramów
+            (np.\ modelu danych).
+\end{itemize}
+
 \section{Model danych (+ diagramy)}
 \section{Architektura (+ diagramy)}
 \section{Opis rozwiazania wybranych problemów }
