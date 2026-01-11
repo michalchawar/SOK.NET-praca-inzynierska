@@ -201,25 +201,6 @@ Narzędzie QuestPDF zostało wykorzystane na licencji Community MIT, która
 pozwala na darmowe użycie biblioteki w projektach niekomercyjnych i
 komercyjnych, generujących dochód poniżej \$1,000,000 rocznie.
 
-% Aplikacja udostępnia również interfejs API oparty na architekturze REST.
-% Umożliwia on komunikację z aplikacją za pomocą standardowych metod HTTP, takich
-% jak GET, POST, PUT i DELETE. Dane wymieniane za pośrednictwem API są
-% formatowane w JSON. Interfejs API jest wykorzystywany przez aplikacje Vue.js do
-% asynchronicznego pobierania i wysyłania danych, co pozwala na dynamiczne
-% aktualizowanie interfejsu użytkownika bez konieczności przeładowywania całej
-% strony. Z tego powodu odsłania on tylko wybrane punkty końcowe, dostosowane do
-% potrzeb aplikacji frontendowej.
-
-% Aplikację zaprojektowano w podejściu Domain-Driven Design (DDD), implementując
-% warstwową architekturę, która składa się z następujących poziomów:
-
-% \begin{itemize}
-%       \item Warstwa interfejsu użytkownika (UI Layer)
-%       \item Warstwa aplikacji (Application Layer)
-%       \item Warstwa domeny (Domain Layer)
-%       \item Warstwa infrastruktury (Infrastructure Layer)
-% \end{itemize}
-
 \subsubsection{Microsoft SQL Server 2022}
 
 Aplikacja korzysta z relacyjnej bazy danych Microsoft SQL Server 2022 do
@@ -288,9 +269,436 @@ Core, tym samym determinujących strukturę bazy danych.
 
 \subsection{Model pojęciowy}
 
+Zaprezentowany diagram modelu pojęciowego (rys. \ref{fig:model_pojęciowy})
+ilustruje główne pojęcia oraz ich wzajemne relacje w kontekście logiki
+aplikacji. Model ten stanowi abstrakcyjną reprezentację struktur danych i
+zależności między nimi, niezależnie od konkretnej implementacji technicznej.
 
+Całość modelu mieści się w logicznych granicach jednej \textbf{parafii} —
+wymienione pojęcia odnoszą się do zarządzania kolędą w obrębie konkretnej
+parafii, a tym samym do jednej domeny aplikacji.
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{figures/Model pojęciowy.png}
+      \caption{Model pojęciowy aplikacji}
+      \label{fig:model_pojęciowy}
+\end{figure}
+
+\subsubsection{Personel}
+Personel parafialny składa się z różnych ról, które mają określone uprawnienia
+i obowiązki w kontekście zarządzania kolędą. Główne role to:
+\begin{itemize}
+      \item \textbf{Administrator} — osoba odpowiedzialna za zarządzanie
+            aplikacją, w tym tworzenie i modyfikowanie planów kolędy oraz
+            zarządzanie użytkownikami.
+      \item \textbf{Ksiądz} — duchowny, który odwiedza parafian podczas kolędy.
+            Może zarządzać danym planem i planować wizyty.
+      \item \textbf{Ministrant} — osoba, która towarzyszy księdzu podczas wizyt.
+            Może być przypisana do konkretnych agend w planie kolędy i na bieżąco
+            aktualizować status wizyt.
+\end{itemize}
+
+\subsubsection{Plan}
+Najbardziej ogólnym pojęciem w zakresie planowania kolędy jest \textbf{Plan}.
+Reprezentuje on konkretny plan kolędy dla danego roku. Planów może być wiele,
+są zarządzane przez parafialnego administratora aplikacji.
+
+\subsubsection{Harmonogram}
+Każdy plan kolędy musi zawierać przynajmniej jeden \textbf{Harmonogram}.
+Harmonogramy umożliwiają podział zgłoszeń parafian na różne grupy, które z
+kolei mogą służyć do filtrowania zgłoszeń, a także do tworzenia odrębnych
+planów wizyt dla różnych księży. Przykładowo można za ich pomocą rozdzielić
+kolędę w terminie zasadniczym od kolędy dodatkowej.
+
+\subsubsection{Dzień}
+Każdy plan składa się z wielu \textbf{Dni}, które reprezentują konkretne dni w
+trakcie trwania kolędy.
+
+\subsubsection{Agenda}
+Każdy dzień zawiera wiele \textbf{Agend}, które grupują i porządkują wizyty
+danego dnia. Każda agenda jest przypisana do konkretnego dnia i zawiera
+informacje o ministrantach towarzyszących podczas wizyt. Agendy są
+odpowiednikiem list wizyt, które ksiądz i ministranci realizują w danym dniu
+kolędy. W najprostszym rozumieniu mogą służyć więc jako podział wizyt na
+księdza pierwszego, drugiego, itd.
+
+\subsubsection{Wizyta}
+Podstawowym elementem planu kolędy jest \textbf{Wizyta}. Reprezentuje ona
+konkretną wizytę księdza u parafianina. Wizyta może być przypisana do
+konkretnej agendy, a tym samym być zaplanowana na konkretny dzień. Kolejność
+wizyt w agendzie jest wyznaczana przez liczbę porządkową wizyty. Zasadniczo
+przypisana jest też do konkretnego harmonogramu.
+
+\subsubsection{Zgłoszenie, zgłaszający i adres}
+Każda wizyta jest powiązana z konkretnym \textbf{Zgłoszeniem} parafianina.
+Zgłoszenie zawiera wszystkie niezbędne informacje o parafianinie, takie jak
+dane kontaktowe oraz adres zamieszkania (w powiązanych pojęciach). Do
+zgłoszenia można dołączyć także dodatkowe uwagi (np. prośby dotyczące wizyty
+lub preferencje dotyczące terminu).
 
 \subsection{Model obiektowy}
 
+Poniżej zaprezentowano dwa diagramy modelu obiektowego aplikacji. Pierwszy z
+nich (rys.\ \ref{fig:model_obiektowy_centralny}) odnosi się do kontekstu
+ogólnego (centralnego), tj. do logiki zarządzania użytkownikami (docelowo w
+różnych domenach — parafiach). Drugi (rys.\
+\ref{fig:model_obiektowy_parafialny}) przedstawia model obiektowy funkcjonujący
+w obrębie konkretnej domeny (kontekst parafialny).
+
+\subsubsection{Kontekst centralny}
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{figures/Model obiektowy - centralny.png}
+      \caption{Model obiektowy aplikacji (kontekst centralny)}
+      \label{fig:model_obiektowy_centralny}
+\end{figure}
+
+W kontekście centralnym aplikacji zajęto się zarządzaniem użytkownikami oraz
+ich rolami w różnych domenach (parafiach). Główne klasy w tym modelu to
+\textbf{User}, \textbf{Role} oraz \textbf{ParishEntry}.
+
+\paragraph{User}
+Reprezentuje użytkownika aplikacji. Zawiera podstawowe informacje o nim, w
+większości dziedziczone z klasy \texttt{IdentityUser} z ASP.NET Core Identity.
+Jest przypisany do konkretnej parafii.
+
+Najważniejsze pola klasy \texttt{User} to:
+\begin{itemize}
+      \item \texttt{UserName} — login użytkownika,
+      \item \texttt{Email} — adres e-mail użytkownika,
+      \item \texttt{PasswordHash} — hash hasła użytkownika,
+      \item \texttt{DisplayName} — nazwa użytkownika.
+\end{itemize}
+
+\paragraph{Role}
+Reprezentuje role użytkowników w aplikacji. Każda rola definiuje zestaw
+uprawnień i obowiązków, które użytkownik posiada w kontekście zarządzania
+kolędą.
+
+\texttt{Role} jest enumeracją o następujących wartościach:
+\begin{itemize}
+      \item \textbf{DefaultUser} — uprawnia do podstawowego dostępu do aplikacji,
+      \item \textbf{VisitSupport} — uprawnia do przeprowadzania wizyt
+            kolędowych (odpowiednik ministranta),
+      \item \textbf{SubmitSupport} — uprawnia do wprowadzania zgłoszeń i zarządzania nimi,
+      \item \textbf{Priest} — uprawnia do wszystkich powyższych czynności oraz do
+            planowania wizyt,
+      \item \textbf{Administrator} — uprawnia do zarządzania aplikacją i wszystkimi
+            jej funkcjami.
+\end{itemize}
+
+\paragraph{ParishEntry}
+Reprezentuje rzeczywistą parafię, która używa aplikacji do zarządzania kolędą.
+Do każdej jest przypisany przynajmniej jeden użytkownik.
+
+Najważniejsze pola klasy \texttt{ParishEntry} to:
+\begin{itemize}
+      \item \texttt{UniqueId} — unikalny identyfikator parafii,
+      \item \texttt{ParishName} — nazwa parafii,
+      \item \texttt{EncryptedConnectionString} — zaszyfrowany łańcuch połączenia do bazy danych parafii,
+      \item \texttt{CreationTime} — data utworzenia parafii w systemie.
+\end{itemize}
+
+\subsubsection{Kontekst parafialny}
+
+Kontekst parafialny zbiera wszystkie klasy związane z zarządzaniem kolędą w
+obrębie konkretnej parafii. Główne klasy w tym modelu to \textbf{Plan},
+\textbf{Schedule}, \textbf{Day}, \textbf{Agenda}, \textbf{Submission} oraz
+\textbf{Visit}.
+
+Większość encji modelu można podzielić na dwie grupy funkcjonalne — służące do
+\textit{Przyjmowania zgłoszeń} lub do \textit{Planowania wizyt}.
+
+\paragraph{\textit{Przyjmowanie zgłoszeń}}
+
+\paragraph{Submission}
+Reprezentuje zgłoszenie na kolędę. Zawiera wszystkie niezbędne informacje o
+parafianinie, takie jak dane kontaktowe oraz adres zamieszkania (w powiązanych
+klasach).
+
+Najważniejsze pola klasy \texttt{Submission} to:
+\begin{itemize}
+      \item \texttt{SubmitterNotes} — dodatkowe uwagi (od zgłaszającego do administratora),
+      \item \texttt{AdminMessage} — informacja systemowa (od administratora do zgłaszającego),
+      \item \texttt{AdminNotes} — wewnętrzne notatki (widoczne tylko dla zalogowanych użytkowników),
+      \item \texttt{NotesStatus} — status realizacji dodatkowych uwag (np.\ oczekujące, zrealizowane).
+\end{itemize}
+
+\paragraph{Submitter}
+Reprezentuje parafianina, który składa zgłoszenie na kolędę. Jest bezpośrednio
+powiązany ze zgłoszeniem (lub wieloma).
+
+Najważniejsze pola klasy \texttt{Submitter} to:
+\begin{itemize}
+      \item \texttt{Name} — imię zgłaszającego,
+      \item \texttt{Surname} — nazwisko zgłaszającego,
+      \item \texttt{PhoneNumber} — numer telefonu zgłaszającego,
+      \item \texttt{Email} — adres e-mail zgłaszającego.
+\end{itemize}
+
+\paragraph{Address}
+Reprezentuje adres zamieszkania parafianina. Jest bezpośrednio powiązany ze
+zgłoszeniem (w relacji \textit{1 do 1} z dokładnością do konkretnego planu
+kolędy). Jest on prawie w całości zatomizowany, aby ujednolicić format adresów,
+podawanych w formularzu zgłoszeniowym (by zachować jednoznaczność).
+
+Jest powiązany z szeregiem klas pomocniczych, które reprezentują poszczególne
+elementy adresu (np.\ budynek (brama), ulica, miasto).
+
+Najważniejsze pola klasy \texttt{Address} to:
+\begin{itemize}
+      \item \texttt{ApartmentNumber} — numer mieszkania,
+      \item \texttt{ApartmentLetter} — litera mieszkania (opcjonalnie, raczej rzadko),
+      \item właściwości \textit{cache} — kopia tekstowa właściwości z klas pomocniczych
+            (dla przyspieszenia operacji bazodanowych),
+      \item \texttt{FilterableString} — znormalizowany łańcuch znaków do celów filtrowania
+            i wyszukiwania adresów (\textit{computed} — obliczony przez bazę danych na
+            podstawie pól \textit{cache}).
+\end{itemize}
+
+\subparagraph{Building}
+Reprezentuje budynek (bramę) w adresie zamieszkania parafianina. Każdy budynek
+może mieć wiele adresów (mieszkań). Jest tworzony przez administratora parafii
+i wybierany z listy w formularzu zgłoszeniowym (i kilku innych miejscach).
+
+Najważniejsze pola klasy \texttt{Building} to:
+\begin{itemize}
+      \item \texttt{Number} — numer budynku,
+      \item \texttt{Letter} — litera budynku (opcjonalnie),
+      \item \texttt{FloorCount} — liczba pięter w budynku (opcjonalnie, do celów
+            statystycznych),
+      \item \texttt{ApartmentCount} — liczba mieszkań w budynku (opcjonalnie,
+            do celów statystycznych),
+      \item \texttt{HighestApartmentNumber} — najwyższy numer mieszkania w
+            budynku (opcjonalnie, do celów statystycznych),
+      \item \texttt{HasElevator} — czy budynek posiada windę (może mieć wpływ na
+            planowanie wizyt),
+      \item \texttt{AllowSelection} — czy budynek może być wybrany w formularzu
+            zgłoszeniowym (w przeciwnym przypadku jest ukryty i może zostać wybrany
+            tylko przez zalogowanego użytkownika).
+\end{itemize}
+
+\subparagraph{Street}
+Reprezentuje ulicę w adresie zamieszkania parafianina. Każda ulica może mieć
+wiele budynków. Podobnie jak budynek, jest tworzona przez administratora
+parafii i wybierany z listy w formularzu zgłoszeniowym (i kilku innych
+miejscach).
+
+Najważniejsze pola klasy \texttt{Street} to:
+\begin{itemize}
+      \item \texttt{Name} — nazwa ulicy (bez tytułów typu ulica, aleja, plac itd.),
+      \item \texttt{PostalCode} — kod pocztowy ulicy (opcjonalnie).
+\end{itemize}
+
+\subparagraph{StreetSpecifier}
+Reprezentuje typ ulicy (np.\ ulica, aleja, plac itd.). Każda ulica jest
+powiązana z jednym \texttt{StreetSpecifier}, który określa jej typ. Podobnie
+jak budynek i ulica, jest tworzony przez administratora parafii.
+
+Najważniejsze pola klasy \texttt{StreetSpecifier} to:
+\begin{itemize}
+      \item \texttt{FullName} — pełna nazwa typu ulicy (np.\ ulica, aleja, plac itd.),
+      \item \texttt{Abbreviation} — skrócona nazwa typu ulicy (np.\ ul., al., pl.).
+\end{itemize}
+
+\subparagraph{City}
+Reprezentuje miasto w adresie zamieszkania parafianina. Każde miasto może mieć
+wiele ulic. Podobnie jak powyższe klasy, jest tworzone przez administratora
+parafii.
+
+Najważniejsze pola klasy \texttt{City} to:
+\begin{itemize}
+      \item \texttt{Name} — pełna nazwa miasta,
+      \item \texttt{DisplayName} — wyświetlana nazwa miasta.
+\end{itemize}
+
+\paragraph{\textit{Planowanie wizyt}}
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{figures/Model obiektowy - parafia.png}
+      \caption{Model obiektowy aplikacji (kontekst parafialny)}
+      \label{fig:model_obiektowy_parafialny}
+\end{figure}
+
+\paragraph{Visit}
+Jest odpowiednikiem zgłoszenia w kontekście planowania wizyt. Reprezentuje
+konkretną wizytę księdza u parafianina. Jest powiązana z danym zgłoszeniem w
+relacji \textit{1 do 1}, w ten sposób są ze sobą ściśle powiązane.
+
+Najważniejsze pola klasy \texttt{Visit} to:
+\begin{itemize}
+      \item \texttt{OrdinalNumber} — liczba porządkowa wizyty w agendzie,
+      \item \texttt{Status} — status wizyty (np.\ zaplanowana, zaakceptowana,
+            odrzucona),
+      \item \texttt{PeopleCount} — liczba domowników uczestniczących w wizycie
+            (do celów statystycznych).
+\end{itemize}
+
+\paragraph{Plan}
+Reprezentuje plan wizyt kolędowych (najczęściej na dany rok). Zawiera wiele
+dni, które z kolei zawierają agendy i wizyty. Jest zarządzany przez
+parafialnego administratora aplikacji. Można przypisać do niego księży, którzy
+będą w nim występować.
+
+Najważniejsze pola klasy \texttt{Plan} to:
+\begin{itemize}
+      \item \texttt{Name} — nazwa planu,
+      \item \texttt{CreationTime} — czas utworzenia planu.
+\end{itemize}
+
+\paragraph{Schedule}
+Reprezentuje harmonogram wizyt w planie kolędy. Służy do podziału zgłoszeń
+parafian na różne grupy, np.\ na kolędę w terminie i kolędę dodatkową. Każdy
+plan musi zawierać przynajmniej jeden harmonogram.
+
+Najważniejsze pola klasy \texttt{Schedule} to:
+\begin{itemize}
+      \item \texttt{Name} — nazwa harmonogramu,
+      \item \texttt{ShortName} — skrócone oznaczenie harmonogramu,
+      \item \texttt{Color} — kolor harmonogramu (zapisany w formacie szesnastkowym
+            z poprzedzającym znakiem \#).
+\end{itemize}
+
+\paragraph{Day}
+Reprezentuje konkretny dzień w trakcie trwania kolędy. Zawiera wiele agend,
+które grupują wizyty danego dnia.
+
+Najważniejsze pola klasy \texttt{Day} to:
+\begin{itemize}
+      \item \texttt{Date} — data dnia,
+      \item \texttt{StartHour} — godzina rozpoczęcia kolędy w danym dniu,
+      \item \texttt{EndHour} — godzina zakończenia kolędy w danym dniu.
+\end{itemize}
+
+\paragraph{Agenda}
+Reprezentuje listę wizyt w konkretnym dniu kolędy. Każda agenda jest przypisana
+do konkretnego dnia i można do niej przypisywać księdza oraz ministrantów.
+Porządek wizyt w agendzie jest wyznaczany przez liczbę porządkową wizyty.
+
+Najważniejsze pola klasy \texttt{Agenda} to:
+\begin{itemize}
+      \item \texttt{StartHourOverride} — godzina rozpoczęcia kolędy
+            dla danej agendy (opcjonalnie, nadpisuje godzinę z dnia),
+      \item \texttt{EndHourOverride} — godzina zakończenia kolędy
+            dla danej agendy (opcjonalnie, nadpisuje godzinę z dnia),
+      \item \texttt{GatheredFunds} — suma zebranych funduszy podczas wizyt
+            w danej agendzie,
+      \item \texttt{HideVisits} — czy ukryć wizyty w danej agendzie przed
+            parafianami (np.\ przed publikacją planu, przy tworzeniu szkicu),
+      \item \texttt{ShowHours} — czy pokazywać parafianom przewidywane godziny
+            ich wizyty (dopiero gdy plan jest zatwierdzony).
+\end{itemize}
+
+\paragraph{BuildingAssignment}
+Reprezentuje przypisanie konkretnego budynku do konkretnego dnia w planie
+kolędy (w ramach wybranego harmonogramu). Pozwala to na automatyczne
+sugerowanie terminów wizyt dla każdego zgłoszenia (na podstawie adresu oraz
+harmonogramu), a także automatyczny zapis przy rejestracji zgłoszenia.
+
+Jedyne pole klasy \texttt{BuildingAssignment} to:
+\begin{itemize}
+      \item \texttt{EnableAutoAssign} — czy włączyć automatyczne przypisywanie
+            wizyt dla danego budynku w danym dniu (dla danego budynku w danym
+            harmonogramie tylko jeden dzień może mieć włączony auto-zapis).
+\end{itemize}
+
+\paragraph{\textit{Tworzenie historii zmian}}
+
+Oprócz powyższych dwóch grup w modelu znajduje się również pięć klas
+pomocniczych, służących do rejestrowania historii zmian dla wybranych encji
+modelu. Trzy z nich to klasy typu \textit{snapshot}:
+\textbf{SubmissionSnapshot}, \textbf{SubmitterSnapshot} oraz
+\textbf{VisitSnapshot}. Przechowują one kopię stanu odpowiadającej im encji w
+momencie dokonania zmiany wraz z informacją o autorze zmiany. Czwarta klasa to
+\textbf{FormSubmission}, która zachowuje kopię oryginalnych danych zgłoszenia
+(w momencie wprowadzenia do systemu). Pozwala na odtworzenie pierwotnej wersji
+zgłoszenia w przypadku nadużyć lub problemów. Ostatnia klasa to
+\textbf{EmailLog}, która rejestruje wysyłane wiadomości e-mail z aplikacji,
+wraz z ich zawartością i odbiorcami. Pozwala to na audyt i śledzenie
+komunikacji prowadzonej przez system, a także na ponawianie próby wysyłania
+wiadomości (gdy serwer pocztowy był niedostępny itp.).
+
+\paragraph{\textit{Zarządzanie parafią}}
+
+W modelu znajdują się również dwie encje do zarządzania informacjami dot.\
+parafii: \textbf{ParishMember} oraz \textbf{ParishInfo}.
+
+Pierwsza z nich reprezentuje użytkownika systemu, odpowiadającego dokładnie
+jednemu użytkownikowi z kontekstu centralnego (klasa \texttt{User}) poprzez
+pole \texttt{CentralUserId}. Podczas gdy do celów zarządzania użytkownikami i
+pobierania ich informacji służy klasa \texttt{User} w kontekście centralnym, to
+klasa \texttt{ParishMember} pozwala na tworzenie relacji między użytkownikami
+(reprezentowanymi przez nią w kontekście parafii) a innymi encjami, np.\ planem
+kolędy (przypisanie księży do planu) lub agendą (przypisanie ministrantów do
+agendy).
+
+Druga z nich jest prostym magazynem dla wszelakich informacji (w tym tych o
+parafii), które mogą być potrzebne w aplikacji, ale nie mają dedykowanej encji
+w modelu. Składa się z par klucz-wartość, gdzie klucz jest unikalnym
+identyfikatorem informacji, a wartość przechowuje jej treść.
+
+\paragraph{\textit{Typy wyliczeniowe}}
+
+W modelu zastosowano również kilka typów wyliczeniowych (\textit{enum}'ów),
+które służą do definiowania stałych wartości dla określonych właściwości encji.
+
+\subparagraph{SubmitMethod}
+Określa metodę, za pomocą której parafianin złożył zgłoszenie na kolędę.
+Dostępne wartości to:
+\begin{itemize}
+      \item \textbf{NotRegistered} — nie zarejestrowano (domyślnie),
+      \item \textbf{PaperForm} — formularz papierowy,
+      \item \textbf{WebForm} — formularz internetowy,
+      \item \textbf{Phone} — telefonicznie,
+      \item \textbf{Stationary} — osobiście (np.\ w kancelarii parafialnej),
+      \item \textbf{Email} — mailowo,
+      \item \textbf{DuringVisit} — osobiście podczas sąsiednich wizyt danego dnia.
+\end{itemize}
+
+\subparagraph{NotesFulfillmentStatus}
+Określa status realizacji dodatkowych uwag przez personel parafii. Dostępne
+wartości to:
+\begin{itemize}
+      \item \textbf{NA} — nie dotyczy (domyślnie, gdy brak uwag),
+      \item \textbf{Pending} — oczekujące (domyślnie gdy są uwagi),
+      \item \textbf{Rejected} — niezrealizowane,
+      \item \textbf{Accepted} — zrealizowane.
+\end{itemize}
+
+\subparagraph{VisitStatus}
+Określa status wizyty kolędowej. Dostępne wartości to:
+\begin{itemize}
+      \item \textbf{Unplanned} — niezaplanowana (domyślnie),
+      \item \textbf{Planned} — zaplanowana (w agendzie),
+      \item \textbf{Pending} — trwająca,
+      \item \textbf{Visited} — zrealizowana (odbyta),
+      \item \textbf{Rejected} — nieodbyta (np.\ parafianin nie otworzył drzwi),
+      \item \textbf{Withdrawn} — wycofana (np.\ parafianin wycofał zgłoszenie),
+      \item \textbf{Suspended} — wstrzymana (w szczególnych okolicznościach,
+            stan tymczasowy podczas przeprowadzania wizyt).
+\end{itemize}
+
 \section{Architektura (+ diagramy)}
 \section{Opis rozwiazania wybranych problemów }
+
+% Aplikacja udostępnia również interfejs API oparty na architekturze REST.
+% Umożliwia on komunikację z aplikacją za pomocą standardowych metod HTTP, takich
+% jak GET, POST, PUT i DELETE. Dane wymieniane za pośrednictwem API są
+% formatowane w JSON. Interfejs API jest wykorzystywany przez aplikacje Vue.js do
+% asynchronicznego pobierania i wysyłania danych, co pozwala na dynamiczne
+% aktualizowanie interfejsu użytkownika bez konieczności przeładowywania całej
+% strony. Z tego powodu odsłania on tylko wybrane punkty końcowe, dostosowane do
+% potrzeb aplikacji frontendowej.
+
+% Aplikację zaprojektowano w podejściu Domain-Driven Design (DDD), implementując
+% warstwową architekturę, która składa się z następujących poziomów:
+
+% \begin{itemize}
+%       \item Warstwa interfejsu użytkownika (UI Layer)
+%       \item Warstwa aplikacji (Application Layer)
+%       \item Warstwa domeny (Domain Layer)
+%       \item Warstwa infrastruktury (Infrastructure Layer)
+% \end{itemize}
