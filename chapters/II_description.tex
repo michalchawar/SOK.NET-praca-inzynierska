@@ -1,7 +1,8 @@
 \chapter{Opis i analiza zagadnienia}
+\label{sec:rozdzial_II}
 
 Zagadnienie organizacji wizyty duszpasterskiej w modelu \emph{kolędy na
-    zaproszenie} jest dosyć skomplikowane i wymaga szeregu funkcjonujących i ściśle
+      zaproszenie} jest dosyć skomplikowane i wymaga szeregu funkcjonujących i ściśle
 ze sobą współpracujących narzędzi (przede wszystkim do zbierania zgłoszeń,
 układania planów i informowania o nich). Dodatkowo potrzeba również personelu,
 który zajmie się zarówno wstępnym zaplanowaniem kolędy i ustaleniem
@@ -50,9 +51,9 @@ kolędy na zaproszenie w jednym miejscu. Oznacza to, że minimalnie powinna
 implementować funkcjonalności:
 
 \begin{itemize}
-    \item zbierania zgłoszeń od parafian,
-    \item zarządzania zebranymi zgłoszeniami oraz wprowadzania nowych,
-    \item tworzenia i edycji harmonogramu.
+      \item zbierania zgłoszeń od parafian,
+      \item zarządzania zebranymi zgłoszeniami oraz wprowadzania nowych,
+      \item tworzenia i edycji harmonogramu.
 \end{itemize}
 
 Niemniej jednak biorąc pod uwagę współczesne możliwości technologiczne oraz
@@ -61,12 +62,12 @@ na podstawie implementacji tych trzech punktów zbudować nowoczesny system,
 który dodatkowo będzie oferował wiele innych przydatnych funkcji:
 
 \begin{itemize}
-    \item zautomatyzowane i zindywidualizowane powiadamianie mailowe,
-    \item portal dla parafian, umożliwiający wgląd w dane swojego zgłoszenia, jego
-          status, termin wizyty, a nawet przewidywane godziny,
-    \item przeprowadzanie wizyty według planu,
-    \item zarządzanie personelem zaangażowanym w kolędę,
-    \item raportowanie i statystyki dotyczące przebiegu kolędy.
+      \item zautomatyzowane i zindywidualizowane powiadamianie mailowe,
+      \item portal dla parafian, umożliwiający wgląd w dane swojego zgłoszenia, jego
+            status, termin wizyty, a nawet przewidywane godziny,
+      \item przeprowadzanie wizyty według planu,
+      \item zarządzanie personelem zaangażowanym w kolędę,
+      \item raportowanie i statystyki dotyczące przebiegu kolędy.
 \end{itemize}
 
 Powyższy zestaw funkcji zebrany w jednym miejscu pozwala na kompleksowe
@@ -126,29 +127,29 @@ Podsumowując powyższe rozważania, aplikacja powinna spełniać następujące
 wymagania funkcjonalne:
 
 \begin{itemize}
-    \item umożliwiać parafianom zgłaszanie chęci uczestnictwa w kolędzie na zaproszenie
-          poprzez formularz online,
-    \item pozwalać koordynatorom kolędy na przeglądanie, edytowanie i zarządzanie
-          zebranymi zgłoszeniami,
-    \item umożliwiać tworzenie i edycję harmonogramu wizyt duszpasterskich na podstawie
-          zebranych zgłoszeń,
-    \item automatycznie wysyłać powiadomienia mailowe do parafian o potwierdzeniu
-          przyjęcia zgłoszenia,
-    \item umożliwiać manualne wysyłanie powiadomień mailowych z informacjami o zmianie
-          danych zgłoszenia, zaplanowaniu zgłoszenia, itp.,
-    \item oferować portal dla parafian, gdzie mogą oni sprawdzać status swojego
-          zgłoszenia, termin wizyty oraz przewidywane godziny,
-    \item wspierać koordynację personelu zaangażowanego w kolędę, umożliwiając
-          przypisywanie zadań i monitorowanie postępów,
-    \item generować raporty i statystyki dotyczące przebiegu kolędy, takie jak liczba
-          zgłoszeń, liczba przeprowadzonych wizyt itp.,
-    \item umożliwiać konfigurację i dostosowanie aplikacji do specyficznych potrzeb
-          różnych parafii,
-    \item zapewniać możliwość corocznego przeprowadzania kolędy bez konieczności
-          manualnej rekonfiguracji lub ponownego wdrażania aplikacji,
-    \item umożliwiać jednoczesne korzystanie z aplikacji przez różne parafie, bez
-          konieczności tworzenia odrębnych instancji lub wersji aplikacji dla każdej z
-          nich.
+      \item umożliwiać parafianom zgłaszanie chęci uczestnictwa w kolędzie na zaproszenie
+            poprzez formularz online,
+      \item pozwalać koordynatorom kolędy na przeglądanie, edytowanie i zarządzanie
+            zebranymi zgłoszeniami,
+      \item umożliwiać tworzenie i edycję harmonogramu wizyt duszpasterskich na podstawie
+            zebranych zgłoszeń,
+      \item automatycznie wysyłać powiadomienia mailowe do parafian o potwierdzeniu
+            przyjęcia zgłoszenia,
+      \item umożliwiać manualne wysyłanie powiadomień mailowych z informacjami o zmianie
+            danych zgłoszenia, zaplanowaniu zgłoszenia, itp.,
+      \item oferować portal dla parafian, gdzie mogą oni sprawdzać status swojego
+            zgłoszenia, termin wizyty oraz przewidywane godziny,
+      \item wspierać koordynację personelu zaangażowanego w kolędę, umożliwiając
+            przypisywanie zadań i monitorowanie postępów,
+      \item generować raporty i statystyki dotyczące przebiegu kolędy, takie jak liczba
+            zgłoszeń, liczba przeprowadzonych wizyt itp.,
+      \item umożliwiać konfigurację i dostosowanie aplikacji do specyficznych potrzeb
+            różnych parafii,
+      \item zapewniać możliwość corocznego przeprowadzania kolędy bez konieczności
+            manualnej rekonfiguracji lub ponownego wdrażania aplikacji,
+      \item umożliwiać jednoczesne korzystanie z aplikacji przez różne parafie, bez
+            konieczności tworzenia odrębnych instancji lub wersji aplikacji dla każdej z
+            nich.
 \end{itemize}
 
 \section{Wymagania niefunkcjonalne }
@@ -157,14 +158,14 @@ Oprócz wymagań funkcjonalnych, aplikacja powinna również spełniać następu
 wymagania niefunkcjonalne:
 
 \begin{itemize}
-    \item być dostępna online, aby parafie i parafianie mogli z niej korzystać z
-          dowolnego miejsca i o dowolnym czasie,
-    \item być skalowalna, aby mogła obsługiwać rosnącą liczbę użytkowników i zgłoszeń bez
-          utraty wydajności,
-    \item być bezpieczna, aby chronić dane osobowe parafian i zapewnić poufność
-          informacji,
-    \item być zgodna z obowiązującymi przepisami dotyczącymi ochrony danych osobowych,
-          takimi jak RODO,
-    \item być łatwa w utrzymaniu i aktualizacji, aby zapewnić jej długotrwałe
-          funkcjonowanie i możliwość dostosowywania do zmieniających się potrzeb parafii.
+      \item być dostępna online, aby parafie i parafianie mogli z niej korzystać z
+            dowolnego miejsca i o dowolnym czasie,
+      \item być skalowalna, aby mogła obsługiwać rosnącą liczbę użytkowników i zgłoszeń bez
+            utraty wydajności,
+      \item być bezpieczna, aby chronić dane osobowe parafian i zapewnić poufność
+            informacji,
+      \item być zgodna z obowiązującymi przepisami dotyczącymi ochrony danych osobowych,
+            takimi jak RODO,
+      \item być łatwa w utrzymaniu i aktualizacji, aby zapewnić jej długotrwałe
+            funkcjonowanie i możliwość dostosowywania do zmieniających się potrzeb parafii.
 \end{itemize}

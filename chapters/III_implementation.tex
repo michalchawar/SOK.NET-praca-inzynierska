@@ -1,6 +1,7 @@
 \chapter{Implementacja}
+\label{sec:rozdzial_III}
 
-\section{Spis użytych technologii i narzędzi (narzędzia pracy grupowej, github, narzędzia do przygotowania makiet itd.)}
+\section{Technologie i narzędzia}
 
 Aplikacja została zaimplementowana w technologii ASP.NET Core MVC w środowisku
 .NET 8. Do zarządzania bazą danych wykorzystano Microsoft SQL Server 2022.
@@ -11,6 +12,7 @@ konteneryzacją przy użyciu narzędzia Docker, co umożliwia łatwe wdrożenie 
 utrzymanie aplikacji.
 
 \subsection{Strona kliencka}
+\label{sec:frontend_opis}
 
 Część frontendowa aplikacji wykonana jest w dwóch metodykach. Pierwsza z nich
 przeznaczona jest do tworzenia statycznych stron HTML, które są renderowane po
@@ -35,6 +37,7 @@ użytkownika, nawet jeśli główna logika renderowania stron odbywa się po str
 serwera.
 
 \subsubsection{Vue.js}
+\label{sec:vue_opis}
 
 Niektóre części aplikacji wymagają większej interaktywności i dynamicznego
 zarządzania stanem interfejsu użytkownika (w celu zachowania wymogu
@@ -223,6 +226,7 @@ i odnawianie certyfikatów SSL/TLS, zapewniając bezpieczną komunikację międz
 klientami a serwerem.
 
 \subsection{Ciągła integracja i dostarczanie (CI/CD)}
+\label{sec:ci_cd_opis_technologii}
 
 Główna część aplikacji została objęta konteneryzacją przy użyciu narzędzia
 Docker. Konteneryzacja pozwala na zapakowanie aplikacji wraz ze wszystkimi jej
@@ -338,6 +342,7 @@ zgłoszenia można dołączyć także dodatkowe uwagi (np. prośby dotyczące wi
 lub preferencje dotyczące terminu).
 
 \subsection{Model obiektowy}
+\label{sec:model_obiektowy}
 
 Poniżej zaprezentowano dwa diagramy modelu obiektowego aplikacji. Pierwszy z
 nich (rys.\ \ref{fig:model_obiektowy_centralny}) odnosi się do kontekstu
@@ -408,8 +413,9 @@ obrębie konkretnej parafii. Główne klasy w tym modelu to \textbf{Plan},
 \textbf{Schedule}, \textbf{Day}, \textbf{Agenda}, \textbf{Submission} oraz
 \textbf{Visit}.
 
-Większość encji modelu można podzielić na dwie grupy funkcjonalne — służące do
-\textit{Przyjmowania zgłoszeń} lub do \textit{Planowania wizyt}.
+W tym modelu wyróżniają się dwie najistotniejsze grupy encji (w podziale
+funkcjonalnym): encje służące do \textit{Przyjmowania zgłoszeń} i do
+\textit{Planowania wizyt}. Wszystkie opisane są poniżej.
 
 \paragraph{\textit{Przyjmowanie zgłoszeń}}
 
@@ -681,24 +687,296 @@ Określa status wizyty kolędowej. Dostępne wartości to:
             stan tymczasowy podczas przeprowadzania wizyt).
 \end{itemize}
 
-\section{Architektura (+ diagramy)}
+\section{Architektura}
+
+\subsection{Poziom I — diagram kontekstowy systemu}
+
+Architektura aplikacji została zaprezentowana poniżej z użyciem modelu C4. Jego
+najwyższy poziom (\textit{System Context Diagram}, rys.
+\ref{fig:c4_system_context_diagram}) przedstawia ogólny widok na system oraz
+jego interakcje z użytkownikami i zewnętrznymi systemami.
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{figures/SYS_Diagram SOK.png}
+      \caption{Diagram kontekstowy systemu}
+      \label{fig:c4_system_context_diagram}
+\end{figure}
+
+W naszym przypadku głównym komponentem jest aplikacja webowa \textbf{SOK}.
+Umożliwia ona zarządzanie kolędą w parafiach poprzez interfejs użytkownika
+dostępny z poziomu przeglądarki internetowej. Aplikacja komunikuje się
+dodatkowo z serwerem pocztowym (do wysyłania powiadomień e-mail).
+
+Na diagramie zaznaczono również dwóch aktorów: \textbf{Parafianina} oraz
+\textbf{Personel parafialny}. Parafianin może składać zgłoszenia na kolędę oraz
+przeglądać swój panel zgłoszenia (wszystko jako anonimowy użytkownik). Personel
+parafialny zarządza zgłoszeniami i planuje wizyty kolędowe.
+
+\subsection{Poziom II — diagram kontenerów}
+
+Drugi poziom modelu C4 (\textit{Container Diagram}, rys.
+\ref{fig:c4_container_diagram}) przedstawia główne kontenery aplikacji oraz ich
+interakcje.
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{figures/CON_Diagram SOK.png}
+      \caption{Diagram kontenerów aplikacji}
+      \label{fig:c4_container_diagram}
+\end{figure}
+
+Na tym poziomie widzimy rozróżnienie między personelem a parafianinami.
+Personel, odwiedzając aplikację webową, korzysta z pełnego interfejsu
+użytkownika, który udostępnia wszystkie funkcje aplikacji (w granicach roli).
+Parafianin natomiast korzysta z \textit{widoków publicznych}, które są dostępne
+bez logowania. W dalszej części pracy odnosząc się do \textit{widoku} będziemy
+mieli na myśli interfejs użytkownika zalogowanego.
+
+Widok aplikacji webowej może również korzystać z API, które udostępnia wybrane
+funkcje aplikacji w formie usług sieciowych (por.\ rozdział
+\ref{sec:vue_opis}). Aplikacja API, tak samo jak główny komponent aplikacji,
+komunikuje się z bazą danych oraz z serwerem pocztowym.
+
+\subsection{Poziom III — diagram komponentów}
+
+\subsubsection{Aplikacja webowa}
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{figures/COM_Diagram WebApp.png}
+      \caption{Diagram komponentów aplikacji webowej}
+      \label{fig:c4_component_diagram_web_app}
+\end{figure}
+
+Aplikacja webowa jest zaprogramowana w architekturze MVC
+(Model-View-Controller). Podział ten widoczny jest na diagramie (rys.
+\ref{fig:c4_component_diagram_web_app}), choć nie jest wyraźny przy pierwszej
+analizie z powodu dodatkowych komponentów, które zostały zaprezentowane ze
+względu na ich istotną rolę w aplikacji.
+
+\paragraph{Kontrolery}
+
+Pierwszym rodzajem komponentu jest \textbf{Kontroler}, który obsługuje żądania
+HTTP od użytkowników i koordynuje przepływ danych między modelem a widokiem. W
+aplikacji znajdują się dwa rodzaje kontrolerów: kontrolery aplikacji (dla
+personelu parafialnego) oraz kontrolery publiczne (dla parafian).
+
+Pierwszy z nich obsługuje wszystkie funkcje aplikacji dostępne dla zalogowanych
+użytkowników (w granicach ich ról). Korzysta przy tym z komponentu do
+autoryzacji, aby sprawdzić uprawnienia użytkownika przed wykonaniem danej
+akcji. Drugi z nich obsługuje funkcje dostępne bez logowania, tj.\ składanie
+zgłoszeń na kolędę oraz przeglądanie panelu zgłoszenia.
+
+\paragraph{Widoki}
+
+Kolejnym rodzajem komponentu są \textbf{Widoki}, które zawierają interfejs
+użytkownika aplikacji, prezentowany w przeglądarce. Widoki są tworzone przy
+użyciu technologii Razor, która umożliwia dynamiczne generowanie stron HTML na
+podstawie danych z modelu. Podobnie jak kontrolery, podzielone są na dwie
+kategorie: widoki dla zalogowanych użytkowników oraz widoki publiczne dla
+parafian.
+
+Podczas gdy widoki publiczne są prostsze i bardziej statyczne (głównie
+formularze i strony informacyjne), widoki dla zalogowanych użytkowników są
+często bardziej rozbudowane i interaktywne, oferując zaawansowane funkcje
+zarządzania kolędą. W sekcji \ref{sec:frontend_opis} opisano podejścia
+wykorzystane do tworzenia interfejsu użytkownika w widokach aplikacji webowej.
+
+\paragraph{Modele}
+
+W architekturze MVC modele są przekazywane z kontrolerów do widoków, aby
+prezentować dane użytkownikowi. W opisywanej aplikacji jest to każdorazowo
+realizowane za pomocą jednego ze specjalnych typów modeli:
+
+\begin{itemize}
+      \item \textbf{ViewModels} (\textit{modele widoków}) — specjalne modele
+            zaprojektowane do reprezentowania danych w widokach. Mogą zawierać
+            dodatkową logikę prezentacyjną lub formatowanie danych.
+      \item \textbf{DTO (Data Transfer Objects)} — proste obiekty, pochodzące
+            bezpośrednio z warstwy aplikacji (por.\ sekcja \ref{sec:warstwa_aplikacji}),
+            które często są wystarczające do prezentacji danych.
+      \item \textbf{Encje EF Core} — bezpośrednie modele danych z warstwy
+            domeny. Stosowane głównie w prostych widokach, gdzie nie jest wymagana
+            dodatkowa logika prezentacyjna.
+\end{itemize}
+
+\paragraph{Logika biznesowa}
+
+Logika biznesowa aplikacji jest zaimplementowana w warstwie aplikacji (por.\
+sekcja \ref{sec:warstwa_aplikacji}) i jest wykorzystywana przez kontrolery
+aplikacji przy użyciu \textbf{Serwisów aplikacji}, reprezentowanych na
+diagramie (rys. \ref{fig:c4_component_diagram_web_app}) przez komponent
+\textit{Usługi}. Serwisy aplikacji zawierają metody do wykonywania operacji
+biznesowych, takich jak zarządzanie zgłoszeniami, planowanie wizyt czy
+wysyłanie powiadomień e-mail. Kontrolery aplikacji nigdy nie komunikują się
+bezpośrednio z warstwą domeny lub infrastrukturą, lecz zawsze poprzez serwisy
+aplikacji.
+
+\paragraph{Dostęp do danych}
+
+Dostęp do danych w aplikacji jest realizowany za pomocą wzorca
+\textbf{Repozytoriów}, które są reprezentowane na diagramie przez komponent
+\textit{Repozytoria}. Repozytoria zapewniają abstrakcję nad warstwą dostępu do
+danych, umożliwiając kontrolerom i serwisom aplikacji interakcję z bazą danych
+bez konieczności bezpośredniego korzystania z ORM (Entity Framework Core).
+Repozytoria zawierają metody do wykonywania operacji CRUD (tworzenie, odczyt,
+aktualizacja, usuwanie) na encjach domeny.
+
+Repozytoria również są zebrane w jednym komponencie. W tym przypadku jednak ma
+to dodatkowy wymiar, ponieważ wszystkie one są dostępne poprzez jeden obiekt
+\texttt{UnitOfWork}, który dodatkowo koordynuje transakcje i zapewnia spójność
+danych.
+
+\subsubsection{Aplikacja API}
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{figures/COM_Diagram ApiApp.png}
+      \caption{Diagram komponentów aplikacji API}
+      \label{fig:c4_component_diagram_api_app}
+\end{figure}
+
+Aplikacja API działa w podobny sposób jak aplikacja webowa, jednak jej głównym
+celem jest udostępnianie funkcji aplikacji w formie usług sieciowych
+(dostępnych poprzez protokół HTTP). Diagram komponentów aplikacji API został
+zaprezentowany na rys. \ref{fig:c4_component_diagram_api_app}.
+
+Podobnie jak w aplikacji webowej, głównymi komponentami są tutaj
+\textbf{Kontrolery}, \textbf{Serwisy aplikacji} oraz \textbf{Repozytoria}.
+Kontrolery API obsługują żądania HTTP od klientów API (widoków aplikacji) i
+wykonują operacje biznesowe za pomocą serwisów aplikacji. Serwisy aplikacji i
+repozytoria działają identycznie jak w aplikacji webowej, zapewniając
+abstrakcję nad logiką biznesową i dostępem do danych. Jedyną istotną różnicą
+jest brak części publicznej, ponieważ aplikacja API jest przeznaczona wyłącznie
+do użytku przez widoki aplikacji webowej dla zalogowanych użytkowników.
+
+Aplikacja API udostępnia jedynie wybrane funkcje aplikacji, które bezpośrednio
+wspierają interfejs użytkownika. Z tego powodu nie wszystkie serwisy aplikacji
+i repozytoria są dostępne poprzez API.\@ Również punkty końcowe często są
+dostępne tylko poprzez niektóre metody HTTP (spośród GET, POST, PUT, PATCH,
+DELETE).
+
+\section{DDD i warstwy systemu}
+\label{sec:architektura_warstwowa}
+
+Aplikację zaprojektowano i zaimplementowano w podejściu Domain-Driven Design
+(DDD), tworząc warstwową architekturę, która składa się z następujących
+poziomów:
+
+\begin{itemize}
+      \item Warstwa domeny (Domain Layer)
+      \item Warstwa aplikacji (Application Layer)
+      \item Warstwa infrastruktury (Infrastructure Layer)
+      \item Warstwa interfejsu użytkownika (UI Layer)
+\end{itemize}
+
+Każdy z nich jest odpowiedzialny za określone aspekty aplikacji i komunikuje
+się z innymi warstwami w sposób jasno zdefiniowany.
+
+\subsection{Warstwa domeny}
+\label{sec:warstwa_domeny}
+
+Najniższą warstwą w architekturze jest \textbf{Warstwa domeny}, która zawiera
+wszystkie elementy związane z modelem domeny aplikacji. Umieszczone zostały
+tutaj głównie encje domenowe (por. \ref{sec:model_obiektowy}). Warstwa domeny
+jest niezależna od innych warstw i nie zawiera żadnych odwołań do technologii
+zewnętrznych (np.\ baz danych, frameworków webowych itp.).
+
+\subsection{Warstwa aplikacji}
+\label{sec:warstwa_aplikacji}
+
+\textbf{Warstwa aplikacji} znajduje się powyżej warstwy domeny i jest odpowiedzialna
+za implementację logiki biznesowej aplikacji. Zawiera serwisy aplikacji, które
+realizują operacje biznesowe, korzystając z encji domeny. Warstwa aplikacji
+komunikuje się z warstwą domeny poprzez bezpośrednie odwołania do encji oraz z
+warstwą infrastruktury poprzez repozytoria. Jest wykorzystywana przez warstwę
+interfejsu użytkownika i najczęściej przekazuje do niej dane w formie DTO (Data
+Transfer Objects).
+
+\subsection{Warstwa infrastruktury}
+\label{sec:warstwa_infrastruktury}
+
+\textbf{Warstwa infrastruktury} zapewnia implementację techniczną dla aplikacji.
+Zawiera realizację repozytoriów, które umożliwiają dostęp do bazy danych
+oraz inne komponenty infrastrukturalne, w tym komponent do wysyłania
+wiadomości e-mail czy komponent autoryzacji. Główną odpowiedzialnością
+warstwy infrastruktury jest izolowanie pozostałych warstw od szczegółów technicznych,
+takich jak konkretna baza danych czy protokoły komunikacyjne.
+
+\subsection{Warstwa UI}
+\label{sec:warstwa_ui}
+
+Najwyższym poziomem w architekturze jest \textbf{Warstwa interfejsu
+      użytkownika}, która zawiera komponenty odpowiedzialne za interakcję z
+użytkownikami. W naszym przypadku są to aplikacja webowa oraz aplikacja API.\@
+Warstwa UI komunikuje się z warstwą aplikacji, korzystając z serwisów aplikacji
+i przekazuje dane do prezentacji użytkownikowi do widoków.
+
+\section{Architektura wdrażania}
+\label{sec:architektura_wdrazania}
+
+Jak wspomniano w sekcji \ref{sec:ci_cd_opis_technologii} aplikacja została
+zaopatrzona w stosowny plik \texttt{Dockerfile}, który pozwala na zbudowanie
+obrazu aplikacji. Na jego podstawie można następnie tworzyć kontenery Dockera.
+
+W projekcie umieszczono również plik \texttt{docker-compose.yml} (wraz z
+kilkoma odmianami), który pozwala na uruchomienie całego środowiska aplikacji
+(z aplikacją, bazą danych i menadżerem ruchu) za pomocą jednego polecenia z
+uwzględnieniem opcji konfiguracyjnych za pomocą orkiestratora Docker Compose.
+
+\begin{figure}[h]
+      \centering
+      \includegraphics[width=\textwidth]{figures/DPL_Diagram SOK.png}
+      \caption{Diagram wdrażania aplikacji}
+      \label{fig:deployment_diagram}
+\end{figure}
+
+Na diagramie wdrażania (rys. \ref{fig:deployment_diagram}) zaprezentowano
+strukturę środowiska aplikacji. Zaznaczone są na nim trzy wyżej wymienione
+usługi: aplikacja webowa, baza danych oraz menadżer ruchu (reverse proxy).
+
+\subsubsection{Konteneryzacja}
+
+Wszystkie trzy usługi są uruchamiane w oddzielnych kontenerach Dockera, co
+pozwala na ich izolację i łatwe zarządzanie. Konteneryzacja umożliwia również
+łatwe skalowanie aplikacji oraz przenoszenie jej między różnymi środowiskami
+(deweloperskim, testowym, produkcyjnym).
+
+Przy zmianach w kodzie aplikacji lub jej konfiguracji wystarczy więc zbudować
+nowy obraz Dockera i uruchomić nowy kontener. Zachowuje się w ten sposób
+izolację od bazy danych, która nie odnotowuje żadnych przerw w działaniu.
+
+\subsubsection{Zarządzanie siecią}
+
+W środowisku aplikacji zastosowano również wirtualną sieć Dockera, która
+pozwala na zachowanie bezpośredniej komunikacji między kontenerami przy pełnej
+ich izolacji od sieci zewnętrznej. Kontenery mogą się ze sobą komunikować za
+pomocą nazw usług (np.\ \texttt{database} dla bazy danych), co upraszcza
+konfigurację połączeń.
+
+Jedynym punktem dostępu do aplikacji z zewnątrz jest menadżer ruchu, który
+przekazuje żądania do aplikacji webowej. Pozwala to na dodatkowe zabezpieczenie
+aplikacji oraz na łatwe zarządzanie ruchem sieciowym (np.\ poprzez konfigurację
+certyfikatów SSL/TLS).
+
+\subsubsection{Trwałość danych}
+
+Baza danych jest skonfigurowana z użyciem wolumenu Dockera, który zapewnia
+trwałość danych pomiędzy restartami kontenera. Oznacza to, że dane
+przechowywane w bazie danych nie zostaną utracone w przypadku ponownego
+uruchomienia kontenera lub aktualizacji aplikacji. Wolumen jest mapowany na
+lokalny katalog na hoście, co pozwala na łatwe tworzenie kopii zapasowych i
+zarządzanie danymi bazy.
+
+\subsubsection{Środowisko produkcyjne}
+
+Dzięki zastosowaniu powyższego zestawu technologii i podejść architektonicznych
+aplikacja jest łatwa do wdrożenia i utrzymania na dowolnym serwerze
+obsługującym Dockera, w szczególności na popularnych platformach chmurowych.
+Nie jest jednak do nich ograniczone — cały stos technologiczny może być
+uruchomiony na dowolnym serwerze fizycznym lub wirtualnym, do którego
+użytkownik ma dostęp, za pomocą jednego polecenia (bez konieczności manualnego
+konfigurowania środowiska — instalowania oprogramowania i jego zależności).
+
 \section{Opis rozwiazania wybranych problemów }
-
-% Aplikacja udostępnia również interfejs API oparty na architekturze REST.
-% Umożliwia on komunikację z aplikacją za pomocą standardowych metod HTTP, takich
-% jak GET, POST, PUT i DELETE. Dane wymieniane za pośrednictwem API są
-% formatowane w JSON. Interfejs API jest wykorzystywany przez aplikacje Vue.js do
-% asynchronicznego pobierania i wysyłania danych, co pozwala na dynamiczne
-% aktualizowanie interfejsu użytkownika bez konieczności przeładowywania całej
-% strony. Z tego powodu odsłania on tylko wybrane punkty końcowe, dostosowane do
-% potrzeb aplikacji frontendowej.
-
-% Aplikację zaprojektowano w podejściu Domain-Driven Design (DDD), implementując
-% warstwową architekturę, która składa się z następujących poziomów:
-
-% \begin{itemize}
-%       \item Warstwa interfejsu użytkownika (UI Layer)
-%       \item Warstwa aplikacji (Application Layer)
-%       \item Warstwa domeny (Domain Layer)
-%       \item Warstwa infrastruktury (Infrastructure Layer)
-% \end{itemize}
