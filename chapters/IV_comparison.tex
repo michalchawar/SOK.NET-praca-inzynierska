@@ -1,0 +1,85 @@
+\chapter{Porównanie z innymi implementacjami}
+
+Obecnie rynek aplikacji do organizacji wizyt duszpasterskich nie jest wcale
+rozwinięty. Parafie, które decydują się na przeprowadzanie wizyty
+duszpasterskiej w modelu kolędy na zaproszenie, najczęściej wybierają
+rozwiązania albo prowizoryczne, albo prywatne, tworzone i nadzorowane przez
+parafian na własną rękę. Nie istnieją jeszcze żadne aplikacje komercyjne
+dedykowane do tego celu.
+
+\section{System manualny}
+
+Najmniej technicznym rozwiązaniem jest podejście manualne, polegające na
+prowadzeniu listy wizyt w formie papierowej. Często dopuszcza również
+zgłoszenia internetowe (np. poprzez formularz Google), jednak ostateczna lista
+wizyt jest tworzona ręcznie przez duszpasterza lub inną osobę odpowiedzialną za
+organizację kolędy na papierze, czy to poprzez układanie karteczek z nazwiskami
+na stole (w dużych parafiach po całych pomieszczeniach), czy też poprzez
+wypisywanie listy na tablicy. Takie podejście jest jednak bardzo niewygodne i
+podatne na błędy. W przypadku dużej liczby zgłoszeń łatwo o przeoczenie lub
+podwójne zapisanie wizyty. Ponadto, w przypadku konieczności zmiany terminu
+wizyty, cała lista musi zostać zmodyfikowana ręcznie, co prowadzi do
+dodatkowych komplikacji. Ostatecznie oprócz czasu i wysiłku zajmuje to dużo
+przestrzeni fizycznej, a lista papierowa może zostać łatwo zgubiona lub
+uszkodzona.
+
+\section{System półautomatyczny}
+
+Niektóre parafie decydują się na wykorzystanie arkuszy kalkulacyjnych (np.
+Microsoft Excel lub Google Sheets) do zarządzania listą wizyt duszpasterskich.
+W tym podejściu lista wizyt jest tworzona i modyfikowana cyfrowo, co pozwala na
+łatwiejsze wprowadzanie zmian i zmniejsza ryzyko błędów związanych z ręcznym
+zapisywaniem. Arkusze kalkulacyjne oferują funkcje sortowania i filtrowania
+danych, co ułatwia organizację wizyt według różnych kryteriów, takich jak data
+czy ulica. Jednakże, mimo że podejście to jest bardziej zaawansowane niż
+prowadzenie listy na papierze, nadal wymaga ręcznego wprowadzania danych i
+aktualizacji listy. Ponadto, arkusze kalkulacyjne nie oferują dedykowanych
+funkcji do zarządzania wizytami duszpasterskimi, co może prowadzić do
+nieefektywności i komplikacji w organizacji kolędy.
+
+\section{\textit{Adventus}}
+
+W bieżącym roku (2025) w parafii w Ujanowicach (archidiecezja krakowska)
+została wdrożona aplikacja webowa \textit{Adventus} (\cite{adventusapp2026}),
+stworzona przez zespół młodzieżowych programistów z tej parafii. Aplikacja ta
+umożliwia parafianom śledzenie zaplanowanej trasy kolędowej na interaktywnej
+mapie. Jest ona publicznie dostępna, jednak w celu sprawdzenia szczegółów
+wizyty (takich jak data, wyznaczony duszpasterz itp.) wymagana jest
+autentykacja parafianina poprzez podanie adresu i nazwiska rodziny.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/screenshots/EXT_Adventus.png}
+    \caption{Mapa trasy kolędowej w aplikacji \textit{Adventus}}
+\end{figure}
+
+Ze względu na zamknięty charakter aplikacji oraz brak dostępu do jej kodu
+źródłowego, nie jest wiadome, czy posiada ona funkcje takie jak planowanie
+wizyt w sposób w pełni cyfrowy, czy też wymaga ręcznego przenoszenia danych do
+innego systemu przez administratora. Nie jest też jasne, czy aplikacja oferuje
+takie funkcjonalności jak:
+
+\begin{itemize}
+    \item Przewidywanie godzin wizyty,
+    \item Powiadamianie mailowe,
+    \item Zarządzanie harmonogramami.
+\end{itemize}
+
+W systemie funkcjonuje jednak oznaczanie statusów wizyt na bieżąco przez
+ministrantów podczas trwania kolędy, co jest źródłem aktualnych informacji dla
+parafian (\cite{pytanienasniadanie2026}).
+
+Główną różnicą między systemem \textit{Adventus} a opisaną w tej pracy
+aplikacją jest to, że \textit{Adventus} skupia się głównie na udostępnianiu
+informacji parafianom, podczas gdy aplikacja opisana w tej pracy ma na celu
+ułatwienie organizacji i zarządzania wizytami duszpasterskimi od strony
+administracyjnej, co w efekcie poprawia również doświadczenie parafian.
+
+Warto też zwrócić uwagę na różnicę w podejściu do autentykacji użytkowników. W
+aplikacji \textit{Adventus} parafianie muszą podać swoje dane (adres i
+nazwisko) w celu uzyskania dostępu do szczegółów wizyty, co może budzić obawy
+dotyczące prywatności i bezpieczeństwa danych, zwłaszcza w małych
+miejscowościach, gdzie wszyscy się znają. Dodatkowo publicznie udostępnione są
+informacje o trasie kolędowej, co może prowadzić do różnych niepożądanych, a
+czasem i niebezpiecznych sytuacji (szczególnie w obszarach o większym
+zagęszczeniu ludności).
