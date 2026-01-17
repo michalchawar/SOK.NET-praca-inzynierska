@@ -983,3 +983,81 @@ konfigurowania środowiska — instalowania oprogramowania i jego zależności).
 
 \section{Opis rozwiazania wybranych problemów }
 \todo{Napisać}
+
+\subsection{Dostęp do bazy danych}
+
+W aplikacji ze względu na wielodomenowość (wzorzec \textit{multi-tenant})
+zastosowano izolację danych na poziomie bazy danych. Oznacza to, że każda
+parafia posiada oddzielną bazę danych, co zapewnia pełną separację danych
+między parafiami i zwiększa bezpieczeństwo. Aby umożliwić aplikacji dostęp do
+odpowiedniej bazy danych w zależności od parafii, zastosowano dynamiczne
+tworzenie ciągów połączeń w kontekście \textit{EF Core}.
+
+\subsubsection{Określenie parafii}
+
+Pierwszym elementem mechanizmu uzyskiwania dostępu do odpowiedniej bazy danych
+jest \textit{middleware} \texttt{ParishResolver}, umieszczone w potoku
+przetwarzania. W nim pobierane są informacje o parafii (z ciasteczka lub
+parametru adresu URL).
+
+\subsubsection{Pobranie informacji o parafii}
+
+Następnie \texttt{ParishResolver} korzysta z serwisu
+\texttt{ICurrentParishService}, który umożliwia zapisywanie i pobieranie
+informacji o aktualnie wybranej parafii w trakcie trwania żądania HTTP\@.
+Serwis ten ma zasięg \textit{scoped}, dzięki czemu jego stan jest zachowywany
+tylko w trakcie przetwarzania danego żądania.
+
+Główną funkcją serwisu jest pobranie informacji o parafii z centralnej bazy
+danych, odszyfrowanie ciągu połączenia i zapisanie go w swoim stanie. W ten
+sposób pozostaje on dostępny dla pozostałych komponentów aplikacji w trakcie
+przetwarzania żądania.
+
+\subsubsection{Utworzenie kontekstu}
+
+Po wykonaniu powyższych kroków następuje utworzenie kontekstu bazy danych
+\texttt{ParishDbContext} w kontenerze \textit{DI}\@. Wtedy wywoływana jest
+nadpisana metoda \texttt{OnConfiguring}, w której pobierany jest ciąg
+połączenia z serwisu \texttt{ICurrentParishService} i konfigurowany jest
+kontekst do korzystania z odpowiedniej bazy danych.
+
+Dalej w aplikacji wszystkie operacje na bazie danych są wykonywane za pomocą
+kontekstu \texttt{ParishDbContext}, który jest już poprawnie skonfigurowany do
+komunikacji z bazą danych odpowiedniej parafii.
+
+\subsection{Zarządzanie parafiami}
+
+Ze względu na izolację danych na poziomie bazy danych, tworzenie nowej parafii
+wymaga utworzenia nowej bazy danych oraz odpowiedniej jej konfiguracji,
+włączając utworzenie użytkownika bazy i wykonanie wszystkich należnych
+migracji. Aby zautomatyzować ten proces, w aplikacji zaimplementowano serwis
+\texttt{IParishProvisioningService}, który wykonuje wszystkie niezbędne kroki.
+Posiada on dwie metody publiczne: \texttt{CreateParishAsync} oraz
+\texttt{EnsureAllParishDatabasesReadyAsync}.
+
+Pierwsza z nich służy do utworzenia bazy danych na poziomie serwera baz danych
+i jest wywoływana przy rejestracji nowej parafii. Druga z nich jest
+wykorzystywana podczas uruchamiania aplikacji, sprawdzając, czy wszystkie bazy
+danych parafii (zapisanych w centralnej bazie danych) są poprawnie
+skonfigurowane i gotowe do użycia. Obie metody korzystają ze wspólnej metody
+prywatnej, która działa w następujących krokach:
+
+\begin{itemize}
+      \item Połączenie z serwerem baz danych przy użyciu konta administracyjnego,
+      \item Utworzenie nowej bazy danych o unikalnej nazwie (z losowym sufiksem),
+      \item Utworzenie nowego użytkownika z unikalną nazwą (z losowym sufiksem) oraz
+            przypisanie mu odpowiednich uprawnień do tej bazy danych,
+      \item Wykonanie wszystkich (nowych) migracji Entity Framework Core na tej bazie
+            danych,
+      \item Zapisanie informacji o parafii w centralnej bazie danych, w tym zaszyfrowanego
+            ciągu połączenia do tej bazy danych.
+\end{itemize}
+
+Gdy metoda ma utworzyć parafię, wszystkie kroki wykonają się bezwarunkowo, gdy
+jednak służy do sprawdzenia istnienia bazy danych, to pomija adekwatne kroki w
+razie braku konieczności ich wykonania.
+
+W ten sposób proces tworzenia parafii jest w pełni zautomatyzowany i nie wymaga
+ręcznej interwencji administratora bazy danych. Używa przy tym niskopoziomowych
+poleceń SQL do zarządzania bazami danych i użytkownikami, co zapewnia pełną
+kontrolę nad procesem.
