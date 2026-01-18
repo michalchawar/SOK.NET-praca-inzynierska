@@ -1,2 +1,539 @@
-\chapter{Instrukcja użytkownika (+ zrzuty ekranów)}
+\chapter{Instrukcja użytkownika}
 \todo{Napisać}
+
+Instrukcja opisuje podstawowe funkcje aplikacji oraz sposób jej obsługi przez
+administratora. Wszystkie zrzuty ekranów przedstawione w instrukcji pochodzą z
+wersji aplikacji 1.0.0 i pochodzą z aplikacji uruchomionej w środowisku
+deweloperskim z domyślnymi zmiennymi środowiskowymi (w szczególności z
+przykładowymi danymi bazy danych).
+
+\subsubsection{Logowanie}
+
+Po uruchomieniu aplikacji użytkownik zostaje przekierowany na stronę logowania
+(rys.\ \ref{fig:login_page}). W celu zalogowania się należy podać nazwę
+użytkownika oraz hasło i kliknąć przycisk \textit{Zaloguj się}.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Login_light.png}
+        \caption{Wariant jasny}
+        \label{fig:login_page_light}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Login_dark.png}
+        \caption{Wariant ciemny}
+        \label{fig:login_page_dark}
+    \end{subfigure}
+    \caption{Strona logowania}
+    \label{fig:login_page}
+\end{figure}
+
+W zależności od ustawień przeglądarki, aplikacja może być wyświetlana w
+wariancie jasnym (rys.\ \ref{fig:login_page_light}) lub ciemnym (rys.\
+\ref{fig:login_page_dark}). W dalszej części instrukcji pokazywany jest wariant
+jasny. W celu zmiany wariantu kolorystycznego można skorzystać z przycisku
+zmiany motywu dostępnego w rozwijanym menu użytkownika w prawym górnym rogu
+ekranu po zalogowaniu (należy kliknąć na nazwę użytkownika).
+
+Przy pierwszym uruchomieniu aplikacji dostępne jest tylko konto administratora
+o danych logowania zgodnych z podanymi w pliku konfiguracyjnym \texttt{.env}.
+Domyślnie są to:
+
+\begin{itemize}
+    \item Nazwa użytkownika: \texttt{admin}
+    \item Hasło: \texttt{admin}
+\end{itemize}
+
+\subsubsection{Strona główna}
+
+Po zalogowaniu użytkownik zostaje przekierowany na stronę główną aplikacji. W
+zależności od roli użytkownika, na stronie głównej dostępne są różne opcje
+menu.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.33\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Home_blank.png}
+        \caption{Pierwsze wejście}
+        \label{fig:home_page:blank}
+    \end{subfigure}%
+    \begin{subfigure}{.33\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Home_admin.png}
+        \caption{Widok administratora}
+        \label{fig:home_page:admin}
+    \end{subfigure}%
+    \begin{subfigure}{.33\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Home_admin.png}
+        \caption{Widok ministranta}
+        \label{fig:home_page:support}
+    \end{subfigure}
+    \caption{Strona główna}
+    \label{fig:home_page}
+\end{figure}
+
+Przy pierwszym wejściu nie ma żadnego aktywnego planu, a więc na stronie
+głównej widoczny jest tylko kafelek z wykresem podsumowującym zgłoszenia (rys.\
+\ref{fig:home_page:blank}). \todo{To się może zmienić w zależności od issue
+    \#10}
+
+Po utworzeniu planu na stronie głównej pojawią się kafelki z podsumowaniem
+najbliższego dnia kolędowego, listą wszystkich dni kolędowych oraz ze
+statystykami zgłoszeń (rys.\ \ref{fig:home_page:admin}).
+
+W widoku ministranta (rys.\ \ref{fig:home_page:support}) zamiast tych kafelków
+wyświetlają się kafelki z listą przydzielonych mu nadchodzących agend oraz
+możliwością szybkiego przejścia do przeprowadzania wizyt.
+
+\subsubsection{Zarządzanie użytkownikami}
+
+Aby przejść do zarządzania użytkownikami, należy w bocznym menu wybrać opcję
+\textit{Ustawienia} (oznaczoną przez ikonę koła zębatego), a następnie zakładkę
+\textit{Użytkownicy}. Wyświetli się wtedy strona z listą wszystkich
+użytkowników (rys.\ \ref{fig:manage_users:list} pokazuje stan aplikacji z
+większą liczbą użytkowników).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.75\linewidth]{figures/screenshots/SOK_Users_list.png}
+    \caption{Lista użytkowników}
+    \label{fig:manage_users:list}
+\end{figure}
+
+Po kliknięciu przycisku \textit{Nowe konto} zostanie wyświetlony formularz
+tworzenia nowego użytkownika (rys.\ \ref{fig:manage_users:create}). W celu
+edycji istniejącego użytkownika należy kliknąć na niego. Spowoduje to
+wyświetlenie formularza edycji użytkownika (rys.\ \ref{fig:manage_users:edit}).
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Users_create.png}
+        \caption{Tworzenie użytkownika}
+        \label{fig:manage_users:create}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Users_edit.png}
+        \caption{Edycja użytkownika}
+        \label{fig:manage_users:edit}
+    \end{subfigure}
+    \caption{Zarządzanie użytkownikami}
+    \label{fig:manage_users}
+\end{figure}
+
+\subsubsection{Zarządzanie planami}
+
+Aby przejść do zarządzania planami, należy w bocznym menu wybrać opcję
+\textit{Plany} (oznaczoną przez ikonę trzech poziomych kresek kaskadowych).
+Wyświetli się wtedy strona z możliwością utworzenia nowego planu oraz listą
+wszystkich planów (rys.\ \ref{fig:manage_plans:list}).
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Plans_list.png}
+        \caption{Lista planów}
+        \label{fig:manage_plans:list}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Plans_edit.png}
+        \caption{Edycja planu}
+        \label{fig:manage_plans:edit}
+    \end{subfigure}
+    \caption{Zarządzanie planami}
+    \label{fig:manage_plans}
+\end{figure}
+
+Aby aktywować dany plan, należy kliknąć przycisk \textit{Aktywuj} w jego
+wierszu na liście planów. Spowoduje to, że plan stanie się aktualnym planem
+używanym przez aplikację, a wszelkie zgłoszenia będą wpływać na niego.
+
+\begin{wrapfigure}{r}{.45\textwidth}
+    \centering
+    \begin{subfigure}{.9\linewidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Plans_default_schedule.png}
+        \caption{Wybór harmonogramu domyślnego}
+        \label{fig:manage_plans:default_schedule}
+    \end{subfigure}
+    \begin{subfigure}{.9\linewidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Plans_schedule_modal.png}
+        \caption{Edycja harmonogramu}
+        \label{fig:manage_plans:schedule_modal}
+    \end{subfigure}
+    \caption{Zarządzanie planami — szczegóły}
+    \label{fig:manage_plans:details}
+\end{wrapfigure}
+
+Aby utworzyć nowy plan, należy kliknąć przycisk \textit{Utwórz}, co spowoduje
+wyświetlenie formularza tworzenia planu. W celu edycji istniejącego planu
+należy kliknąć na jego nazwę na liście. Spowoduje to wyświetlenie formularza
+edycji planu (rys.\ \ref{fig:manage_plans:edit}).
+
+Formularze tworzenia i edycji planu wyglądają identycznie. W formularzu należy
+podać nazwę planu oraz dostępne harmonogramy i wybrać harmonogram domyślny
+(rys.\ \ref{fig:manage_plans:default_schedule}) i przypisanych księży. Jedynie
+w miejscu można zarządzać harmonogramami planu (dodawać, edytować i usuwać
+harmonogramy — rys.\ \ref{fig:manage_plans:schedule_modal}).
+
+\subsubsection{Przyjmowanie zgłoszeń}
+
+W aplikacji istnieją dwa sposoby rejestracji zgłoszeń:
+\begin{itemize}
+    \item poprzez publiczny formularz zgłoszeniowy,
+    \item poprzez panel administratora.
+\end{itemize}
+
+\paragraph{Publiczny formularz zgłoszeniowy}
+dostępny jest pod adresem:
+\begin{verbatim}
+    https://<adres_aplikacji>/<uid_parafii>/submissions/new
+\end{verbatim}
+
+W powyższym \texttt{<adres\_aplikacji>} to adres, pod którym dostępna jest
+aplikacja, a \texttt{<uid\_parafii>} to unikalny identyfikator parafii, który
+jest generowany losowo przy tworzeniu parafii, a dostępny w
+\textit{Ustawieniach} w zakładce \textit{Ustawienia ogólne}.
+
+W formularzu zgłoszeniowym (rys.\ \ref{fig:public_submission_form}) należy
+podać dane zgłaszającego — imię, nazwisko, adres e-mail (opcjonalnie) oraz
+adres. Jeśli został skonfigurowany automatyczny zapis, to wyświetli się tam
+informacja o dacie kolędy, na którą zgłaszający zostanie zapisany po wysłaniu
+zgłoszenia (jeśli jest dostępna dla danego adresu).
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Public_submission_form.png}
+        \caption{Publiczny formularz zgłoszeniowy}
+        \label{fig:public_submission_form}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Internal_submission_form.png}
+        \caption{Wewnętrzny formularz zgłoszeniowy}
+        \label{fig:internal_submission_form}
+    \end{subfigure}
+    \caption{Formularze zgłoszeniowe}
+    \label{fig:submission_forms}
+\end{figure}
+
+\paragraph{Wewnętrzny formularz zgłoszeniowy}
+dostępny jest w opcji menu bocznego \textit{Utwórz zgłoszenie} (oznaczoną przez
+ikonę plusa w przerywanym kwadracie). W nim oprócz podstawowych informacji
+można od razu uzupełnić dodatkowe dane zgłoszenia, takie wewnętrzne notatki,
+numer telefonu, sposób złożenia zgłoszenia itp. (rys.\
+\ref{fig:internal_submission_form}).
+
+\subsubsection{Edycja zgłoszeń}
+
+Po rejestracji zgłoszenia można je znaleźć na liście zgłoszeń dostępnej w opcji
+menu bocznego \textit{Zgłoszenia} (oznaczoną przez ikonę koperty z wystającą
+kartką). W tym widoku (rys.\ \ref{fig:submission:list}) po lewej stronie ekranu
+dostępne są filtry umożliwiające zawężenie wyników wyszukiwania, a po prawej
+stronie znajduje się lista zgłoszeń spełniających kryteria wyszukiwania i
+sortowania.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.75\linewidth]{figures/screenshots/SOK_Submissions_list.png}
+    \caption{Lista zgłoszeń}
+    \label{fig:submission:list}
+\end{figure}
+
+Kliknięcie na zgłoszenie spowoduje wyświetlenie szczegółów zgłoszenia (rys.\
+\ref{fig:submission:details}). W tym widoku można zapoznać się ze wszystkimi
+danymi zgłoszenia oraz je edytować poprzez kliknięcie przycisku \textit{Edytuj}
+w prawym górnym rogu okienka. W trybie edycji (rys.\ \ref{fig:submission:edit})
+można zmieniać wszystkie dane zgłoszenia oraz zapisać zmiany poprzez kliknięcie
+przycisku \textit{Zapisz}. Jeśli wówczas podany jest adres e-mail, to na górnym
+pasku wyświetla się również przełącznik wysyłania powiadomienia e-mail o
+zmianie danych zgłoszenia do zgłaszającego. Podgląd wysyłanej wiadomości można
+zobaczyć klikając przycisk obok przełącznika z ikonką oka (lub w menu
+rozwijanym w prawym górnym rogu okienka) — o ile wprowadzone zostały zmiany,
+kwalifikujące się do wysłania powiadomienia.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Submission_details.png}
+        \caption{Szczegóły zgłoszenia}
+        \label{fig:submission:details}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Submission_edit.png}
+        \caption{Edycja zgłoszenia}
+        \label{fig:submission:edit}
+    \end{subfigure}
+    \caption{Zarządzanie zgłoszeniami}
+    \label{fig:submissions:manage}
+\end{figure}
+
+W menu rozwijanym w prawym górnym rogu okienka są dostępne także inne opcje,
+takie jak wysyłanie powiadomień e-mail do zgłaszającego (jeśli podany jest
+adres e-mail), przejście do panelu zgłoszenia (dostępnego dla zgłaszającego)
+lub dostęp do oryginalnych danych zgłoszenia (przechwyconych w momencie
+rejestracji zgłoszenia).
+
+W kafelku wizyty dostępne jest również rozwijane menu (w prawym górnym rogu), w
+którym jest opcja anulowania wizyty/zgłoszenia (wówczas zgłoszenie staje się
+niezaplanowane, przestaje być wyświetlane w większości miejsc, a na liście
+zgłoszeń ma odpowiednie oznaczenie), lub przywrócenia anulowanego zgłoszenia.
+
+Jeśli zgłoszenie jest zaplanowane w jakiejś agendzie, to w kafelku wizyty
+dostępny jest przycisk \textit{Przejdź do agendy}, który przenosi do edytora
+tej agendy.
+
+\subsubsection{Zarządzanie dniami kolędowymi}
+
+Aby przejść do zarządzania dniami kolędowymi, należy w bocznym menu wybrać
+opcję \textit{Kalendarz} (oznaczoną przez ikonę kalendarza). Jeśli w danym
+planie nie są jeszcze skonfigurowane daty rozpoczęcia i zakończenia kolędy, to
+zostanie wyświetlony formularz ich dodania (rys.\
+\ref{fig:manage_days:create}). W przeciwnym wypadku pokazana zostanie lista
+wszystkich dni kolędowych (rys.\ \ref{fig:manage_days:list}).
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Days_create.png}
+        \caption{Tworzenie i edycja dni kolędowych}
+        \label{fig:manage_days:create}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Days_list.png}
+        \caption{Lista dni kolędowych}
+        \label{fig:manage_days:list}
+    \end{subfigure}
+    \caption{Zarządzanie dniami kolędowymi}
+    \label{fig:manage_days}
+\end{figure}
+
+Podczas dodawania lub edycji dni kolędowych można ustawić daty rozpoczęcia i
+zakończenia kolędy, które potem będą umożliwiały dodanie wybranych dni z ich
+zakresu (często będzie to wiele dni, są to jednak daty graniczne). Dla każdego
+dnia ponadto można ustawić domyślne godziny rozpoczęcia i zakończenia wizyt,
+które potem mogą być nadpisywane na poziomie poszczególnych agend.
+
+W widoku wyświetlania dni kolędowych można przejść do widoku danego dnia przez
+kliknięcie na niego. Spowoduje to wyświetlenie szczegółów dnia kolędowego
+(rys.\ \ref{fig:manage_days:details}), w którym dostępna jest statystyka dnia,
+lista wszystkich agend oraz lista wszystkich przypisań.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.75\linewidth]{figures/screenshots/SOK_Day_details.png}
+    \caption{Szczegóły dnia kolędowego}
+    \label{fig:manage_days:details}
+\end{figure}
+
+\subsubsection{Zarządzanie przypisaniami}
+
+Sekcja przypisań prezentuje listę wszystkich przypisanych bram dla danego dnia.
+Jeśli wszystkie bramy na danej ulicy są przypisane, to zamiast wyświetlać je
+wszystkie system pokazuje nazwę ulicy w sekcji przypisań całych ulic.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Assignments_list.png}
+        \caption{Lista przypisań}
+        \label{fig:manage_assignments:list}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Assignments_add.png}
+        \caption{Dodawanie przypisań}
+        \label{fig:manage_assignments:add}
+    \end{subfigure}
+    \caption{Zarządzanie przypisaniami}
+    \label{fig:manage_assignments}
+\end{figure}
+
+Tworzenie, edycja i usuwanie przypisań jest możliwe po kliknięciu przycisku
+\textit{Zarządzaj przypisaniami} w sekcji przypisań. Spowoduje to wyświetlenie
+okienka zarządzania przypisaniami (rys.\ \ref{fig:manage_assignments:list}).
+Dostępne są w nim opcje filtrowania istniejących przypisań, usuwania ich, a
+także włączania i wyłączania autozapisu dla poszczególnych przypisań. Aby dodać
+nowe przypisanie, należy kliknąć przycisk \textit{Dodaj bramy}, co spowoduje
+wyświetlenie okienka dodawania przypisań (rys.\
+\ref{fig:manage_assignments:add}). W nim po lewej stronie dostępna jest lista
+filtrów umożliwiających zawężenie listy dostępnych bram oraz podsumowanie
+aktualnie wybranych bram. Po prawej stronie znajduje się lista bram,
+spełniających kryteria wyszukiwania. Bramy, które są już przypisane w danym
+dniu, są oznaczone i nie można ich odznaczyć.
+
+Przypisanie danej bramy jest rozpatrywane w zasięgu jednego harmonogramu, tzn.
+brama może być przypisana do tego samego dnia wiele razy w różnych
+harmonogramach, ale tylko jeden raz w ramach jednego harmonogramu. Dodatkowo w
+ramach jednego harmonogramu może być włączony autozapis, a w ramach drugiego
+już nie.
+
+\subsubsection{Zarządzanie agendami}
+
+W sekcji agend dostępna jest lista wszystkich agend danego dnia oraz możliwość
+ich tworzenia i edycji. Kliknięcie przycisku \textit{Nowa agenda} spowoduje
+wyświetlenie formularza tworzenia agendy (rys.\ \ref{fig:agenda:modal}), który
+jest identyczny jak formularz edycji agendy (dostępny po kliknięciu na ikonkę
+ołówka w kafelku agendy).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.5\linewidth]{figures/screenshots/SOK_Agenda_modal.png}
+    \caption{Tworzenie i edycja agendy}
+    \label{fig:agenda:modal}
+\end{figure}
+
+Każda agenda ma kilka istotnych opcji konfiguracyjnych:
+\begin{itemize}
+    \item Godzina rozpoczęcia/zakończenia — nadpisanie opcji z dnia,
+    \item Przypisany ksiądz — ksiądz, który będzie realizował listę wizyt,
+    \item Przypisani ministranci — ministranci, którzy będą wspomagać księdza podczas
+          wizyt,
+    \item Jednostka czasowa — czas trwania pojedynczej wizyty w minutach (wliczając
+          przejścia między mieszkaniami),
+    \item Pokaż godziny — czy udostępniać zgłaszającym w panelu zgłoszenia przewidywany
+          czas wizyty,
+    \item Ukryj wizyty — czy ukryć agendę przed zgłaszającymi (wyświetlać zapisanym na
+          nią informację o oczekiwaniu na zapis),
+    \item Oficjalna agenda — czy agenda jest liczona do statystyk i pokazywana w
+          kalendarzu (jej wizyty nadal są liczone; opcja przydatna do wizyt
+          indywidualnych).
+\end{itemize}
+
+\subsubsection{Planowanie wizyt}
+
+Po kliknięciu na kafelek agendy (poza przyciskiem edycji) zostanie wyświetlony
+edytor agendy (rys.\ \ref{fig:agenda:editor}), w którym dostępna jest lista
+wszystkich wizyt zaplanowanych w danej agendzie oraz możliwość zarządzania
+nimi.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Agenda_editor.png}
+        \caption{Edytor agendy}
+        \label{fig:agenda:editor}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Agenda_editor_add_visits.png}
+        \caption{Dodawanie wizyt do agendy}
+        \label{fig:agenda:editor_add_visits}
+    \end{subfigure}
+    \caption{Zarządzanie agendami}
+    \label{fig:agendas:manage}
+\end{figure}
+
+Aby dodać wizyty, należy kliknąć przycisk \textit{Dodaj wizyty}, co spowoduje
+rozwinięcie od boku okienka z listą wszystkich niezaplanowanych zgłoszeń (rys.\
+\ref{fig:agenda:editor_add_visits}). W nim można skorzystać z filtrów po lewej
+stronie, aby zawęzić (lub rozszerzyć) listę zgłoszeń, a następnie zaznaczyć te,
+które chce się dodać do agendy. Po kliknięciu przycisku \textit{Dodaj do
+    agendy} zostaną one dodane do agendy jako wizyty. Domyślnie zostaną umieszczone
+na końcu listy wizyt, ale jeśli system stwierdzi, że istnieje lepsze miejsce
+(np.\ występuje już dana brama), to wstawi je tam.
+
+W edytorze można zmieniać kolejność wizyt za pomocą:
+\begin{itemize}
+    \item przeciągania i upuszczania (\textit{drag \& drop}),
+    \item przycisków przesuwania wizyty w górę lub w dół listy,
+    \item przycisków przesuwania bramy w górę lub w dół listy,
+    \item zaznaczania wielu wizyt i przesuwania ich grupowo za pomocą dolnego menu.
+\end{itemize}
+Dla każdej wizyty dostępny jest także przycisk wyświetlania szczegółów zgłoszenia,
+otwierający okno szczegółów i edycji zgłoszenia (jak w sekcji \textit{Edycja zgłoszeń}).
+
+\subsubsection{Przeprowadzanie wizyty}
+
+W edytorze agendy dostępny jest przycisk \textit{Przeprowadź wizytę}, który
+przenosi do trybu przeprowadzania wizyty (rys.\ \ref{fig:agenda:conduct}). Do
+tego widoku mają dostęp także przypisani do danej agendy ministranci poprzez
+kafelek z listą nadchodzących agend na stronie głównej.
+
+\begin{wrapfigure}[19]{1}{.45\textwidth}
+    \centering
+    \includegraphics[width=.9\linewidth]{figures/screenshots/SOK_Agenda_conduct.png}
+    \caption{Przeprowadzanie wizyty}
+    \label{fig:agenda:conduct}
+\end{wrapfigure}
+
+W trybie przeprowadzania wizyty dostępna jest lista wszystkich wizyt w
+agendzie, dostosowana do widoku mobilnego (większe przyciski, układ pionowy) i
+umożliwiająca szybkie poruszanie się po liście wizyt i oznaczanie ich statusów.
+Przeprowadzanie wizyty można rozpocząć na kwadrans przed ustawionym w agendzie
+(bądź w dniu) czasie rozpoczęcia wizyty. Dopiero wtedy wyświetlany jest
+przycisk \textit{Rozpocznij wizytę}. Po jego kliknięciu należy wybrać księdza
+(o ile nie został on wcześniej wybrany w agendzie), a następnie oznaczone
+zostaje pierwsze mieszkanie.
+
+Kafelek każdej wizyty ma różne oznaczenia kolorystyczne w zależności od jej
+statusu:
+\begin{itemize}
+    \item zwykły — wizyta zaplanowana,
+    \item zielone obramowanie — następna wizyta,
+    \item żółte obramowanie — trwająca wizyta (ksiądz jest w mieszkaniu),
+    \item wyszarzony kafelek — zgłoszenie odwiedzone (wizyta zakończona),
+    \item czerwone tło — wizyta nieodbyta (odrzucona),
+    \item żółte tło — wizyta wstrzymana (tymczasowy status).
+\end{itemize}
+
+Status wizyty wyświetlany jest także zgłaszającemu w jego panelu zgłoszenia.
+Dodatkowo po rozpoczęciu wizyty przewidywane godziny są aktualizowane na
+bieżąco i wyświetlane zgłaszającemu (jeśli w agendzie jest włączona opcja
+pokazywania godzin).
+
+Dolny pasek zawiera przyciski do oznaczania liczby domowników w danym
+mieszkaniu oraz przyciski do kontroli całości — od lewej: oznaczenie wizyty
+jako odrzuconej, dodanie mieszkania (gdy ktoś niezaplanowany poprosi o kolędę)
+oraz oznaczenie wizyty jako zakończonej (odwiedzonej). Wszystkie te przyciski
+odnoszą się do wizyty, oznaczonej zieloną ramką (następnej). Po oznaczeniu
+wizyty jako zakończonej lub odrzuconej, automatycznie zaznaczana jest kolejna
+wizyta.
+
+Przycisk do dodawania mieszkania otwiera okienko dodawania wizyty do agendy, w
+którym należy podać numer mieszkania (można dodawać tylko mieszkania z
+aktualnie odwiedzanej bramy). Po dodaniu mieszkania zostaje ono od razu
+oznaczone jako następne.
+
+Więcej specjalistycznych opcji dostępnych jest w menu rozwijanym w prawym
+górnym rogu ekranu (ikona trzech pionowych kropek).
+
+\subsubsection{Ustawienia aplikacji}
+
+Aby przejść do ustawień aplikacji, należy w bocznym menu wybrać opcję
+\textit{Ustawienia} (oznaczoną przez ikonę koła zębatego). Wyświetli się wtedy
+strona z kilkoma zakładkami ustawień. Należy wybrać zakładkę \textit{Ustawienia
+    ogólne}, aby wyświetlić listę ustawień ogólnych aplikacji dla tej parafii
+(rys.\ \ref{fig:settings:general}).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.75\linewidth]{figures/screenshots/SOK_Settings_general.png}
+    \caption{Ustawienia ogólne aplikacji}
+    \label{fig:settings:general}
+\end{figure}
+
+W tym miejscu można dowolnie je wszystkie zmieniać, a następnie zapisać zmiany
+przyciskiem \textit{Zapisz zmiany} w przyklejonym nagłówku bądź je odrzucić
+przyciskiem \textit{Cofnij zmiany} obok.
+
+\subsection{Zarządzanie adresami}
+\todo{Dodać zarządzanie adresami}

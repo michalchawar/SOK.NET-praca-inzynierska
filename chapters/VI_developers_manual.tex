@@ -1,7 +1,97 @@
 \chapter{Dla programistów}
 
 \section{Instrukcja instalacji}
-\todo{Napisać}
+
+\subsection{Środowisko deweloperskie}
+
+\subsubsection{Wymagania}
+
+Do uruchomienia aplikacji w środowisku deweloperskim potrzebne jest
+zainstalowanie następujących narzędzi:
+\begin{itemize}
+    \item \texttt{docker} w wersji co najmniej 28.2.2,
+    \item \texttt{docker compose} w wersji co najmniej 2.37.1,
+    \item \texttt{npm} w wersji co najmniej 11.6.0 (\textit{opcjonalnie})
+\end{itemize}
+
+\subsubsection{Instalacja i uruchamianie}
+
+Aby uruchomić aplikację w środowisku deweloperskim, należy wykonać następujące
+kroki:
+\begin{enumerate}
+    \item Sklonować repozytorium z kodem źródłowym aplikacji:
+          \begin{verbatim}
+git clone https://github.com/michalchawar/SOK.NET.git
+\end{verbatim}
+    \item Przejść do katalogu z kodem źródłowym:
+          \begin{verbatim}
+cd SOK.NET
+\end{verbatim}
+    \item Stworzyć plik ze zmiennymi środowiskowymi na podstawie dostarczonego szablonu:
+          \begin{verbatim}
+cp .env.sample .env
+\end{verbatim}
+    \item Wypełnić plik \texttt{.env} odpowiednimi wartościami,
+    \item Uruchomić aplikację za pomocą Dockera:
+          \begin{verbatim}
+docker compose up --build
+\end{verbatim}
+    \item Przejść pod adres \url{http://localhost:8060}, gdzie dostępna będzie aplikacja.
+\end{enumerate}
+
+\subsubsection{Rozwój}
+
+Aby wprowadzać zmiany w kodzie źródłowym aplikacji, można użyć dowolnego
+edytora kodu, należy jednak pamiętać o każdorazowym przebudowaniu obrazu
+Dockera po wprowadzeniu zmian. Można to zrobić za pomocą polecenia:
+\begin{verbatim}
+docker compose up --build
+\end{verbatim}
+
+W celu przyspieszenia tego procesu w repozytorium dostępny jest dodatkowy plik
+konfiguracyjny \texttt{docker-compose.vs-code.yml}, który umożliwia
+automatyczne wykrywanie zmian w kodzie źródłowym przy pomocy polecenia
+\texttt{dotnet watch}, do użytku w edytorach takich jak Visual Studio Code,
+które nie obsługują technologii \textit{Hot Reload} w kontenerach Docker. Aby
+uruchomić aplikację w tej konfiguracji, należy użyć polecenia:
+\begin{verbatim}
+docker compose -f docker-compose.yml 
+               -f docker-compose.vs-code.yml up --build
+\end{verbatim}
+Wówczas zmiany w kodzie będą automatycznie wykrywane i aplikacja będzie
+odświeżana bez konieczności ponownego budowania obrazu Dockera. Aby ponadto
+umożliwić automatyczne przebudowanie arkusza stylów CSS przy zmianach w plikach
+źródłowych, można uruchomić dodatkowo polecenie:
+\begin{verbatim}
+cd SOK.Web
+npm run watch:css
+\end{verbatim}
+Uruchamia to usługę Tailwind CSS w trybie obserwacji zmian w plikach źródłowych
+i automatycznie przebudowuje arkusz stylów CSS przy każdej zmianie. Należy
+również pamiętać, że za pierwszym razem trzeba uprzednio zainstalować
+zależności projektu przy pomocy polecenia:
+\begin{verbatim}
+npm install
+\end{verbatim}
+
+Wszystkie powyższe kroki opisane są również w pliku \texttt{README.md} w
+repozytorium aplikacji.
+
+\subsubsection{Środowisko produkcyjne}
+
+Aby uruchomić aplikację w środowisku produkcyjnym, należy wykonać podobne kroki
+jak w przypadku środowiska deweloperskiego, z tą różnicą, że należy użyć pliku
+konfiguracyjnego \texttt{docker-compose.prod.yml} zamiast
+\texttt{docker-compose.yml}. Polecenie uruchamiające aplikację w trybie
+produkcyjnym wygląda następująco:
+\begin{verbatim}
+docker compose -f docker-compose.prod.yml up --build
+\end{verbatim}
+
+Należy również pamiętać o odpowiednim skonfigurowaniu zmiennych środowiskowych
+w pliku \texttt{.env} pod kątem środowiska produkcyjnego.
+
+\todo{Lepsza obsługa kluczy szyfrujących?}
 
 \section{Statystyki, testy jednostkowe }
 \todo{Napisać}
