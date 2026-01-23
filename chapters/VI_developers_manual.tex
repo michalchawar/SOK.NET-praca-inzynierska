@@ -31,8 +31,9 @@ cd SOK.NET
           \begin{verbatim}
 cp .env.sample .env
 \end{verbatim}
-    \item Wypełnić plik \texttt{.env} odpowiednimi wartościami,
-    \item Uruchomić aplikację za pomocą Dockera:
+    \item Wypełnić plik \texttt{.env} odpowiednimi wartościami lub pozostawić domyślne
+          dla środowiska deweloperskiego,
+    \item Zbudować i uruchomić aplikację za pomocą narzędzia \textit{docker-compose}:
           \begin{verbatim}
 docker compose up --build
 \end{verbatim}
@@ -91,7 +92,53 @@ docker compose -f docker-compose.prod.yml up --build
 Należy również pamiętać o odpowiednim skonfigurowaniu zmiennych środowiskowych
 w pliku \texttt{.env} pod kątem środowiska produkcyjnego.
 
-\todo{Lepsza obsługa kluczy szyfrujących?}
+\section{Testy jednostkowe}
 
-\section{Statystyki, testy jednostkowe }
-\todo{Napisać}
+Tak jak wspomniano w rozdziale \ref{chap:architecture}, aplikacja posiada testy
+jednostkowe pokrywające kluczowe funkcjonalności logiki biznesowej. Testy te
+znajdują się w katalogu \texttt{SOK.Tests} w repozytorium i można je uruchomić
+za pomocą narzędzia \texttt{dotnet test}. Aby to zrobić, należy przejść do
+katalogu z kodem źródłowym aplikacji i wykonać polecenie:
+\begin{verbatim}
+    dotnet test SOK.Tests
+\end{verbatim}
+
+Uruchomi ono wszystkie testy jednostkowe i wyświetli wyniki w konsoli. Testy te
+obejmują wybrane kluczowe scenariusze użycia aplikacji, weryfikując poprawność
+zarówno najważniejszych encji modelu dziedzinowego w warstwie domeny, jak i
+najistotniejszych serwisów w warstwie aplikacji.
+
+\section{Statystyki kodu}
+
+Tabela \ref{tab:code_stats} przedstawia statystyki linii kodu projektu
+wygenerowane za pomocą narzędzia \texttt{cloc}. Zademonstrowano podział na
+języki programowania oraz typy plików, z wyszczególnieniem liczby plików,
+pustych wierszy, komentarzy oraz właściwego kodu źródłowego.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|r|r|r|r|}
+        \hline
+        \textbf{Język}         & \textbf{Pliki} & \textbf{Puste wiersze} & \textbf{Komentarze} & \textbf{Kod}    \\ \hline
+        C\#                    & 305            & 11 625                 & 4 995               & 41 126          \\ \hline
+        Razor                  & 58             & 881                    & 426                 & 10 086          \\ \hline
+        JSON                   & 9              & 0                      & 0                   & 4 275           \\ \hline
+        HTML                   & 8              & 205                    & 133                 & 1 140           \\ \hline
+        JavaScript             & 4              & 41                     & 31                  & 231             \\ \hline
+        YAML                   & 3              & 8                      & 2                   & 147             \\ \hline
+        CSS                    & 2              & 34                     & 8                   & 125             \\ \hline
+        Visual Studio Solution & 1              & 1                      & 1                   & 106             \\ \hline
+        MSBuild script         & 5              & 20                     & 0                   & 98              \\ \hline
+        Markdown               & 4              & 34                     & 0                   & 81              \\ \hline
+        Dockerfile             & 1              & 13                     & 11                  & 32              \\ \hline
+        XML                    & 1              & 0                      & 0                   & 19              \\ \hline
+        \textbf{SUMA}          & \textbf{401}   & \textbf{12 862}        & \textbf{5 607}      & \textbf{57 466} \\ \hline
+    \end{tabular}
+    \caption{Statystyki projektu (na podstawie narzędzia \texttt{cloc})}
+    \label{tab:code_stats}
+\end{table}
+
+Analizę przeprowadzono na kodzie źródłowym aplikacji bezpośrednio po
+sklonowaniu repozytorium, bez wprowadzania jakichkolwiek zmian. Wykluczono przy
+tym pliki bibliotek zewnętrznych oraz pliki binarne i tymczasowe, generowane
+przez środowisko uruchomieniowe.

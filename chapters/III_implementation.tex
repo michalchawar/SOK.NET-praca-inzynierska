@@ -243,7 +243,22 @@ wolumeny do trwałego przechowywania danych.
 
 \subsection{Testy}
 
-\todo{Zrobić testy XD}
+W osobnym projekcie umieszczony został zestaw testów jednostkowych aplikacji.
+Testy te zostały zaimplementowane przy użyciu frameworka xUnit.net, który jest
+popularnym narzędziem do tworzenia i uruchamiania testów jednostkowych w
+środowisku \.NET\@. Testy jednostkowe pozwalają na weryfikację poprawności
+działania poszczególnych komponentów aplikacji, co przyczynia się do
+zwiększenia jakości kodu oraz ułatwia wykrywanie i naprawianie błędów na
+wczesnym etapie rozwoju oprogramowania.
+
+Projekt testów jednostkowych korzysta z biblioteki Moq do tworzenia atrap
+(\textit{mock}'ów) zależności, co umożliwia izolowanie testowanych jednostek
+kodu od ich rzeczywistych zależności. Dzięki temu testy są bardziej niezawodne
+i skupiają się wyłącznie na logice testowanego komponentu.
+
+Same testy zostały zaprojektowane w metodologii AAA (\textit{Arrange, Act,
+      Assert}), co pozwala na czytelne i zrozumiałe strukturyzowanie przypadków
+testowych.
 
 \subsection{Zarządzanie kodem źródłowym}
 
@@ -367,7 +382,8 @@ ich rolami w różnych domenach (parafiach). Główne klasy w tym modelu to
 \paragraph{User}
 Reprezentuje użytkownika aplikacji. Zawiera podstawowe informacje o nim, w
 większości dziedziczone z klasy \texttt{IdentityUser} z ASP.NET Core Identity.
-Jest przypisany do konkretnej parafii.
+Jest przypisany do konkretnej parafii (o ile nie jest w roli
+\textit{SuperAdmin}).
 
 Najważniejsze pola klasy \texttt{User} to:
 \begin{itemize}
@@ -391,12 +407,14 @@ kolędą.
       \item \textbf{Priest} — uprawnia do wszystkich powyższych czynności oraz do
             planowania wizyt,
       \item \textbf{Administrator} — uprawnia do zarządzania aplikacją i wszystkimi
-            jej funkcjami.
+            jej funkcjami,
+      \item \textbf{SuperAdmin} — uprawnia do zarządzania wszystkimi parafiami, a przez to
+            również ich wszystkimi danymi.
 \end{itemize}
 
 \paragraph{ParishEntry}
 Reprezentuje rzeczywistą parafię, która używa aplikacji do zarządzania kolędą.
-Do każdej jest przypisany przynajmniej jeden użytkownik.
+Do każdej może być przypisanych wielu użytkowników.
 
 Najważniejsze pola klasy \texttt{ParishEntry} to:
 \begin{itemize}
@@ -982,7 +1000,6 @@ użytkownik ma dostęp, za pomocą jednego polecenia (bez konieczności manualne
 konfigurowania środowiska — instalowania oprogramowania i jego zależności).
 
 \section{Opis rozwiazania wybranych problemów }
-\todo{Napisać}
 
 \subsection{Dostęp do bazy danych}
 
@@ -1027,6 +1044,8 @@ komunikacji z bazą danych odpowiedniej parafii.
 
 \subsection{Zarządzanie parafiami}
 
+\subsubsection{Architektura}
+
 Ze względu na izolację danych na poziomie bazy danych, tworzenie nowej parafii
 wymaga utworzenia nowej bazy danych oraz odpowiedniej jej konfiguracji,
 włączając utworzenie użytkownika bazy i wykonanie wszystkich należnych
@@ -1061,3 +1080,41 @@ W ten sposób proces tworzenia parafii jest w pełni zautomatyzowany i nie wymag
 ręcznej interwencji administratora bazy danych. Używa przy tym niskopoziomowych
 poleceń SQL do zarządzania bazami danych i użytkownikami, co zapewnia pełną
 kontrolę nad procesem.
+
+\subsubsection{Interfejs użytkownika}
+
+Aby zapewnić administratorowi całego systemu sprawne zarządzanie wieloma
+parafiami, umieszczono go w dedykowanej roli i pozbawiono przypisania do
+jednej, konkretnej parafii, a umożliwiono dynamiczny wybór parafii do
+zarządzania w trakcie korzystania z aplikacji. W tym celu w interfejsie
+użytkownika zaimplementowano specjalny widok wyboru parafii, który jest
+wyświetlany administratorowi zaraz po zalogowaniu się do aplikacji. Widok ten
+pobiera listę wszystkich parafii z centralnej bazy danych i pozwala na wybranie
+jednej z nich do zarządzania. Po wybraniu parafii, aplikacja zapisuje jej
+identyfikator w ciasteczku, dzięki któremu użytkownik ten przy następnym
+żądaniu zostanie potraktowany jako administrator danej parafii.
+
+\subsection{System powiadomień}
+
+W celu zachowania jednolitości aplikacji i jej przystępności dla przeciętnego
+użytkownika, został zaimplementowany prosty, lecz elastyczny i efektywny system
+powiadomień wewnętrznych, który umożliwia wyświetlanie komunikatów o różnym
+stopniu ważności w interfejsie użytkownika.
+
+Cały system zaimplementowany jest jako obiekt \textit{JavaScript},
+udostępniający metody do tworzenia różnego rodzaju powiadomień. Obiekt ten jest
+obiektem globalnym, dostępnym w dowolnym miejscu części frontendowej. Każde
+powiadomienie wyświetla się przez pewien czas po jego utworzeniu, a następnie
+znika automatycznie. Jedynym warunkiem jest umieszczenie w układzie strony
+specjalnego kontenera (\texttt{div} o identyfikatorze
+\texttt{notification-container}), do którego będą dodawane elementy
+powiadomień. Pozwala to na łatwe zarządzanie wyglądem i pozycjonowaniem
+powiadomień.
+
+Dodatkowo, aby umożliwić komunikację z części backendowej aplikacji, w widoku
+częściowym umieszczono specjalny mechanizm, odczytujący komunikaty z obiektu
+\textit{TempData} i mapujący je na wywołania metod obiektu powiadomień w
+JavaScript\@. Dzięki temu kontrolery aplikacji mogą tworzyć powiadomienia,
+które zostaną wyświetlone po załadowaniu widoku przez użytkownika.
+
+\todo{Może jeszcze coś?}

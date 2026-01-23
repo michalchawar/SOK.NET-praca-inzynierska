@@ -1,13 +1,11 @@
 \chapter{Instrukcja użytkownika}
-\todo{Napisać}
 
 Instrukcja opisuje podstawowe funkcje aplikacji oraz sposób jej obsługi przez
-administratora. Wszystkie zrzuty ekranów przedstawione w instrukcji pochodzą z
-wersji aplikacji 1.0.0 i pochodzą z aplikacji uruchomionej w środowisku
-deweloperskim z domyślnymi zmiennymi środowiskowymi (w szczególności z
-przykładowymi danymi bazy danych).
+administratora. Wszystkie zrzuty ekranów przedstawione w instrukcji z aplikacji
+uruchomionej w środowisku deweloperskim z domyślnymi zmiennymi środowiskowymi
+(w szczególności z przykładowymi danymi bazy danych).
 
-\subsubsection{Logowanie}
+\subsection*{Logowanie}
 
 Po uruchomieniu aplikacji użytkownik zostaje przekierowany na stronę logowania
 (rys.\ \ref{fig:login_page}). W celu zalogowania się należy podać nazwę
@@ -47,11 +45,40 @@ Domyślnie są to:
     \item Hasło: \texttt{admin}
 \end{itemize}
 
-\subsubsection{Strona główna}
+\subsection*{Zarządzanie parafiami}
 
-Po zalogowaniu użytkownik zostaje przekierowany na stronę główną aplikacji. W
-zależności od roli użytkownika, na stronie głównej dostępne są różne opcje
-menu.
+Z racji logowania na konto superadministratora w pierwotnym stanie aplikacji po
+zalogowaniu zostanie wyświetlona strona zarządzania parafiami (rys.\
+\ref{fig:manage_parishes}). Superadministrator nie jest przypisany do żadnej
+parafii, lecz może załadować się do dowolnej parafii w tym widoku.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.75\linewidth]{figures/screenshots/SOK_Parishes_list.png}
+    \caption{Zarządzanie parafiami}
+    \label{fig:manage_parishes}
+\end{figure}
+
+Dostępna jest lista wszystkich parafii zarejestrowanych w systemie. Domyślnie
+utworzona została przykładowa parafia z przypisanym do niej jednym
+użytkownikiem — administratorem. Aby załadować się do danej parafii, należy
+kliknąć przycisk \textit{Przełącz} w jej kafelku\footnote{Spowoduje to wydanie
+    ciasteczka z identyfikatorem parafii, co pozwoli na dostęp do zasobów tej
+    parafii po zalogowaniu. Po usunięciu danych aplikacji i restarcie może być
+    potrzebne usunięcie ciasteczek w przeglądarce dla zapewnienia poprawnego
+    działania.}.
+
+W tym widoku dostępny jest też przycisk \textit{Utwórz nową parafię}, który
+przekierowuje do formularza tworzenia nowej parafii. Jego przesłanie spowoduje
+dodanie wpisu do listy parafii oraz utworzenie nowej bazy danych dla niej.
+
+\subsection*{Strona główna}
+
+Normalny użytkownik po zalogowaniu zostaje przekierowany na stronę główną
+aplikacji. Jako superadministrator można również do niej wejść przez opcję
+\textit{Przegląd} w menu bocznym (oznaczoną przez ikonkę domu), pod warunkiem
+uprzedniego wybrania parafii. W zależności od roli użytkownika, na stronie
+głównej dostępne są różne opcje menu.
 
 \begin{figure}[h]
     \centering
@@ -69,7 +96,7 @@ menu.
     \end{subfigure}%
     \begin{subfigure}{.33\textwidth}
         \centering
-        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Home_admin.png}
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Home_support.png}
         \caption{Widok ministranta}
         \label{fig:home_page:support}
     \end{subfigure}
@@ -78,19 +105,18 @@ menu.
 \end{figure}
 
 Przy pierwszym wejściu nie ma żadnego aktywnego planu, a więc na stronie
-głównej widoczny jest tylko kafelek z wykresem podsumowującym zgłoszenia (rys.\
-\ref{fig:home_page:blank}). \todo{To się może zmienić w zależności od issue
-    \#10}
+głównej widoczny jest tylko komunikat z przekierowaniem (rys.\
+\ref{fig:home_page:blank}).
 
-Po utworzeniu planu na stronie głównej pojawią się kafelki z podsumowaniem
-najbliższego dnia kolędowego, listą wszystkich dni kolędowych oraz ze
-statystykami zgłoszeń (rys.\ \ref{fig:home_page:admin}).
+Po utworzeniu i aktywowaniu planu na stronie głównej pojawią się kafelki z
+podsumowaniem najbliższego dnia kolędowego, listą wszystkich dni kolędowych
+oraz ze statystykami zgłoszeń (rys.\ \ref{fig:home_page:admin}).
 
 W widoku ministranta (rys.\ \ref{fig:home_page:support}) zamiast tych kafelków
 wyświetlają się kafelki z listą przydzielonych mu nadchodzących agend oraz
 możliwością szybkiego przejścia do przeprowadzania wizyt.
 
-\subsubsection{Zarządzanie użytkownikami}
+\subsection*{Zarządzanie użytkownikami}
 
 Aby przejść do zarządzania użytkownikami, należy w bocznym menu wybrać opcję
 \textit{Ustawienia} (oznaczoną przez ikonę koła zębatego), a następnie zakładkę
@@ -128,7 +154,7 @@ wyświetlenie formularza edycji użytkownika (rys.\ \ref{fig:manage_users:edit})
     \label{fig:manage_users}
 \end{figure}
 
-\subsubsection{Zarządzanie planami}
+\subsection*{Zarządzanie planami}
 
 Aby przejść do zarządzania planami, należy w bocznym menu wybrać opcję
 \textit{Plany} (oznaczoną przez ikonę trzech poziomych kresek kaskadowych).
@@ -157,7 +183,14 @@ Aby aktywować dany plan, należy kliknąć przycisk \textit{Aktywuj} w jego
 wierszu na liście planów. Spowoduje to, że plan stanie się aktualnym planem
 używanym przez aplikację, a wszelkie zgłoszenia będą wpływać na niego.
 
-\begin{wrapfigure}{r}{.45\textwidth}
+W głównej części widoku dostępne są szczegóły aktywnego planu, przycisk edycji
+oraz możliwość przełączania przyjmowania zgłoszeń przez formularz publiczny.
+Jest on zablokowany, jeśli plan nie ma wybranego domyślnego harmonogramu
+(wówczas i tak nie przyjmuje zgłoszeń). Po prawej stronie prezentowane są
+podstawowe statystyki planu oraz przyciski z odnośnikami do widoków z bardziej
+szczegółowymi statystykami.
+
+\begin{wrapfigure}[15]{r}{.45\textwidth}
     \centering
     \begin{subfigure}{.9\linewidth}
         \centering
@@ -175,10 +208,11 @@ używanym przez aplikację, a wszelkie zgłoszenia będą wpływać na niego.
     \label{fig:manage_plans:details}
 \end{wrapfigure}
 
-Aby utworzyć nowy plan, należy kliknąć przycisk \textit{Utwórz}, co spowoduje
-wyświetlenie formularza tworzenia planu. W celu edycji istniejącego planu
-należy kliknąć na jego nazwę na liście. Spowoduje to wyświetlenie formularza
-edycji planu (rys.\ \ref{fig:manage_plans:edit}).
+Aby utworzyć nowy plan, należy kliknąć przycisk \textit{Utwórz} (dostępny gdy
+nie ma aktywnego planu), co spowoduje wyświetlenie formularza tworzenia planu.
+W celu edycji istniejącego planu należy kliknąć na jego nazwę na liście.
+Spowoduje to wyświetlenie formularza edycji planu (rys.\
+\ref{fig:manage_plans:edit}).
 
 Formularze tworzenia i edycji planu wyglądają identycznie. W formularzu należy
 podać nazwę planu oraz dostępne harmonogramy i wybrać harmonogram domyślny
@@ -186,7 +220,7 @@ podać nazwę planu oraz dostępne harmonogramy i wybrać harmonogram domyślny
 w miejscu można zarządzać harmonogramami planu (dodawać, edytować i usuwać
 harmonogramy — rys.\ \ref{fig:manage_plans:schedule_modal}).
 
-\subsubsection{Przyjmowanie zgłoszeń}
+\subsection*{Przyjmowanie zgłoszeń}
 
 W aplikacji istnieją dwa sposoby rejestracji zgłoszeń:
 \begin{itemize}
@@ -205,11 +239,19 @@ aplikacja, a \texttt{<uid\_parafii>} to unikalny identyfikator parafii, który
 jest generowany losowo przy tworzeniu parafii, a dostępny w
 \textit{Ustawieniach} w zakładce \textit{Ustawienia ogólne}.
 
+Aby ułatwić dostęp do formularza dla personelu parafialnego, można przejść do
+niego przechodząc do opcji menu bocznego \textit{Ustawienia}, a następnie
+wybierając zakładkę \textit{Formularz zgłoszeniowy}.
+
 W formularzu zgłoszeniowym (rys.\ \ref{fig:public_submission_form}) należy
 podać dane zgłaszającego — imię, nazwisko, adres e-mail (opcjonalnie) oraz
 adres. Jeśli został skonfigurowany automatyczny zapis, to wyświetli się tam
 informacja o dacie kolędy, na którą zgłaszający zostanie zapisany po wysłaniu
 zgłoszenia (jeśli jest dostępna dla danego adresu).
+
+W formularzu dostępne są do wyboru tylko bramy, które zostały wcześniej
+utworzone w systemie (patrz sekcja \textit{Zarządzanie adresami}) i są bramami
+widocznymi.
 
 \begin{figure}[h]
     \centering
@@ -236,7 +278,7 @@ można od razu uzupełnić dodatkowe dane zgłoszenia, takie wewnętrzne notatki
 numer telefonu, sposób złożenia zgłoszenia itp. (rys.\
 \ref{fig:internal_submission_form}).
 
-\subsubsection{Edycja zgłoszeń}
+\subsection*{Edycja zgłoszeń}
 
 Po rejestracji zgłoszenia można je znaleźć na liście zgłoszeń dostępnej w opcji
 menu bocznego \textit{Zgłoszenia} (oznaczoną przez ikonę koperty z wystającą
@@ -297,7 +339,7 @@ Jeśli zgłoszenie jest zaplanowane w jakiejś agendzie, to w kafelku wizyty
 dostępny jest przycisk \textit{Przejdź do agendy}, który przenosi do edytora
 tej agendy.
 
-\subsubsection{Zarządzanie dniami kolędowymi}
+\subsection*{Zarządzanie dniami kolędowymi}
 
 Aby przejść do zarządzania dniami kolędowymi, należy w bocznym menu wybrać
 opcję \textit{Kalendarz} (oznaczoną przez ikonę kalendarza). Jeśli w danym
@@ -342,7 +384,7 @@ lista wszystkich agend oraz lista wszystkich przypisań.
     \label{fig:manage_days:details}
 \end{figure}
 
-\subsubsection{Zarządzanie przypisaniami}
+\subsection*{Zarządzanie przypisaniami}
 
 Sekcja przypisań prezentuje listę wszystkich przypisanych bram dla danego dnia.
 Jeśli wszystkie bramy na danej ulicy są przypisane, to zamiast wyświetlać je
@@ -385,7 +427,7 @@ harmonogramach, ale tylko jeden raz w ramach jednego harmonogramu. Dodatkowo w
 ramach jednego harmonogramu może być włączony autozapis, a w ramach drugiego
 już nie.
 
-\subsubsection{Zarządzanie agendami}
+\subsection*{Zarządzanie agendami}
 
 W sekcji agend dostępna jest lista wszystkich agend danego dnia oraz możliwość
 ich tworzenia i edycji. Kliknięcie przycisku \textit{Nowa agenda} spowoduje
@@ -417,7 +459,7 @@ Każda agenda ma kilka istotnych opcji konfiguracyjnych:
           indywidualnych).
 \end{itemize}
 
-\subsubsection{Planowanie wizyt}
+\subsection*{Planowanie wizyt}
 
 Po kliknięciu na kafelek agendy (poza przyciskiem edycji) zostanie wyświetlony
 edytor agendy (rys.\ \ref{fig:agenda:editor}), w którym dostępna jest lista
@@ -461,7 +503,7 @@ W edytorze można zmieniać kolejność wizyt za pomocą:
 Dla każdej wizyty dostępny jest także przycisk wyświetlania szczegółów zgłoszenia,
 otwierający okno szczegółów i edycji zgłoszenia (jak w sekcji \textit{Edycja zgłoszeń}).
 
-\subsubsection{Przeprowadzanie wizyty}
+\subsection*{Przeprowadzanie wizyty}
 
 W edytorze agendy dostępny jest przycisk \textit{Przeprowadź wizytę}, który
 przenosi do trybu przeprowadzania wizyty (rys.\ \ref{fig:agenda:conduct}). Do
@@ -516,7 +558,7 @@ oznaczone jako następne.
 Więcej specjalistycznych opcji dostępnych jest w menu rozwijanym w prawym
 górnym rogu ekranu (ikona trzech pionowych kropek).
 
-\subsubsection{Ustawienia aplikacji}
+\subsection*{Ustawienia aplikacji}
 
 Aby przejść do ustawień aplikacji, należy w bocznym menu wybrać opcję
 \textit{Ustawienia} (oznaczoną przez ikonę koła zębatego). Wyświetli się wtedy
@@ -535,5 +577,46 @@ W tym miejscu można dowolnie je wszystkie zmieniać, a następnie zapisać zmia
 przyciskiem \textit{Zapisz zmiany} w przyklejonym nagłówku bądź je odrzucić
 przyciskiem \textit{Cofnij zmiany} obok.
 
-\subsection{Zarządzanie adresami}
-\todo{Dodać zarządzanie adresami}
+\subsection*{Zarządzanie adresami}
+
+Po przejściu do ustawień ogólnych i wejściu w zakładkę \textit{Adresy} dostępna
+jest lista wszystkich wprowadzonych do systemu bram i ulic oraz możliwość ich
+tworzenia, edycji i usuwania (rys.\ \ref{fig:manage_addresses:list}).
+Formularze zgłoszeniowe (publiczny i wewnętrzny) pozwalają na wybór adresu
+jedynie spośród wprowadzonych do systemu adresów, zatem istotne jest, aby przed
+rozpoczęciem przyjmowania zgłoszeń utworzyć wszystkie potrzebne bramy w
+parafii.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Addresses_list.png}
+        \caption{Lista adresów}
+        \label{fig:manage_addresses:list}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=.95\linewidth]{figures/screenshots/SOK_Addresses_edit.png}
+        \caption{Edycja bramy}
+        \label{fig:manage_addresses:edit}
+    \end{subfigure}
+    \caption{Zarządzanie adresami}
+    \label{fig:manage_addresses}
+\end{figure}
+
+Z racji, że może to być dość czasochłonne zadanie, aplikacja umożliwia
+tworzenie serii bram przy danej ulicy na podstawie podanego zakresu numerów
+(rys.\ \ref{fig:manage_addresses:edit}). Na przykład, aby utworzyć bramy dla
+ulicy \textit{Kwiatowej} z numerami od 1 do 20, należy najpierw utworzyć ulicę
+\textit{Kwiatową}, uzupełniając formularz tworzenia ulicy dostępny po
+kliknięciu przycisku \textit{Nowa ulica}, a następnie rozwinąć kafelek tej
+ulicy na liście ulic i kliknąć przycisk \textit{Utwórz budynek}. Spowoduje to
+wyświetlenie formularza tworzenia budynku, z którego można przejść do tworzenia
+bram dla podanego zakresu numerów, klikając przycisk \textit{Dodaj wiele
+    budynków na raz}.
+
+Przy tworzeniu i edycji bram dostępne są także opcje zaawansowane, przede
+wszystkim określenie dostępności windy. W obecnej wersji aplikacji opcja ta
+determinuje kolejność automatycznego układania mieszkań w danej bramie podczas
+planowania wizyt (w bramach z windą są porządkowane malejąco).
