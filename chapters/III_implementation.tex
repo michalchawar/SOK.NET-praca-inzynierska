@@ -288,7 +288,7 @@ Core, tym samym determinujących strukturę bazy danych.
 
 \subsection{Model pojęciowy}
 
-Zaprezentowany diagram modelu pojęciowego (rys. \ref{fig:model_pojęciowy})
+Zaprezentowany diagram modelu pojęciowego (rys.~\ref{fig:model_pojęciowy})
 ilustruje główne pojęcia oraz ich wzajemne relacje w kontekście logiki
 aplikacji. Model ten stanowi abstrakcyjną reprezentację struktur danych i
 zależności między nimi, niezależnie od konkretnej implementacji technicznej.
@@ -353,18 +353,18 @@ przypisana jest też do konkretnego harmonogramu.
 Każda wizyta jest powiązana z konkretnym \textbf{Zgłoszeniem} parafianina.
 Zgłoszenie zawiera wszystkie niezbędne informacje o parafianinie, takie jak
 dane kontaktowe oraz adres zamieszkania (w powiązanych pojęciach). Do
-zgłoszenia można dołączyć także dodatkowe uwagi (np. prośby dotyczące wizyty
+zgłoszenia można dołączyć także dodatkowe uwagi (np.\ prośby dotyczące wizyty
 lub preferencje dotyczące terminu).
 
 \subsection{Model obiektowy}
 \label{sec:model_obiektowy}
 
 Poniżej zaprezentowano dwa diagramy modelu obiektowego aplikacji. Pierwszy z
-nich (rys.\ \ref{fig:model_obiektowy_centralny}) odnosi się do kontekstu
-ogólnego (centralnego), tj. do logiki zarządzania użytkownikami (docelowo w
-różnych domenach — parafiach). Drugi (rys.\
-\ref{fig:model_obiektowy_parafialny}) przedstawia model obiektowy funkcjonujący
-w obrębie konkretnej domeny (kontekst parafialny).
+nich (rys.~\ref{fig:model_obiektowy_centralny}) odnosi się do kontekstu
+ogólnego (centralnego), tj.\ do logiki zarządzania użytkownikami (docelowo w
+różnych domenach — parafiach). Drugi (rys.
+~\ref{fig:model_obiektowy_parafialny}) przedstawia model obiektowy
+funkcjonujący w obrębie konkretnej domeny (kontekst parafialny).
 
 \subsubsection{Kontekst centralny}
 
@@ -713,7 +713,7 @@ Określa status wizyty kolędowej. Dostępne wartości to:
 
 Architektura aplikacji została zaprezentowana poniżej z użyciem modelu C4. Jego
 najwyższy poziom (\textit{System Context Diagram}, rys.
-\ref{fig:c4_system_context_diagram}) przedstawia ogólny widok na system oraz
+~\ref{fig:c4_system_context_diagram}) przedstawia ogólny widok na system oraz
 jego interakcje z użytkownikami i zewnętrznymi systemami.
 
 \begin{figure}[h]
@@ -736,8 +736,8 @@ parafialny zarządza zgłoszeniami i planuje wizyty kolędowe.
 \subsection{Poziom II — diagram kontenerów}
 
 Drugi poziom modelu C4 (\textit{Container Diagram}, rys.
-\ref{fig:c4_container_diagram}) przedstawia główne kontenery aplikacji oraz ich
-interakcje.
+~\ref{fig:c4_container_diagram}) przedstawia główne kontenery aplikacji oraz
+ich interakcje.
 
 \begin{figure}[h]
       \centering
@@ -755,7 +755,7 @@ mieli na myśli interfejs użytkownika zalogowanego.
 
 Widok aplikacji webowej może również korzystać z API, które udostępnia wybrane
 funkcje aplikacji w formie usług sieciowych (por.\ rozdział
-\ref{sec:vue_opis}). Aplikacja API, tak samo jak główny komponent aplikacji,
+~\ref{sec:vue_opis}). Aplikacja API, tak samo jak główny komponent aplikacji,
 komunikuje się z bazą danych oraz z serwerem pocztowym.
 
 \subsection{Poziom III — diagram komponentów}
@@ -771,7 +771,7 @@ komunikuje się z bazą danych oraz z serwerem pocztowym.
 
 Aplikacja webowa jest zaprogramowana w architekturze MVC
 (Model-View-Controller). Podział ten widoczny jest na diagramie (rys.
-\ref{fig:c4_component_diagram_web_app}), choć nie jest wyraźny przy pierwszej
+~\ref{fig:c4_component_diagram_web_app}), choć nie jest wyraźny przy pierwszej
 analizie z powodu dodatkowych komponentów, które zostały zaprezentowane ze
 względu na ich istotną rolę w aplikacji.
 
@@ -797,11 +797,11 @@ podstawie danych z modelu. Podobnie jak kontrolery, podzielone są na dwie
 kategorie: widoki dla zalogowanych użytkowników oraz widoki publiczne dla
 parafian.
 
-Podczas gdy widoki publiczne są prostsze i bardziej statyczne (głównie
-formularze i strony informacyjne), widoki dla zalogowanych użytkowników są
-często bardziej rozbudowane i interaktywne, oferując zaawansowane funkcje
-zarządzania kolędą. W sekcji \ref{sec:frontend_opis} opisano podejścia
-wykorzystane do tworzenia interfejsu użytkownika w widokach aplikacji webowej.
+Podczas gdy widoki publiczne są prostsze i raczej statyczne (głównie formularze
+i strony informacyjne), widoki dla zalogowanych użytkowników są często bardziej
+rozbudowane i interaktywne, oferując zaawansowane funkcje zarządzania kolędą. W
+sekcji~\ref{sec:frontend_opis} opisano podejścia wykorzystane do tworzenia
+interfejsu użytkownika w widokach aplikacji webowej.
 
 \paragraph{Modele}
 
@@ -814,7 +814,7 @@ realizowane za pomocą jednego ze specjalnych typów modeli:
             zaprojektowane do reprezentowania danych w widokach. Mogą zawierać
             dodatkową logikę prezentacyjną lub formatowanie danych.
       \item \textbf{DTO (Data Transfer Objects)} — proste obiekty, pochodzące
-            bezpośrednio z warstwy aplikacji (por.\ sekcja \ref{sec:warstwa_aplikacji}),
+            bezpośrednio z warstwy aplikacji (por.\ sekcja~\ref{sec:warstwa_aplikacji}),
             które często są wystarczające do prezentacji danych.
       \item \textbf{Encje EF Core} — bezpośrednie modele danych z warstwy
             domeny. Stosowane głównie w prostych widokach, gdzie nie jest wymagana
@@ -824,9 +824,9 @@ realizowane za pomocą jednego ze specjalnych typów modeli:
 \paragraph{Logika biznesowa}
 
 Logika biznesowa aplikacji jest zaimplementowana w warstwie aplikacji (por.\
-sekcja \ref{sec:warstwa_aplikacji}) i jest wykorzystywana przez kontrolery
+sekcja~\ref{sec:warstwa_aplikacji}) i jest wykorzystywana przez kontrolery
 aplikacji przy użyciu \textbf{Serwisów aplikacji}, reprezentowanych na
-diagramie (rys. \ref{fig:c4_component_diagram_web_app}) przez komponent
+diagramie (rys.~\ref{fig:c4_component_diagram_web_app}) przez komponent
 \textit{Usługi}. Serwisy aplikacji zawierają metody do wykonywania operacji
 biznesowych, takich jak zarządzanie zgłoszeniami, planowanie wizyt czy
 wysyłanie powiadomień e-mail. Kontrolery aplikacji nigdy nie komunikują się
@@ -860,7 +860,7 @@ danych.
 Aplikacja API działa w podobny sposób jak aplikacja webowa, jednak jej głównym
 celem jest udostępnianie funkcji aplikacji w formie usług sieciowych
 (dostępnych poprzez protokół HTTP). Diagram komponentów aplikacji API został
-zaprezentowany na rys. \ref{fig:c4_component_diagram_api_app}.
+zaprezentowany na rys.~\ref{fig:c4_component_diagram_api_app}.
 
 Podobnie jak w aplikacji webowej, głównymi komponentami są tutaj
 \textbf{Kontrolery}, \textbf{Serwisy aplikacji} oraz \textbf{Repozytoria}.
@@ -899,7 +899,7 @@ się z innymi warstwami w sposób jasno zdefiniowany.
 
 Najniższą warstwą w architekturze jest \textbf{Warstwa domeny}, która zawiera
 wszystkie elementy związane z modelem domeny aplikacji. Umieszczone zostały
-tutaj głównie encje domenowe (por. \ref{sec:model_obiektowy}). Warstwa domeny
+tutaj głównie encje domenowe (por.~\ref{sec:model_obiektowy}). Warstwa domeny
 jest niezależna od innych warstw i nie zawiera żadnych odwołań do technologii
 zewnętrznych (np.\ baz danych, frameworków webowych itp.).
 
@@ -936,7 +936,7 @@ i przekazuje dane do prezentacji użytkownikowi do widoków.
 \section{Architektura wdrażania}
 \label{sec:architektura_wdrazania}
 
-Jak wspomniano w sekcji \ref{sec:ci_cd_opis_technologii} aplikacja została
+Jak wspomniano w sekcji~\ref{sec:ci_cd_opis_technologii} aplikacja została
 zaopatrzona w stosowny plik \texttt{Dockerfile}, który pozwala na zbudowanie
 obrazu aplikacji. Na jego podstawie można następnie tworzyć kontenery Dockera.
 
@@ -952,9 +952,10 @@ uwzględnieniem opcji konfiguracyjnych za pomocą orkiestratora Docker Compose.
       \label{fig:deployment_diagram}
 \end{figure}
 
-Na diagramie wdrażania (rys. \ref{fig:deployment_diagram}) zaprezentowano
+Na diagramie wdrażania (rys.~\ref{fig:deployment_diagram}) zaprezentowano
 strukturę środowiska aplikacji. Zaznaczone są na nim trzy wyżej wymienione
-usługi: aplikacja webowa, baza danych oraz menadżer ruchu (reverse proxy).
+usługi: aplikacja webowa, baza danych oraz menadżer ruchu (\textit{reverse
+      proxy}).
 
 \subsubsection{Konteneryzacja}
 
@@ -972,7 +973,7 @@ izolację od bazy danych, która nie odnotowuje żadnych przerw w działaniu.
 W środowisku aplikacji zastosowano również wirtualną sieć Dockera, która
 pozwala na zachowanie bezpośredniej komunikacji między kontenerami przy pełnej
 ich izolacji od sieci zewnętrznej. Kontenery mogą się ze sobą komunikować za
-pomocą nazw usług (np.\ \texttt{database} dla bazy danych), co upraszcza
+pomocą nazw usług (np.~\texttt{database} dla bazy danych), co upraszcza
 konfigurację połączeń.
 
 Jedynym punktem dostępu do aplikacji z zewnątrz jest menadżer ruchu, który
@@ -1117,4 +1118,36 @@ częściowym umieszczono specjalny mechanizm, odczytujący komunikaty z obiektu
 JavaScript\@. Dzięki temu kontrolery aplikacji mogą tworzyć powiadomienia,
 które zostaną wyświetlone po załadowaniu widoku przez użytkownika.
 
-\todo{Może jeszcze coś?}
+\subsection{Właściwości \textit{cache}'owane}
+
+W celu optymalizacji wydajności aplikacji i zmniejszenia obciążenia bazy danych
+umieszczono w encji \texttt{Address} cztery właściwości, które są
+\textit{cache}'owane (przechowywane w bazie danych, ale wyliczane na podstawie
+innych danych). Są to:
+\begin{itemize}
+      \item \texttt{BuildingNumber},
+      \item \texttt{BuildingLetter},
+      \item \texttt{StreetName},
+      \item \texttt{StreetType},
+      \item \texttt{CityName}.
+\end{itemize}
+
+Właściwości te odpowiadają wartościom z powiązanych encji \texttt{Building}
+oraz, dalej, \texttt{Street}, \texttt{StreetSpecifier} i \texttt{City}. Ich
+spójność została zapewniona po stronie bazy danych poprzez zastosowanie
+wyzwalaczy (\textit{triggers}), które aktualizują te właściwości przy każdej
+zmianie powiązanych encji. Dzięki temu aplikacja może szybko uzyskać dostęp do
+tych wartości bez konieczności wykonywania złożonych zapytań z łączeniami
+(\textit{joins}) do wielu tabel. Wyzwalacze te zostały manualnie umieszczone w
+jednej z migracji \textit{EF Core}, aby zapewnić ich obecność w bazie danych od
+samego początku istnienia aplikacji.
+
+Obecność właściwości \textit{cache}'owanych nie tylko znacząco redukuje liczbę
+złączeń w zapytaniach do bazy danych, ale także pozwala na automatyczne
+obliczenie pola \texttt{FilterableString}, które jest wykorzystywane do
+szybkiego wyszukiwania zgłoszeń na podstawie adresu. Pole to jest indeksowane w
+bazie danych, co dodatkowo przyspiesza operacje wyszukiwania. Sama logika
+aktualizacji pola \texttt{FilterableString} również leży po stronie bazy
+danych, tym razem jednak na podstawie konfiguracji encji w \textit{EF Core},
+która generuje odpowiednie polecenia SQL do aktualizacji tego pola przy każdej
+zmianie zgłoszenia.

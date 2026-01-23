@@ -11,8 +11,25 @@
 % polecenia \fmlinebreak.
 \polishtitle{Implementacja aplikacji internetowej do organizacji wizyt duszpasterskich w parafiach}
 \englishtitle{Implementation of web app for organising pastoral visits in parishes}
-\polishabstract{\ldots}
-\englishabstract{\ldots}
+\polishabstract{
+    Celem niniejszej pracy inżynierskiej było zaprojektowanie i zaimplementowanie aplikacji internetowej 
+    wspierającej organizację corocznych wizyt duszpasterskich w parafiach rzymskokatolickich. Praca skupia 
+    się na rozwiązaniu problemów logistycznych związanych z modelem „kolędy na zaproszenie”, który 
+    w ostatnich latach zyskuje na popularności, a którego tradycyjna organizacja bywa czasochłonna 
+    i skomplikowana.
+
+    Aplikacja została zrealizowana w oparciu o framework ASP.NET Core MVC na platformie .NET 8. W warstwie danych 
+    wykorzystano serwer Microsoft SQL Server 2022. Interfejs użytkownika zaprojektowano przy użyciu silnika szablonów 
+    Razor oraz biblioteki TailwindCSS, a dla zapewnienia interaktywności wybranych modułów (np. formularzy) 
+    wykorzystano framework Vue.js. Całość rozwiązania została przygotowana do łatwego wdrażania z użyciem 
+    konteneryzacji (Docker).
+
+    Opracowany system umożliwia parafianom elektroniczne zgłaszanie chęci przyjęcia wizyty duszpasterskiej, 
+    eliminując konieczność osobistej wizyty w kancelarii. Z perspektywy duszpasterzy aplikacja oferuje narzędzia 
+    do zarządzania bazą zgłoszeń, grupowania wizyt oraz planowania harmonogramu kolędy. Realizacja projektu 
+    wykazała, że cyfryzacja tego procesu może znacząco usprawnić zarządzanie parafią i poprawić komunikację 
+    na linii duszpasterz-wierni.
+}
 % w pracach wielu autorow nazwiska mozna oddzielic poleceniem \and
 \author{Michał Chawar}
 % w przypadku kilku promotorow, lub koniecznosci podania ich afiliacji, linie
@@ -27,7 +44,7 @@
 %%%%% WLASNE DODATKOWE PAKIETY
 %
 % \usepackage{graphicx,listings,amsmath,amssymb,amsthm,amsfonts,tikz}
-\usepackage{todonotes}
+\usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{wrapfig}
 %
