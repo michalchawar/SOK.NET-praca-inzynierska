@@ -661,12 +661,12 @@ parafii: \textbf{ParishMember} oraz \textbf{ParishInfo}.
 
 Pierwsza z nich reprezentuje użytkownika systemu, odpowiadającego dokładnie
 jednemu użytkownikowi z kontekstu centralnego (klasa \texttt{User}) poprzez
-pole \texttt{CentralUserId}. Podczas gdy do celów zarządzania użytkownikami i
-pobierania ich informacji służy klasa \texttt{User} w kontekście centralnym, to
-klasa \texttt{ParishMember} pozwala na tworzenie relacji między użytkownikami
-(reprezentowanymi przez nią w kontekście parafii) a innymi encjami, np.\ planem
-kolędy (przypisanie księży do planu) lub agendą (przypisanie ministrantów do
-agendy).
+pole \texttt{Central\-User\-Id}. Podczas gdy do celów zarządzania użytkownikami
+i pobierania ich informacji służy klasa \texttt{User} w kontekście centralnym,
+to klasa \texttt{ParishMember} pozwala na tworzenie relacji między
+użytkownikami (reprezentowanymi przez nią w kontekście parafii) a innymi
+encjami, np.\ planem kolędy (przypisanie księży do planu) lub agendą
+(przypisanie ministrantów do agendy).
 
 Druga z nich jest prostym magazynem dla wszelakich informacji (w tym tych o
 parafii), które mogą być potrzebne w aplikacji, ale nie mają dedykowanej encji
@@ -1043,7 +1043,7 @@ przetwarzania żądania.
 Po wykonaniu powyższych kroków następuje utworzenie kontekstu bazy danych
 \texttt{ParishDbContext} w kontenerze \textit{DI}\@. Wtedy wywoływana jest
 nadpisana metoda \texttt{OnConfiguring}, w której pobierany jest ciąg
-połączenia z serwisu \texttt{ICurrentParishService} i konfigurowany jest
+połączenia z serwisu \texttt{ICurrent\-Parish\-Service} i konfigurowany jest
 kontekst do korzystania z odpowiedniej bazy danych.
 
 Dalej w aplikacji wszystkie operacje na bazie danych są wykonywane za pomocą
@@ -1058,9 +1058,9 @@ Ze względu na izolację danych na poziomie bazy danych, tworzenie nowej parafii
 wymaga utworzenia nowej bazy danych oraz odpowiedniej jej konfiguracji,
 włączając utworzenie użytkownika bazy i wykonanie wszystkich należnych
 migracji. Aby zautomatyzować ten proces, w aplikacji zaimplementowano serwis
-\texttt{IParishProvisioningService}, który wykonuje wszystkie niezbędne kroki.
-Posiada on dwie metody publiczne: \texttt{CreateParishAsync} oraz
-\texttt{EnsureAllParishDatabasesReadyAsync}.
+\texttt{IParish\-Provisioning\-Service}, który wykonuje wszystkie niezbędne
+kroki. Posiada on dwie metody publiczne: \texttt{Create\-Parish\-Async} oraz
+\texttt{Ensure\-All\-Parish\-Databases\-Ready\-Async}.
 
 Pierwsza z nich służy do utworzenia bazy danych na poziomie serwera baz danych
 i jest wywoływana przy rejestracji nowej parafii. Druga z nich jest
