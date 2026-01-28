@@ -3,13 +3,14 @@
 
 \section{Technologie i narzędzia}
 
-Aplikacja została zaimplementowana w technologii ASP.NET Core MVC w środowisku
-.NET 8. Do zarządzania bazą danych wykorzystano Microsoft SQL Server 2022.
-Interfejs użytkownika został zbudowany przy użyciu TailwindCSS, zapewniającego
-nowoczesny i responsywny wygląd, oraz Vue.js do obsługi interaktywnych
-komponentów i wieloetapowych procedur. Całość projektu została objęta
-konteneryzacją przy użyciu narzędzia Docker, co umożliwia łatwe wdrożenie i
-utrzymanie aplikacji.
+Aplikacja została zaimplementowana w technologii ASP.NET Core
+MVC~\cite{aspnetcore} w środowisku .NET 8~\cite{dotnet8}. Do zarządzania bazą
+danych wykorzystano Microsoft SQL Server 2022~\cite{sqlserver}. Interfejs
+użytkownika został zbudowany przy użyciu TailwindCSS~\cite{tailwindcss},
+zapewniającego nowoczesny i responsywny wygląd, oraz Vue.js~\cite{vuejs} do
+obsługi interaktywnych komponentów i wieloetapowych procedur. Całość projektu
+została objęta konteneryzacją przy użyciu narzędzia Docker~\cite{docker}, co
+umożliwia łatwe wdrożenie i utrzymanie aplikacji.
 
 \subsection{Strona kliencka}
 \label{sec:frontend_opis}
@@ -24,11 +25,11 @@ wieloetapowych czy dynamicznych listach.
 
 \subsubsection{Razor}
 
-Do tworzenia statycznych stron HTML wykorzystano silnik szablonów Razor, który
-jest integralną częścią frameworka ASP.NET Core MVC\@. Razor umożliwia łączenie
-kodu C\# z HTML w sposób czytelny i efektywny, co pozwala na dynamiczne
-generowanie treści stron na serwerze przed ich wysłaniem do przeglądarki
-klienta.
+Do tworzenia statycznych stron HTML wykorzystano silnik szablonów
+Razor~\cite{razor}, który jest integralną częścią frameworka ASP.NET Core
+MVC\@. Razor umożliwia łączenie kodu C\# z HTML w sposób czytelny i efektywny,
+co pozwala na dynamiczne generowanie treści stron na serwerze przed ich
+wysłaniem do przeglądarki klienta.
 
 Z perspektywy klienta, strony wygenerowane za pomocą Razor są tradycyjnymi
 stronami HTML, które mogą zawierać osadzone skrypty JavaScript i style CSS\@.
@@ -41,7 +42,8 @@ serwera.
 
 Niektóre części aplikacji wymagają większej interaktywności i dynamicznego
 zarządzania stanem interfejsu użytkownika (w celu zachowania wymogu
-intuicyjności). Do ich implementacji wykorzystano bibliotekę Vue.js.
+intuicyjności). Do ich implementacji wykorzystano bibliotekę
+Vue.js~\cite{vuejs}.
 
 Strony te są początkowo generowane na serwerze przy użyciu Razor, a następnie
 po załadowaniu w przeglądarce klienta, Vue.js przejmuje kontrolę nad
@@ -81,21 +83,22 @@ W drugim przypadku Vue.js zarządza bardziej złożonymi komponentami, które
 wymagają komunikacji z serwerem. Wówczas aplikacja przypomina bardziej wzorzec
 SPA (Single Page Application), gdzie Vue.js odpowiada za renderowanie
 interfejsu użytkownika, a komunikacja z serwerem odbywa się za pomocą
-asynchronicznych żądań HTTP (przy użyciu Fetch API). Dane są pobierane z
-serwera w formacie JSON, a następnie wykorzystywane do aktualizacji widoku w
-czasie rzeczywistym. Podobnie, dane wprowadzone przez użytkownika są wysyłane z
-powrotem na serwer w formacie JSON, gdzie są przetwarzane i zapisywane w bazie
-danych. Nie jest to jednak pełna aplikacja SPA, ponieważ nawigacja między
-różnymi stronami nadal odbywa się poprzez tradycyjne przeładowanie strony.
+asynchronicznych żądań HTTP (przy użyciu Fetch API~\cite{fetchapi}). Dane są
+pobierane z serwera w formacie JSON, a następnie wykorzystywane do aktualizacji
+widoku w czasie rzeczywistym. Podobnie, dane wprowadzone przez użytkownika są
+wysyłane z powrotem na serwer w formacie JSON, gdzie są przetwarzane i
+zapisywane w bazie danych. Nie jest to jednak pełna aplikacja SPA, ponieważ
+nawigacja między różnymi stronami nadal odbywa się poprzez tradycyjne
+przeładowanie strony.
 
 \subsubsection{JQuery i JavaScript}
 
 Do obsługi prostych interakcji na stronach wykorzystano również bibliotekę
-jQuery oraz czysty JavaScript. W miejscach, gdzie nie jest wymagana pełna
-funkcjonalność Vue.js, jQuery pozwala na szybkie i efektywne manipulowanie
-elementami DOM oraz obsługę zdarzeń. Dodatkowo odpowiada za walidację
-formularzy po stronie klienta, co poprawia doświadczenie użytkownika poprzez
-natychmiastowe informowanie o błędach przed wysłaniem danych na serwer.
+jQuery~\cite{jquery} oraz czysty JavaScript. W miejscach, gdzie nie jest
+wymagana pełna funkcjonalność Vue.js, jQuery pozwala na szybkie i efektywne
+manipulowanie elementami DOM oraz obsługę zdarzeń. Dodatkowo odpowiada za
+walidację formularzy po stronie klienta, co poprawia doświadczenie użytkownika
+poprzez natychmiastowe informowanie o błędach przed wysłaniem danych na serwer.
 
 JavaScript jest również używany do implementacji powszechnych funkcji dla
 aplikacji, znajdujących się w plikach zewnętrznych, które są dołączane do
@@ -104,10 +107,10 @@ odpowiednich widoków.
 \subsubsection{TailwindCSS}
 
 Do stylizacji interfejsu użytkownika wykorzystano framework CSS o nazwie
-TailwindCSS\@. Jest to narzędzie oparte na podejściu utility-first, które
-umożliwia szybkie tworzenie responsywnych i estetycznych interfejsów
-użytkownika poprzez stosowanie gotowych klas CSS bez konieczności pisania
-własnych stylów od podstaw.
+TailwindCSS~\cite{tailwindcss}\@. Jest to narzędzie oparte na podejściu
+utility-first, które umożliwia szybkie tworzenie responsywnych i estetycznych
+interfejsów użytkownika poprzez stosowanie gotowych klas CSS bez konieczności
+pisania własnych stylów od podstaw.
 
 Głównymi zaletami TailwindCSS są jego elastyczność i możliwość tworzenia
 responsywnych projektów. Framework oferuje szeroki zestaw klas, które pozwalają
@@ -117,50 +120,52 @@ sposób dostosowana do różnych rozmiarów ekranów, zapewniając optymalne
 doświadczenie użytkownika na urządzeniach mobilnych, tabletach i komputerach
 stacjonarnych.
 
-Nad to użyto również wtyczki DaisyUI, która rozszerza możliwości TailwindCSS o
-gotowe komponenty UI, takie jak przyciski, formularze, karty i nawigacje,
-tworzone za pomocą określonych klas. Dzięki temu proces tworzenia interfejsu
-użytkownika był szybszy i bardziej efektywny, pozwalając skupić się na
-funkcjonalności aplikacji zamiast na szczegółach stylizacji.
+Nad to użyto również wtyczki DaisyUI~\cite{daisyui}, która rozszerza możliwości
+TailwindCSS o gotowe komponenty UI, takie jak przyciski, formularze, karty i
+nawigacje, tworzone za pomocą określonych klas. Dzięki temu proces tworzenia
+interfejsu użytkownika był szybszy i bardziej efektywny, pozwalając skupić się
+na funkcjonalności aplikacji zamiast na szczegółach stylizacji.
 
 \subsection{Strona serwerowa}
 
 Część backendowa aplikacji została zaimplementowana przy użyciu frameworka
-ASP.NET Core, opartego na platformie \.NET w wersji 8. Wykorzystano w nim różne
-biblioteki i narzędzia dostępne w ekosystemie \.NET, aby zapewnić wydajność,
-skalowalność i bezpieczeństwo aplikacji.
+ASP.NET Core~\cite{aspnetcore}, opartego na platformie \.NET w wersji
+8~\cite{dotnet8}. Wykorzystano w nim różne biblioteki i narzędzia dostępne w
+ekosystemie \.NET, aby zapewnić wydajność, skalowalność i bezpieczeństwo
+aplikacji.
 
 \subsubsection{ASP.NET Core}
 
 Framework ASP.NET Core umożliwia tworzenie aplikacji webowych zgodnych z
-wzorcem Model-View-Controller (MVC), co pozwala na oddzielenie logiki
-biznesowej od warstwy prezentacji i danych. Nadal pozwala przy tym udostępniać
-interfejs API w obrębie tej samej aplikacji, co zostało wykorzystane w
-projekcie. ASP.NET Core oferuje wbudowane mechanizmy do obsługi routingu,
-autoryzacji, uwierzytelniania oraz zarządzania sesjami, co ułatwia tworzenie
-bezpiecznych i wydajnych aplikacji webowych. Dodatkowo, framework ten jest
-wysoce konfigurowalny i wspiera nowoczesne praktyki programiste, takie jak
+wzorcem Model-View-Controller (MVC)~\cite{fowler2002patterns}, co pozwala na
+oddzielenie logiki biznesowej od warstwy prezentacji i danych. Nadal pozwala
+przy tym udostępniać interfejs API w obrębie tej samej aplikacji, co zostało
+wykorzystane w projekcie. ASP.NET Core oferuje wbudowane mechanizmy do obsługi
+routingu, autoryzacji, uwierzytelniania oraz zarządzania sesjami, co ułatwia
+tworzenie bezpiecznych i wydajnych aplikacji webowych. Dodatkowo, framework ten
+jest wysoce konfigurowalny i wspiera nowoczesne praktyki programiste, takie jak
 wstrzykiwanie zależności i middleware.
 
 \paragraph{Entity Framework Core}
 
-Do komunikacji z bazą danych wykorzystano Entity Framework Core (EF Core),
-który jest popularnym narzędziem ORM (Object-Relational Mapping) dla platformy
-\.NET\@. EF Core umożliwia programistom pracę z bazą danych za pomocą obiektów
-C\#, eliminując potrzebę pisania bezpośrednich zapytań SQL\@. Dzięki temu
-proces tworzenia, odczytu, aktualizacji i usuwania danych (CRUD) staje się
-bardziej intuicyjny i zintegrowany z logiką aplikacji.
+Do komunikacji z bazą danych wykorzystano Entity Framework Core (EF
+Core)~\cite{efcore}, który jest popularnym narzędziem ORM (Object-Relational
+Mapping) dla platformy \.NET\@. EF Core umożliwia programistom pracę z bazą
+danych za pomocą obiektów C\#, eliminując potrzebę pisania bezpośrednich
+zapytań SQL\@. Dzięki temu proces tworzenia, odczytu, aktualizacji i usuwania
+danych (CRUD) staje się bardziej intuicyjny i zintegrowany z logiką aplikacji.
 
 \paragraph{ASP.NET Core Identity}
 
 Do zarządzania uwierzytelnianiem i autoryzacją użytkowników wykorzystano
-bibliotekę ASP.NET Core Identity. Jest to kompleksowe rozwiązanie, które
-umożliwia tworzenie i zarządzanie kontami użytkowników, obsługę ról oraz
-implementację mechanizmów bezpieczeństwa, takich jak resetowanie haseł czy
-weryfikacja dwuetapowa. ASP.NET Core Identity integruje się bezproblemowo z
-frameworkiem ASP.NET Core, co pozwala na łatwe dodanie funkcji logowania i
-zarządzania użytkownikami do aplikacji webowej oraz przechowywanie ich danych w
-bazie danych za pośrednictwem Entity Framework Core.
+bibliotekę ASP.NET Core Identity~\cite{identity}. Jest to kompleksowe
+rozwiązanie, które umożliwia tworzenie i zarządzanie kontami użytkowników,
+obsługę ról oraz implementację mechanizmów bezpieczeństwa, takich jak
+resetowanie haseł czy weryfikacja dwuetapowa. ASP.NET Core Identity integruje
+się bezproblemowo z frameworkiem ASP.NET Core, co pozwala na łatwe dodanie
+funkcji logowania i zarządzania użytkownikami do aplikacji webowej oraz
+przechowywanie ich danych w bazie danych za pośrednictwem Entity Framework
+Core.
 
 \paragraph{WebOptimizer}
 
@@ -174,12 +179,12 @@ zarządzanie zasobami i poprawia wydajność aplikacji webowej.
 \paragraph{MailKit}
 
 Do obsługi wysyłania wiadomości e-mail z aplikacji wykorzystano bibliotekę
-MailKit. Jest to nowoczesne i wydajne narzędzie do obsługi protokołów SMTP,
-POP3 i IMAP w środowisku \.NET\@. MailKit oferuje szeroki zakres funkcji,
-takich jak tworzenie i wysyłanie wiadomości e-mail, obsługa załączników,
-szyfrowanie oraz autoryzacja. Biblioteka ta jest znana ze swojej wydajności i
-niezawodności, co czyni ją idealnym wyborem do integracji funkcji e-mail w
-aplikacjach webowych.
+MailKit~\cite{mailkit}. Jest to nowoczesne i wydajne narzędzie do obsługi
+protokołów SMTP, POP3 i IMAP w środowisku \.NET\@. MailKit oferuje szeroki
+zakres funkcji, takich jak tworzenie i wysyłanie wiadomości e-mail, obsługa
+załączników, szyfrowanie oraz autoryzacja. Biblioteka ta jest znana ze swojej
+wydajności i niezawodności, co czyni ją idealnym wyborem do integracji funkcji
+e-mail w aplikacjach webowych.
 
 \paragraph{DataProtection}
 
@@ -191,74 +196,76 @@ ponownego logowania po restarcie serwera.
 
 \paragraph{QuestPDF}
 
-Do generowania dokumentów PDF w aplikacji wykorzystano bibliotekę QuestPDF\@.
-Jest to nowoczesne narzędzie do tworzenia wysokiej jakości dokumentów PDF w
-środowisku \.NET\@. QuestPDF oferuje prosty i intuicyjny interfejs
-programistyczny, który umożliwia definiowanie układu i stylu dokumentów za
-pomocą kodu C\#. Biblioteka obsługuje różnorodne funkcje, takie jak dodawanie
-tekstu, obrazów, tabel i wykresów, co pozwala na tworzenie profesjonalnie
-wyglądających raportów i dokumentów bez konieczności korzystania z zewnętrznych
-narzędzi do edycji PDF\@.
+Do generowania dokumentów PDF w aplikacji wykorzystano bibliotekę
+QuestPDF~\cite{questpdf}\@. Jest to nowoczesne narzędzie do tworzenia wysokiej
+jakości dokumentów PDF w środowisku \.NET\@. QuestPDF oferuje prosty i
+intuicyjny interfejs programistyczny, który umożliwia definiowanie układu i
+stylu dokumentów za pomocą kodu C\#. Biblioteka obsługuje różnorodne funkcje,
+takie jak dodawanie tekstu, obrazów, tabel i wykresów, co pozwala na tworzenie
+profesjonalnie wyglądających raportów i dokumentów bez konieczności korzystania
+z zewnętrznych narzędzi do edycji PDF\@.
 
-Narzędzie QuestPDF zostało wykorzystane na licencji Community MIT, która
-pozwala na darmowe użycie biblioteki w projektach niekomercyjnych i
-komercyjnych, generujących dochód poniżej \$1,000,000 rocznie.
+Narzędzie QuestPDF zostało wykorzystane na licencji Community
+MIT~\cite{questpdflicense}, która pozwala na darmowe użycie biblioteki w
+projektach niekomercyjnych i komercyjnych, generujących dochód poniżej
+\$1,000,000 rocznie.
 
 \subsubsection{Microsoft SQL Server 2022}
 
-Aplikacja korzysta z relacyjnej bazy danych Microsoft SQL Server 2022 do
-przechowywania wszystkich danych niezbędnych do jej funkcjonowania. Komunikacja
-pomiędzy aplikacją a bazą danych odbywa się za pośrednictwem opisanego wyżej
-Entity Framework Core, który umożliwia mapowanie obiektów C\# na tabele i
-rekordy w bazie danych. Dodatkowo z bazą danych komunikują się narzędzia
-ASP.NET Core Identity oraz Data Protection (poprzez integrację z EF Core).
+Aplikacja korzysta z relacyjnej bazy danych Microsoft SQL Server
+2022~\cite{sqlserver} do przechowywania wszystkich danych niezbędnych do jej
+funkcjonowania. Komunikacja pomiędzy aplikacją a bazą danych odbywa się za
+pośrednictwem opisanego wyżej Entity Framework Core, który umożliwia mapowanie
+obiektów C\# na tabele i rekordy w bazie danych. Dodatkowo z bazą danych
+komunikują się narzędzia ASP.NET Core Identity oraz Data Protection (poprzez
+integrację z EF Core).
 
 \subsubsection{Traefik}
 
 W środowisku produkcyjnym do zarządzania ruchem sieciowym i obsługi
-certyfikatów SSL/TLS wykorzystano narzędzie Traefik\@. Jest to nowoczesny i
-wydajny reverse proxy oraz load balancer, który automatycznie wykrywa usługi i
-konfiguruje trasowanie ruchu na podstawie reguł zdefiniowanych przez
-użytkownika. Traefik zintegrowany jest z Dockerem, co umożliwia dynamiczne
-zarządzanie ruchem sieciowym w środowiskach kontenerowych. Dodatkowo, Traefik
-oferuje wbudowaną obsługę Let's Encrypt, co pozwala na automatyczne generowanie
-i odnawianie certyfikatów SSL/TLS, zapewniając bezpieczną komunikację między
-klientami a serwerem.
+certyfikatów SSL/TLS wykorzystano narzędzie Traefik~\cite{traefik}\@. Jest to
+nowoczesny i wydajny reverse proxy oraz load balancer, który automatycznie
+wykrywa usługi i konfiguruje trasowanie ruchu na podstawie reguł zdefiniowanych
+przez użytkownika. Traefik zintegrowany jest z Dockerem, co umożliwia
+dynamiczne zarządzanie ruchem sieciowym w środowiskach kontenerowych.
+Dodatkowo, Traefik oferuje wbudowaną obsługę Let's Encrypt~\cite{letsencrypt},
+co pozwala na automatyczne generowanie i odnawianie certyfikatów SSL/TLS,
+zapewniając bezpieczną komunikację między klientami a serwerem.
 
 \subsection{Ciągła integracja i dostarczanie (CI/CD)}
 \label{sec:ci_cd_opis_technologii}
 
 Główna część aplikacji została objęta konteneryzacją przy użyciu narzędzia
-Docker. Konteneryzacja pozwala na zapakowanie aplikacji wraz ze wszystkimi jej
-zależnościami w odizolowane środowisko, co umożliwia łatwe wdrożenie i dalsze
-utrzymanie. Dodatkowo za pomocą pliku Dockerfile zdefiniowano proces budowania
-obrazu kontenera od podstaw, co zapewnia spójność środowiska uruchomieniowego
-aplikacji niezależnie od miejsca jej wdrożenia.
+Docker~\cite{docker}. Konteneryzacja pozwala na zapakowanie aplikacji wraz ze
+wszystkimi jej zależnościami w odizolowane środowisko, co umożliwia łatwe
+wdrożenie i dalsze utrzymanie. Dodatkowo za pomocą pliku Dockerfile
+zdefiniowano proces budowania obrazu kontenera od podstaw, co zapewnia spójność
+środowiska uruchomieniowego aplikacji niezależnie od miejsca jej wdrożenia.
 
 Wraz z kontenerem aplikacji ASP.NET Core przy pomocy narzędzia orkiestracji
-kontenerów Docker Compose można w prosty sposób uruchomić również kontener bazy
-danych Microsoft SQL Server 2022 oraz (w środowisku produkcyjnym) kontener
-Traefik, jednocześnie konfigurując ich współpracę, sieć wewnętrzną oraz
-wolumeny do trwałego przechowywania danych.
+kontenerów Docker Compose~\cite{dockercompose} można w prosty sposób uruchomić
+również kontener bazy danych Microsoft SQL Server 2022 oraz (w środowisku
+produkcyjnym) kontener Traefik, jednocześnie konfigurując ich współpracę, sieć
+wewnętrzną oraz wolumeny do trwałego przechowywania danych.
 
 \subsection{Testy}
 
 W osobnym projekcie umieszczony został zestaw testów jednostkowych aplikacji.
-Testy te zostały zaimplementowane przy użyciu frameworka xUnit.net, który jest
-popularnym narzędziem do tworzenia i uruchamiania testów jednostkowych w
-środowisku \.NET\@. Testy jednostkowe pozwalają na weryfikację poprawności
-działania poszczególnych komponentów aplikacji, co przyczynia się do
-zwiększenia jakości kodu oraz ułatwia wykrywanie i naprawianie błędów na
-wczesnym etapie rozwoju oprogramowania.
+Testy te zostały zaimplementowane przy użyciu frameworka
+xUnit.net~\cite{xunit}, który jest popularnym narzędziem do tworzenia i
+uruchamiania testów jednostkowych w środowisku \.NET\@. Testy jednostkowe
+pozwalają na weryfikację poprawności działania poszczególnych komponentów
+aplikacji, co przyczynia się do zwiększenia jakości kodu oraz ułatwia
+wykrywanie i naprawianie błędów na wczesnym etapie rozwoju oprogramowania.
 
-Projekt testów jednostkowych korzysta z biblioteki Moq do tworzenia atrap
-(\textit{mock}'ów) zależności, co umożliwia izolowanie testowanych jednostek
-kodu od ich rzeczywistych zależności. Dzięki temu testy są bardziej niezawodne
-i skupiają się wyłącznie na logice testowanego komponentu.
+Projekt testów jednostkowych korzysta z biblioteki Moq~\cite{moq} do tworzenia
+atrap (\textit{mock}'ów) zależności, co umożliwia izolowanie testowanych
+jednostek kodu od ich rzeczywistych zależności. Dzięki temu testy są bardziej
+niezawodne i skupiają się wyłącznie na logice testowanego komponentu.
 
-Same testy zostały zaprojektowane w metodologii AAA (\textit{Arrange, Act,
-      Assert}), co pozwala na czytelne i zrozumiałe strukturyzowanie przypadków
-testowych.
+Same testy zostały zaprojektowane w metodologii AAA~\cite{unittestingaaa}
+(\textit{Arrange, Act, Assert}), co pozwala na czytelne i zrozumiałe
+strukturyzowanie przypadków testowych.
 
 \subsection{Zarządzanie kodem źródłowym}
 
